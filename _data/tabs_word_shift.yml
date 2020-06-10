@@ -1,0 +1,13 @@
+alignment: is-left
+style: is-boxed
+size: is-large
+items:
+  - name: Overview
+    link: /code/word_shift/overview
+    icon: fab fa-github
+  - name: Example Code
+    link: /code/word_shift/example
+    icon: fab fa-python
+  - name: References
+    link: /code/word_shift/references
+    icon: fas fa-book

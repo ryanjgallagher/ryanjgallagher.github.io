@@ -1,0 +1,23 @@
+style: is-light
+height: is-small
+items:
+  - icon: fas fa-envelope
+    title: Email
+    call_to_action_name: "ryanjgallag@gmail.com"
+    call_to_action_link: mailto:ryanjgallag@gmail.com
+  - icon: fab fa-twitter
+    title: Twitter
+    call_to_action_name: "@ryanjgallag"
+    call_to_action_link: https://twitter.com/ryanjgallag
+  - icon: fab fa-github
+    title: Github
+    call_to_action_name: "@ryanjgallagher"
+    call_to_action_link: https://github.com/ryanjgallagher/
+  - icon: ai ai-google-scholar
+    title: Google Scholar
+    call_to_action_name: Ryan J. Gallagher
+    call_to_action_link: https://scholar.google.com/citations?user=hRNEOnAAAAAJ
+  - icon: fab fa-linkedin-in
+    title: LinkedIn
+    call_to_action_name: "@ryanjgallag"
+    call_to_action_link: https://www.linkedin.com/in/ryanjgallag/

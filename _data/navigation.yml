@@ -1,0 +1,19 @@
+- name: Research
+  link: /research
+- name: Publications
+  link: /publications
+# - name: Teaching
+#   link: /teaching
+- name: Code & Tools
+  link: /code
+  dropdown:
+    - name: CorEx Topic Model
+      link: /code/corex/overview
+    - name: Word Shift Graphs
+      link: /code/word_shift/overview
+    - name: Stochastic Block Models
+      link: /code/sbms/overview
+- name: CV
+  link: /files/Gallagher_CV.pdf
+- name: Contact
+  link: /contact

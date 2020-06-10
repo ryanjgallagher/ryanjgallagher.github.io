@@ -1,0 +1,12 @@
+- label: Code & Tools
+  items:
+    - name: Text as Data
+      items:
+        - name: CorEx Topic Model
+          link: /code/corex/overview
+        - name: Word Shift Graphs
+          link: /code/word_shift/overview
+    - name: Network Science
+      items:
+        - name: Stochastic Block Models
+          link: /code/sbms/overview

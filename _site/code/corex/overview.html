@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CorEx Topic Model - Ryan J. Gallagher</title>
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="shortcut icon" type="image/png"
+           href="/favicon.png" 
+    />
+    <link rel="stylesheet" href="/assets/css/academicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-social@1/bin/bulma-social.min.css">
+    
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>CorEx Topic Model | Ryan J. Gallagher</title>
+<meta name="generator" content="Jekyll v3.8.7" />
+<meta property="og:title" content="CorEx Topic Model" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Network science PhD student mapping online communication networks" />
+<meta property="og:description" content="Network science PhD student mapping online communication networks" />
+<link rel="canonical" href="http://localhost:4000/code/corex/overview" />
+<meta property="og:url" content="http://localhost:4000/code/corex/overview" />
+<meta property="og:site_name" content="Ryan J. Gallagher" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/code/corex/overview","headline":"CorEx Topic Model","description":"Network science PhD student mapping online communication networks","@type":"WebPage","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<!-- head scripts --></head>
+
+  <body>
+    
+<nav class="navbar is-primary" >
+    <div class="container">
+        <div class="navbar-brand">
+            <a href="/" class="navbar-item">
+                Ryan J. Gallagher
+            </a>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu" id="navMenu">
+            <div class="navbar-start">
+                <a href="/" class="navbar-item ">Home</a>
+                
+                
+                    
+                    <a href="/research" class="navbar-item ">Research</a>
+                    
+                
+                    
+                    <a href="/publications" class="navbar-item ">Publications</a>
+                    
+                
+                    
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a href="/code" class="navbar-link ">Code & Tools</a>
+                        <div class="navbar-dropdown">
+                            
+                            <a href="/code/corex/overview" class="navbar-item is-active">CorEx Topic Model</a>
+                            
+                            <a href="/code/word_shift/overview" class="navbar-item ">Word Shift Graphs</a>
+                            
+                            <a href="/code/sbms/overview" class="navbar-item ">Stochastic Block Models</a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <a href="/files/Gallagher_CV.pdf" class="navbar-item ">CV</a>
+                    
+                
+                    
+                    <a href="/contact" class="navbar-item ">Contact</a>
+                    
+                
+                
+            </div>
+
+            <div class="navbar-end">
+                
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+    
+    
+
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                
+                <div class="column is-4-desktop is-4-tablet">
+                    
+
+<aside class="menu">
+
+    <p class="menu-label">Code & Tools</p>
+    <ul class="menu-list">
+        
+        <li>
+            <a href="" class="">Text as Data</a>
+            
+            <ul>
+                
+                <li><a href="/code/corex/overview" class="is-active">CorEx Topic Model</a></li>
+                
+                <li><a href="/code/word_shift/overview" class="">Word Shift Graphs</a></li>
+                
+            </ul>
+            
+        </li>
+        
+        <li>
+            <a href="" class="">Network Science</a>
+            
+            <ul>
+                
+                <li><a href="/code/sbms/overview" class="">Stochastic Block Models</a></li>
+                
+            </ul>
+            
+        </li>
+            
+    </ul>
+
+</aside>
+                </div>
+                
+                <div class="column is-8">
+                    
+
+
+<div class="tabs is-large is-left is-boxed">
+    <ul>
+    
+        <li  class="is-active" >
+            <a href="/code/corex/overview">
+                
+                <span class="icon is-small">
+                    
+                        <i class="fab fa-github" aria-hidden="true"></i>
+                    
+                </span>
+                
+                <span>Overview</span>
+            </a>
+        </li>
+    
+        <li >
+            <a href="/code/corex/example">
+                
+                <span class="icon is-small">
+                    
+                        <i class="fab fa-python" aria-hidden="true"></i>
+                    
+                </span>
+                
+                <span>Example Code</span>
+            </a>
+        </li>
+    
+        <li >
+            <a href="/code/corex/references">
+                
+                <span class="icon is-small">
+                    
+                        <i class="fas fa-book" aria-hidden="true"></i>
+                    
+                </span>
+                
+                <span>References</span>
+            </a>
+        </li>
+    
+    </ul>
+  </div>
+  
+
+                    
+                    
+                    
+<div class="content">
+    <h1 id="corex-topic-model">CorEx Topic Model</h1>
+
+<p><strong>Cor</strong>relation <strong>Ex</strong>planation (CorEx) provides a flexible framework for learning topics that are maximally informative about a corpus of text. The CorEx topic model makes few assumptions about the latent structure of the data, and flexibly incorporates domain knowledge through user-specified “anchor words.” Through anchor words, you can seed and guide the topic model towards topics of substantive interest, allowing you to interact with and refine topics in a way that is not possible with traditional topic models.</p>
+
+<p>The details of the CorEx topic model and comparisons with unsupervised and semi-supervised variants of LDA are described in our TACL paper:</p>
+
+<blockquote>
+  <p>Gallagher, R. J., Reing, K., Kale, D., &amp; Ver Steeg, G. (2017). <a href="/publications/gallagher2017anchored">Anchored Correlation Explanation: Topic Modeling with Minimal Domain Knowledge</a>. <em>Transactions of the Association for Computational Linguistics (TACL)</em>, 5, 529-542.</p>
+</blockquote>
+
+<p>An open-source implementation of the CorEx topic model is available in Python on PyPi (<code class="highlighter-rouge">corextopic</code>) and <a href="https://github.com/gregversteeg/corex_topic">on Github</a>.</p>
+
+</div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <script src="/assets/js/app.js" type="text/javascript"></script><!-- footer scripts --></body>
+</html>
+

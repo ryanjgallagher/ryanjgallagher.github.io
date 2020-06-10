@@ -1,0 +1,13 @@
+alignment: is-left
+style: is-boxed
+size: is-large
+items:
+  - name: Overview
+    link: /code/corex/overview
+    icon: fab fa-github
+  - name: Example Code
+    link: /code/corex/example
+    icon: fab fa-python
+  - name: References
+    link: /code/corex/references
+    icon: fas fa-book
