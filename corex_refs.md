@@ -16,6 +16,6 @@ If you use the CorEx topic model, please cite the following paper:
 
 # Further Reading
 
-More intuition for the CorEx algorithm is given in [these slides](/files/slides/gallagher2017anchored.pdf), along with additional examples of topic modeling with anchor words.
+More intuition for the CorEx algorithm is given in [these slides](/files/slides/gallagher2017anchored_naccl2018.pdf), along with additional examples of topic modeling with anchor words.
 
 For a more detailed tutorial of how to run the CorEx topic model in Python, extract information from it, choose the number of topics, and run hierarchical and semi-supervised models, see [this Jupyter notebook](https://github.com/gregversteeg/corex_topic/blob/master/corextopic/example/corex_topic_example.ipynb).

@@ -19,7 +19,7 @@ hide_footer: true
 <span style="font-size:1.2em">**[A Clarified Typology of Core-Periphery Structure in Networks](/publications/gallagher2020clarified)**</span>  
 **Gallagher, R. J.**, Young, J-G, Foucault Welles, B. (2020). *arXiv preprint 2005.10191*.
 
-<span style="font-size:0.9em">To address an often overlooked gap in network science methodology, we introduce a typology which distinguishes between two types of core-periphery structure in networks: layered and hub-and-spoke. By introducing Bayesian core-periphery stochastic block models, we show empirically that there is a rich diversity of core-periphery sturcture expressed across networks.</span>
+<span style="font-size:0.9em">To address an often overlooked gap in network science methodology, we introduce a typology which distinguishes between two types of core-periphery structure in networks: layered and hub-and-spoke. By deriving Bayesian core-periphery stochastic block models, we show empirically that there is a rich diversity of core-periphery sturcture expressed across networks.</span>
 
 
 ## Journal Articles
@@ -29,7 +29,7 @@ hide_footer: true
 <span style="font-size:1.2em">**[Who Says What with Whom: Using Bi-Spectral Clustering to Organize and Analyze Social Media Protest Networks](/publications/joseph2020who)**</span>  
 Joseph, K., **Gallagher, R. J.**, Foucault Welles, B. (2020). Forthcoming in *Computational Communication Research*.
 
-<span style="font-size:0.9em">The communities that emerge during hashtag activism are only particular instances of broader publics, but those publics are often not visible in event-based online social protest data. We propose bi-spectral clustering on user timeline to draw out these networked publics and better contextualize how communities interact during focal hashtag events.</span>
+<span style="font-size:0.9em">The communities that emerge during hashtag activism are only particular instances of broader publics, but those publics are often not visible in event-based online social protest data. We propose bi-spectral clustering on user timeline data to draw out these networked publics and better contextualize how communities interact during focal hashtag events.</span>
 
 
 
