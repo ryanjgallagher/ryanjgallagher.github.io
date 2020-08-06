@@ -12,10 +12,8 @@ tabs: tabs_word_shift
 
 If you use word shift graphs in your work, please cite the following paper:
 
-> Dodds, P. S., Harris, K. D., Kloumann, I. M., Bliss, C. A., & Danforth, C. M. (2011). Temporal Patterns of Happiness and Information in a Global Social Network: Hedonometrics and Twitter. *PLoS ONE*, 6(12).
+> Gallagher, R. J., Frank, M. R., Mitchell, Lewis, Schwartz, A. J., Reagan, A. J., Danforth, C. M., Dodds, P. S.. (2020). [Generalized Word Shift Graphs: A Method for Visualizing and Explaining Pairwise Comparisons Between Texts](https://arxiv.org/abs/2008.02250). *arXiv preprint 2008.02250*.
 
-
-We have a working paper in progress that describes the mathematics of the general word shift framework (which incorporates entropy-based measures) and generalized sentiment shifts. Please reach out if you would like details of the generalized word shifts.
 
 # Sentiment Analysis Citations
 
@@ -23,9 +21,11 @@ The Shifterator package includes several pre-compiled sentiment lexicons. If you
 
 ## LabMT
 
-If you use any of the LabMT sentiment lexicons, cite the following papers:
+If you use the English LabMT sentiment lexicon, cite the following papers:
 
 > Dodds, P. S., Harris, K. D., Kloumann, I. M., Bliss, C. A., & Danforth, C. M. (2011). Temporal Patterns of Happiness and Information in a Global Social Network: Hedonometrics and Twitter. *PLoS ONE*, 6(12).
+
+If you use any of the non-Engish LabMT sentiment lexicons, cite the following paper:
 
 > Dodds, P. S., Clark, E. M., Desu, S., Frank, M. R., Reagan, A. J., Williams, J. R., Mitchell, L., Harris, K. D., Kloumann, I. M., Bagrow, J. P., & Megerdoomian, K. (2015). Human Language Reveals a Universal Positivity Bias. *Proceedings of the National Academy of Sciences*, 112(8), 2389-2394.
 

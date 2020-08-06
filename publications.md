@@ -16,6 +16,13 @@ hide_footer: true
 
 ---
 
+<span style="font-size:1.2em">**[Generalized Word Shift Graphs: A Method for Visualizing and Explaining Pairwise Comparisons Between Texts](/publications/gallagher2020generalized)**</span>  
+**Gallagher, R. J.**, Frank, M. R., Mitchell, L., Schwartz, A. J., Reagan, A. J., Danforth, C. M., Dodds, P. S. (2020). *arXiv preprint 2008.02250*.
+
+<span style="font-size:0.9em">We introduce generalized word shift graphs, a method for visualizing *which* words contribute to the difference between two texts and *how* they do so. Word shift graphs can be used with a number of common measures including dictionary-based sentiment scores, proportions, entropy, and any other metric that can be written as a weighted average. The flexibility and interpretability of word shift graphs makes them a scientifically sound alternative to word clouds and an invaluable tool in the text-as-data methodological toolkit.</span>
+
+
+
 <span style="font-size:1.2em">**[A Clarified Typology of Core-Periphery Structure in Networks](/publications/gallagher2020clarified)**</span>  
 **Gallagher, R. J.**, Young, J-G, Foucault Welles, B. (2020). *arXiv preprint 2005.10191*.
 

@@ -18,11 +18,10 @@ pip install shifterator
 
 # Producing Word Shift Graphs
 
-To produce a word shift graph, you need two dictionaries of the form `word2freq` where the keys are words and the values are the frequencies of those words in a text. With those in hand, you can produce a number of word shift graphs. Start by importing the shifts.
+To produce a word shift graph, you need two dictionaries of the form `word2freq` where the keys are words and the values are the frequencies of those words in a text. With those in hand, you can produce a number of word shift graphs. Start by importing the package.
 
 ```
-from shifterator import relative_shift as rs
-from shifterator import symmetric_shift as ss
+import shifterator as sh
 ```
 
 ## Sentiment Shift
@@ -30,13 +29,10 @@ from shifterator import symmetric_shift as ss
 The Shifterator package includes a number of lexicons that can be used to quickly compare the sentiment between two texts. Here we use the English labMT sentiment dictionary:
 
 ```python
-from shifterator import relative_shift as rs
-
-# Get a sentiment word shift
-sentiment_shift = rs.SentimentShift(reference=word2freq_1,
-                                    comparison=word2freq_2,
-                                    sent_dict_ref='labMT_English',
-                                    sent_dict_comp='labMT_English')
+sentiment_shift = sh.WeightedAvgShift(type2freq_1=word2freq_1,
+                                      type2freq_2=word2freq_2,
+                                      type2score_1='labMT_English',
+                                      type2score_2='labMT_English')
 sentiment_shift.get_shift_graph()
 ```
 
@@ -44,23 +40,24 @@ You can also provide score dictionaries where keys are words and values are scor
 
 ## Entropy Shifts
 
-We can also use measures of entropy to compare two texts and how the relative abundance and distribution of words affects how they differ.
+We can also use measures of entropy to compare two texts and how the relative abundance and distribution of words affects how they differ. The emphasis on rare or common words can be controlled through the [Tsallis entropy](https://en.wikipedia.org/wiki/Tsallis_entropy) `alpha` parameter.
 
 ```python
 # Get an entropy shift
-entropy_shift = rs.EntropyShift(reference=word2freq_1,
-                                comparison=word2freq_2,
-                                base=2
+entropy_shift = sh.EntropyShift(type2freq_1=word2freq_1,
+                                type2freq_2=word2freq_2,
+                                base=2,
+                                alpha=1.0)
 entropy_shift.get_shift_graph()
 
 # Get a Jensen-Shannon divergence shift
-from shifterator import symmetric_shift as ss
-jsd_shift = ss.JSDivergenceShift(system_1=word2freq_1,
-                                 system_2=word2freq_2,
-                                 base=2)
+jsd_shift = sh.JSDivergenceShift(type2freq_1=word2freq_1,
+                                 type2freq_2=word2freq_2,
+                                 base=2,
+                                 alpha=1.0)
 jsd_shift.get_shift_graph()
 ```
 
 ## More details
 
-See the [Github page](https://github.com/ryanjgallagher/shifterator/) for more details of types of shifts that you can produce and parameters you can use to alter the word shift visualizations.
+See the [official documentation](https://shifterator.readthedocs.io/en/latest/) for more details on the types of shifts that you can produce and a comprehensive cookbook of how to use them.
