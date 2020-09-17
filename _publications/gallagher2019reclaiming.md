@@ -8,7 +8,7 @@ product_code: <span style="text-align:left;display:block;font-size:0.9em">Procee
 layout: product
 hide_hero: true
 hide_footer: true
-image: /files/imgs/publications/gallagher2019reclaiming.png
+image: /files/imgs/publications/gallagher2019reclaiming2.png
 features:
     - label: <a href="https://dl.acm.org/doi/10.1145/3359198">Journal article</a>
       icon: ai ai-acm
