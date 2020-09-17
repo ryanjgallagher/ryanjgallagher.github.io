@@ -5,6 +5,7 @@ hero_image: /files/imgs/headers/netsci_2019_bw.jpg
 hide_footer: true
 ---
 
+# Research
 
 I am a Ph.D. student in the [Network Science program](https://www.networkscienceinstitute.org/) at Northeastern University, and a member of the [Communication Media and Marginalization (CoMM) Lab](https://www.networkscienceinstitute.org/commlab) directed by [Professor Brooke Foucault Welles](http://brooke-welles.squarespace.com/). Through my research, I aim to be a computational social scientist who respects, engages, and brings together communication theory and network science. My work focuses on how individuals use online communication networks to amplify their voices, and how that amplification can resonate through online media ecologies. To that end, my research also makes advances in network science and text-as-data methodology, developing new methods to measure the complexities of online communication.
 
