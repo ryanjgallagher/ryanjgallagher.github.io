@@ -4,14 +4,16 @@ title: Who Says What with Whom
 subtitle: <span style="font-size:1em">Using Bi-Spectral Clustering to Organize and Analyze Social Media Protest Networks</span>
 description: Who Says What with Whom
 price: <span style="text-align:left;display:block;font-size:0.85em">Kenny Joseph, Ryan J. Gallagher, Brooke Foucault Welles</span>
-product_code: <span style="text-align:left;display:block;font-size:0.8em">Forthcoming in Computational Communication Research, 2020</span>
+product_code: <span style="text-align:left;display:block;font-size:0.8em">Computational Communication Research, 2020</span>
 layout: product
 hide_hero: true
 hide_footer: true
 image: /files/imgs/publications/joseph2020who.png
 features:
-    - label: Journal article (forthcoming)
+    - label: <a href="https://computationalcommunication.org/ccr/article/view/31">Journal article (open access)</a>
       icon: fas fa-book-open
+    - label: <a href="https://doi.org/10.5117/CCR2020.2.002.JOSE">10.5117/CCR2020.2.002.JOSE</a>
+      icon: ai ai-doi
     - label:  <a href="https://osf.io/preprints/socarxiv/qjcgk">SocArxiv preprint (open access)</a>
       icon: ai ai-osf
     - label: <a href="https://github.com/kennyjoseph/bispectral_comm">Bi-spectral clustering code</a>
