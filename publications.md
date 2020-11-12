@@ -34,7 +34,7 @@ hide_footer: true
 ---
 
 <span style="font-size:1.2em">**[Who Says What with Whom: Using Bi-Spectral Clustering to Organize and Analyze Social Media Protest Networks](/publications/joseph2020who)**</span>  
-Joseph, K., **Gallagher, R. J.**, Foucault Welles, B. (2020). Forthcoming in *Computational Communication Research*.
+Joseph, K., **Gallagher, R. J.**, Foucault Welles, B. (2020). *Computational Communication Research*.
 
 
 <span style="font-size:1.2em">**[Reclaiming Stigmatized Narratives: The Networked Disclosure Landscape of #MeToo](/publications/gallagher2019reclaiming)**</span>  
