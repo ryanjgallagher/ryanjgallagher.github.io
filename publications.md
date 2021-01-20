@@ -20,10 +20,6 @@ hide_footer: true
 **Gallagher, R. J.**, Doroshenko L., Shugars, S., Lazer, D., Foucault Weles, B. (2020). *arXiv preprint 2009.07255*.
 
 
-<span style="font-size:1.2em">**[Generalized Word Shift Graphs: A Method for Visualizing and Explaining Pairwise Comparisons Between Texts](/publications/gallagher2020generalized)**</span>  
-**Gallagher, R. J.**, Frank, M. R., Mitchell, L., Schwartz, A. J., Reagan, A. J., Danforth, C. M., Dodds, P. S. (2020). *arXiv preprint 2008.02250*.
-
-
 <span style="font-size:1.2em">**[A Clarified Typology of Core-Periphery Structure in Networks](/publications/gallagher2020clarified)**</span>  
 **Gallagher, R. J.**, Young, J-G, Foucault Welles, B. (2020). *arXiv preprint 2005.10191*.
 
@@ -32,6 +28,10 @@ hide_footer: true
 ## Journal Articles
 
 ---
+
+<span style="font-size:1.2em">**[Generalized Word Shift Graphs: A Method for Visualizing and Explaining Pairwise Comparisons Between Texts](/publications/gallagher2020generalized)**</span>  
+**Gallagher, R. J.**, Frank, M. R., Mitchell, L., Schwartz, A. J., Reagan, A. J., Danforth, C. M., Dodds, P. S. (2021). *EPJ Data Science*.
+
 
 <span style="font-size:1.2em">**[Who Says What with Whom: Using Bi-Spectral Clustering to Organize and Analyze Social Media Protest Networks](/publications/joseph2020who)**</span>  
 Joseph, K., **Gallagher, R. J.**, Foucault Welles, B. (2020). *Computational Communication Research*.

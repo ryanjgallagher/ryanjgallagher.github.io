@@ -4,12 +4,16 @@ title: Generalized Word Shift Graphs
 subtitle: <span style="font-size:1em">A Method for Visualizing and Explaining Pairwise Comparisons Between Texts</span>
 description: Generalized Word Shift Graphs
 price: <span style="text-align:left;display:block;font-size:0.85em">Ryan J. Gallagher, Morgan R. Frank, Lewis Mitchell, Aaron J. Schwartz, Andrew J. Reagan, Christopher M. Danforth, Peter Sheridan Dodds</span>
-product_code: <span style="text-align:left;display:block;font-size:0.9em">arXiv preprint 2008.02250, 2020</span>
+product_code: <span style="text-align:left;display:block;font-size:0.9em">EPJ Data Science, 2021</span>
 layout: product
 hide_hero: true
 hide_footer: true
 image: /files/imgs/publications/gallagher2020generalized.png
 features:
+    - label: <a href="https://epjdatascience.springeropen.com/articles/10.1140/epjds/s13688-021-00260-3">Journal article (open access)</a>
+      icon: fas fa-book-open
+    - label: <a href="https://doi.org/10.1140/epjds/s13688-021-00260-3">10.1140/epjds/s13688-021-00260-3</a>
+      icon: ai ai-doi
     - label:  <a href="https://arxiv.org/abs/2008.02250">arXiv preprint (open access)</a>
       icon: ai ai-arxiv
     - label: <a href="https://github.com/ryanjgallagher/shifterator">Word shift graph code</a>
