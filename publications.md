@@ -29,7 +29,7 @@ hide_footer: true
 
 ---
 
-<span style="font-size:1.2em">**[Generalized Word Shift Graphs: A Method for Visualizing and Explaining Pairwise Comparisons Between Texts](/publications/gallagher2020generalized)**</span>  
+<span style="font-size:1.2em">**[Generalized Word Shift Graphs: A Method for Visualizing and Explaining Pairwise Comparisons Between Texts](/publications/gallagher2021generalized)**</span>  
 **Gallagher, R. J.**, Frank, M. R., Mitchell, L., Schwartz, A. J., Reagan, A. J., Danforth, C. M., Dodds, P. S. (2021). *EPJ Data Science*.
 
 

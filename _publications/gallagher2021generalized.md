@@ -1,5 +1,5 @@
 ---
-permalink: /publications/gallagher2020generalized
+permalink: /publications/gallagher2021generalized
 title: Generalized Word Shift Graphs
 subtitle: <span style="font-size:1em">A Method for Visualizing and Explaining Pairwise Comparisons Between Texts</span>
 description: Generalized Word Shift Graphs
