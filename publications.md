@@ -16,18 +16,23 @@ hide_footer: true
 
 ---
 
+
 <span style="font-size:1.2em">**[Sustained Amplification of COVID-19 Elites in the United States](/publications/gallagher2020sustained)**</span>  
 **Gallagher, R. J.**, Doroshenko L., Shugars, S., Lazer, D., Foucault Weles, B. (2020). *arXiv preprint 2009.07255*.
-
-
-<span style="font-size:1.2em">**[A Clarified Typology of Core-Periphery Structure in Networks](/publications/gallagher2020clarified)**</span>  
-**Gallagher, R. J.**, Young, J-G, Foucault Welles, B. (2020). *arXiv preprint 2005.10191*.
 
 
 
 ## Journal Articles
 
 ---
+
+<span style="font-size:1.2em">**[Pandemics, Protests, and Publics: Demographic Activity and Engagement on Twitter in 2020](/publications/shugars2021pandemics)**</span>  
+Shugars, S., Gitomer, A., McCabe, S., **Gallagher, R. J.**, Joseph, K., Grinberg, N., Doroshenko, L., Foucault Welles, B., Lazer, D. (2021). Forthcoming in *Journal of Quantitative Description: Digital Media*.
+
+
+<span style="font-size:1.2em">**[A Clarified Typology of Core-Periphery Structure in Networks](/publications/gallagher2021clarified)**</span>  
+**Gallagher, R. J.**, Young, J-G, Foucault Welles, B. (2021). *Science Advances*.
+
 
 <span style="font-size:1.2em">**[Generalized Word Shift Graphs: A Method for Visualizing and Explaining Pairwise Comparisons Between Texts](/publications/gallagher2021generalized)**</span>  
 **Gallagher, R. J.**, Frank, M. R., Mitchell, L., Schwartz, A. J., Reagan, A. J., Danforth, C. M., Dodds, P. S. (2021). *EPJ Data Science*.
