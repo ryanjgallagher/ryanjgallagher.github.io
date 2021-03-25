@@ -14,6 +14,6 @@ Core-periphery structure is one of the most ubiquitous mesoscale patterns in net
 
 Details of the core-periphery models are detailed in our preprint:
 
-> Gallagher, Ryan J., Young, Jean-Gabriel, and Foucault Welles, Brooke. (2020). "[A Clarified Typology of Core-Periphery Structure in Networks](/publications/gallagher2020clarified)." *arXiv preprint*.
+> Gallagher, Ryan J., Young, Jean-Gabriel, and Foucault Welles, Brooke. (2021). "[A Clarified Typology of Core-Periphery Structure in Networks](/publications/gallagher2020clarified)." Science Advances*.
 
 Open-source implementations of the block models are available in Python [on Github](https://github.com/ryanjgallagher/core_periphery_sbm).
