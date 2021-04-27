@@ -3,12 +3,16 @@ permalink: /publications/shugars2021pandemics
 title: Pandemics, Protests, and Publics
 subtitle: Demographic Activity and Engagement on Twitter in 2020
 price: <span style="text-align:left;display:block;font-size:0.85em">Sarah Shugars, Adina Gitomer, Stefan McCabe, Ryan J. Gallagher, Kenneth Joseph, Nir Grinberg, Larissa Doroshenko, Brooke Foucault Welles, David Lazer</span>
-product_code: <span style="text-align:left;display:block;font-size:0.9em">Forthcoming in Journal of Quantitative Description<span>:</span> Digital Media, 2021</span>
+product_code: <span style="text-align:left;display:block;font-size:0.9em">Journal of Quantitative Description<span>:</span> Digital Media, 2021</span>
 layout: product
 hide_hero: true
 hide_footer: true
 image: /files/imgs/publications/shugars2021pandemics.png
 features:
+    - label: <a href="https://journalqd.org/article/view/2570/1813">Journal article (open access)</a>
+      icon: fas fa-book-open
+    - label: <a href="https://doi.org/10.51685/jqd.2021.002">10.51685/jqd.2021.002</a>
+      icon: ai ai-doi
     - label: <a href="/files/research/covid_keywords_shugars2021pandemics.tsv">COVID-19 keywords list</a>
       icon: fas fa-file-csv
     - label: <a href="/files/research/blm_keywords_shugars2021pandemics.tsv">Racial justice keywords list</a>

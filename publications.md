@@ -27,7 +27,7 @@ hide_footer: true
 ---
 
 <span style="font-size:1.2em">**[Pandemics, Protests, and Publics: Demographic Activity and Engagement on Twitter in 2020](/publications/shugars2021pandemics)**</span>  
-Shugars, S., Gitomer, A., McCabe, S., **Gallagher, R. J.**, Joseph, K., Grinberg, N., Doroshenko, L., Foucault Welles, B., Lazer, D. (2021). Forthcoming in *Journal of Quantitative Description: Digital Media*.
+Shugars, S., Gitomer, A., McCabe, S., **Gallagher, R. J.**, Joseph, K., Grinberg, N., Doroshenko, L., Foucault Welles, B., Lazer, D. (2021). *Journal of Quantitative Description: Digital Media*.
 
 
 <span style="font-size:1.2em">**[A Clarified Typology of Core-Periphery Structure in Networks](/publications/gallagher2021clarified)**</span>  
