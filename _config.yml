@@ -13,15 +13,15 @@ email: gallagher.r@northeastern.edu
 description: >- # this means to ignore newlines until "baseurl:"
   Network science PhD student mapping online communication networks
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "localhost:4000"
-#url: "https://ryanjgallagher.github.io/"
+# url: "localhost:4000"
+url: "https://ryanjgallagher.github.io/"
 twitter_username: ryanjgallag
 github_username:  ryanjgallagher
 
 # Build settings
 #theme: minima
-theme: bulma-clean-theme
-#remote_theme: chrisrhymes/bulma-clean-theme
+#theme: bulma-clean-theme
+remote_theme: chrisrhymes/bulma-clean-theme
 
 # Turns publications into special pages
 collections:
@@ -34,11 +34,6 @@ collections:
 #remote_theme: chrisrhymes/bulma-clean-theme
 plugins:
   - jekyll-feed
-  - jekyll-seo-tag
-
-markdown: kramdown
-kramdown:
-  input: GFM
 
 # Exclude from processing.
 # The following items will not be processed, by default.
