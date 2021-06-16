@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+
+
+
+<html
+ lang="en"
+ >
+  <head>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A Clarified Typology of Core-Periphery Structure in Networks - Ryan J. Gallagher</title>
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="shortcut icon" type="image/png"
+           href="/favicon.png" 
+    />
+    <link rel="stylesheet" href="/assets/css/academicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-social@1/bin/bulma-social.min.css">
+    <!-- head scripts -->
+</head>
+
+  <body>
+    <nav class="navbar is-primary " x-data="{ openNav: false }">
+    <div class="container">
+        <div class="navbar-brand">
+            <a href="/" class="navbar-item">
+                Ryan J. Gallagher
+            </a>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu" :class="{ 'is-active': openNav }" x-on:click="openNav = !openNav">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
+            <div class="navbar-start">
+                <a href="/" class="navbar-item ">Home</a>
+                
+                
+                    
+                    <a href="/research" class="navbar-item ">Research</a>
+                    
+                
+                    
+                    <a href="/publications" class="navbar-item ">Publications</a>
+                    
+                
+                    
+                    <div class="navbar-item has-dropdown is-hoverable ">
+                        <a href="/code" class="navbar-link ">Code & Tools</a>
+                        <div class="navbar-dropdown">
+                            
+                            <a href="/code/corex/overview" class="navbar-item ">CorEx Topic Model</a>
+                            
+                            <a href="/code/word_shift/overview" class="navbar-item ">Word Shift Graphs</a>
+                            
+                            <a href="/code/sbms/overview" class="navbar-item ">Stochastic Block Models</a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <a href="/files/Gallagher_CV.pdf" class="navbar-item ">CV</a>
+                    
+                
+                    
+                    <a href="/contact" class="navbar-item ">Contact</a>
+                    
+                
+                
+            </div>
+
+            <div class="navbar-end">
+                
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+    
+    
+
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline">
+                
+                <div class="column is-12">
+                    
+
+                    
+                    
+                    
+                    <div class="columns is-multiline">
+
+    <div class="column is-6">
+        <figure class="image is-4by3">
+            <img src="/files/imgs/publications/gallagher2020clarified.png" />
+        </figure>
+    </div>
+
+    <div class="column is-6">
+        <p class="title is-3">A Clarified Typology of Core-Periphery Structure in Networks</p>
+        <p class="subtitle is-3"></p>
+        <p class="title is-4 has-text-right"><span style="text-align:left;display:block;font-size:0.85em">Ryan J. Gallagher, Jean-Gabriel Young, Brooke Foucault Welles</span></p>
+        
+        <p class="subtitle is-5 has-text-right"><span style="text-align:left;display:block;font-size:0.9em">Science Advances, 2021</span></p>
+        
+
+        
+
+        
+        <div class="content">
+            
+            <p>
+                <span class="icon">
+                    
+                        
+                            <i class="fas fa-book-open fa-lg"></i>
+                        
+                    
+                </span>
+                <span><a href="https://advances.sciencemag.org/content/7/12/eabc9800">Journal article (open access)</a></span></p>
+            
+            <p>
+                <span class="icon">
+                    
+                        
+                            <i class="ai ai-doi ai-lg"></i>
+                        
+                    
+                </span>
+                <span><a href="https://doi.org/10.1126/sciadv.abc9800">10.1126/sciadv.abc9800</a></span></p>
+            
+            <p>
+                <span class="icon">
+                    
+                        
+                            <i class="ai ai-arxiv ai-lg"></i>
+                        
+                    
+                </span>
+                <span><a href="https://arxiv.org/abs/2005.10191">arXiv preprint (open access)</a></span></p>
+            
+            <p>
+                <span class="icon">
+                    
+                        
+                            <i class="fab fa-python fa-lg"></i>
+                        
+                    
+                </span>
+                <span><a href="https://github.com/ryanjgallagher/core_periphery_sbm">Bayesian core-periphery modeling code</a></span></p>
+            
+            <p>
+                <span class="icon">
+                    
+                        
+                            <i class="far fa-file-powerpoint fa-lg"></i>
+                        
+                    
+                </span>
+                <span><a href="/files/slides/gallagher2020clarified_nercss2020.pdf">Slides</a></span></p>
+            
+        </div>
+        
+    </div>
+
+    <div class="column is-12">
+        <p class="title is-4">Abstract</p>
+        <div class="content">
+
+
+            <p>Core-periphery structure, the arrangement of a network into a dense core and sparse periphery, is a versatile descriptor of various social, biological, and technological networks. In practice, different core-periphery algorithms are often applied interchangeably, despite the fact that they can yield inconsistent descriptions of core-periphery structure. For example, two of the most widely used algorithms, the <em>k</em>-cores decomposition and the classic two-block model of Borgatti and Everett, extract fundamentally different structures: the latter partitions a network into a binary hub-and-spoke layout, while the former divides it into a layered hierarchy. We introduce a core-periphery typology to clarify these differences, along with Bayesian stochastic block modeling techniques to classify networks in accordance with this typology. Empirically, we find a rich diversity of core-periphery structure among networks. Through a detailed case study, we demonstrate the importance of acknowledging this diversity and situating networks within the core-periphery typology when conducting domain-specific analyses.</p>
+
+        </div>
+    </div>
+
+    
+
+</div>
+
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <script src="/assets/js/app.js" type="text/javascript"></script><!-- footer scripts --></body>
+</html>

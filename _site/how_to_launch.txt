@@ -1,0 +1,2 @@
+bundle exec jekyll serve --watch
+localhost:4000

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+
+
+
+<html
+ lang="en"
+ >
+  <head>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Generalized Word Shift Graphs - Ryan J. Gallagher</title>
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="shortcut icon" type="image/png"
+           href="/favicon.png" 
+    />
+    <link rel="stylesheet" href="/assets/css/academicons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+    
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-social@1/bin/bulma-social.min.css">
+    <!-- head scripts -->
+</head>
+
+  <body>
+    <nav class="navbar is-primary " x-data="{ openNav: false }">
+    <div class="container">
+        <div class="navbar-brand">
+            <a href="/" class="navbar-item">
+                Ryan J. Gallagher
+            </a>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu" :class="{ 'is-active': openNav }" x-on:click="openNav = !openNav">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
+            <div class="navbar-start">
+                <a href="/" class="navbar-item ">Home</a>
+                
+                
+                    
+                    <a href="/research" class="navbar-item ">Research</a>
+                    
+                
+                    
+                    <a href="/publications" class="navbar-item ">Publications</a>
+                    
+                
+                    
+                    <div class="navbar-item has-dropdown is-hoverable ">
+                        <a href="/code" class="navbar-link ">Code & Tools</a>
+                        <div class="navbar-dropdown">
+                            
+                            <a href="/code/corex/overview" class="navbar-item ">CorEx Topic Model</a>
+                            
+                            <a href="/code/word_shift/overview" class="navbar-item ">Word Shift Graphs</a>
+                            
+                            <a href="/code/sbms/overview" class="navbar-item ">Stochastic Block Models</a>
+                            
+                        </div>
+                    </div>
+                    
+                
+                    
+                    <a href="/files/Gallagher_CV.pdf" class="navbar-item ">CV</a>
+                    
+                
+                    
+                    <a href="/contact" class="navbar-item ">Contact</a>
+                    
+                
+                
+            </div>
+
+            <div class="navbar-end">
+                
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+    
+    
+
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline">
+                
+                <div class="column is-12">
+                    
+
+                    
+                    
+                    
+                    <div class="columns is-multiline">
+
+    <div class="column is-6">
+        <figure class="image is-4by3">
+            <img src="/files/imgs/publications/gallagher2020generalized.png" />
+        </figure>
+    </div>
+
+    <div class="column is-6">
+        <p class="title is-3">Generalized Word Shift Graphs</p>
+        <p class="subtitle is-3"><span style="font-size:1em">A Method for Visualizing and Explaining Pairwise Comparisons Between Texts</span></p>
+        <p class="title is-4 has-text-right"><span style="text-align:left;display:block;font-size:0.85em">Ryan J. Gallagher, Morgan R. Frank, Lewis Mitchell, Aaron J. Schwartz, Andrew J. Reagan, Christopher M. Danforth, Peter Sheridan Dodds</span></p>
+        
+        <p class="subtitle is-5 has-text-right"><span style="text-align:left;display:block;font-size:0.9em">EPJ Data Science, 2021</span></p>
+        
+
+        
+
+        
+        <div class="content">
+            
+            <p>
+                <span class="icon">
+                    
+                        
+                            <i class="fas fa-book-open fa-lg"></i>
+                        
+                    
+                </span>
+                <span><a href="https://epjdatascience.springeropen.com/articles/10.1140/epjds/s13688-021-00260-3">Journal article (open access)</a></span></p>
+            
+            <p>
+                <span class="icon">
+                    
+                        
+                            <i class="ai ai-doi ai-lg"></i>
+                        
+                    
+                </span>
+                <span><a href="https://doi.org/10.1140/epjds/s13688-021-00260-3">10.1140/epjds/s13688-021-00260-3</a></span></p>
+            
+            <p>
+                <span class="icon">
+                    
+                        
+                            <i class="ai ai-arxiv ai-lg"></i>
+                        
+                    
+                </span>
+                <span><a href="https://arxiv.org/abs/2008.02250">arXiv preprint (open access)</a></span></p>
+            
+            <p>
+                <span class="icon">
+                    
+                        
+                            <i class="fab fa-python fa-lg"></i>
+                        
+                    
+                </span>
+                <span><a href="https://github.com/ryanjgallagher/shifterator">Word shift graph code</a></span></p>
+            
+            <p>
+                <span class="icon">
+                    
+                        
+                            <i class="far fa-file-powerpoint fa-lg"></i>
+                        
+                    
+                </span>
+                <span><a href="/files/slides/gallagher2020generalized_uvm.pdf">Slides</a></span></p>
+            
+        </div>
+        
+    </div>
+
+    <div class="column is-12">
+        <p class="title is-4">Abstract</p>
+        <div class="content">
+
+
+            <p>A common task in computational text analyses is to quantify how two corpora differ according to a measurement like word frequency, sentiment, or information content. However, collapsing the texts’ rich stories into a single number is often conceptually perilous, and it is difficult to confidently interpret interesting or unexpected textual patterns without looming concerns about data artifacts or measurement validity. To better capture fine-grained differences between texts, we introduce generalized word shift graphs, visualizations which yield a meaningful and interpretable summary of how individual words contribute to the variation between two texts for any measure that can be formulated as a weighted average. We show that this framework naturally encompasses many of the most commonly used approaches for comparing texts, including relative frequencies, dictionary scores, and entropy-based measures like the Kullback-Leibler and Jensen-Shannon divergences. Through several case studies, we demonstrate how generalized word shift graphs can be flexibly applied across domains for diagnostic investigation, hypothesis generation, and substantive interpretation. By providing a detailed lens into textual shifts between corpora, generalized word shift graphs help computational social scientists, digital humanists, and other text analysis practitioners fashion more robust scientific narratives.</p>
+
+        </div>
+    </div>
+
+    
+
+</div>
+
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <script src="/assets/js/app.js" type="text/javascript"></script><!-- footer scripts --></body>
+</html>

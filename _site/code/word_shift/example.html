@@ -1,7 +1,13 @@
-
 <!DOCTYPE html>
-<html>
+
+
+
+
+<html
+ lang="en"
+ >
   <head>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Word Shift Graphs - Ryan J. Gallagher</title>
@@ -13,37 +19,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
     
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-social@1/bin/bulma-social.min.css">
-    
-    <!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Word Shift Graphs | Ryan J. Gallagher</title>
-<meta name="generator" content="Jekyll v3.8.7" />
-<meta property="og:title" content="Word Shift Graphs" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="Network science PhD student mapping online communication networks" />
-<meta property="og:description" content="Network science PhD student mapping online communication networks" />
-<link rel="canonical" href="http://localhost:4000/code/word_shift/example" />
-<meta property="og:url" content="http://localhost:4000/code/word_shift/example" />
-<meta property="og:site_name" content="Ryan J. Gallagher" />
-<script type="application/ld+json">
-{"url":"http://localhost:4000/code/word_shift/example","headline":"Word Shift Graphs","description":"Network science PhD student mapping online communication networks","@type":"WebPage","@context":"https://schema.org"}</script>
-<!-- End Jekyll SEO tag -->
-<!-- head scripts --></head>
+    <!-- head scripts -->
+</head>
 
   <body>
-    
-<nav class="navbar is-primary" >
+    <nav class="navbar is-primary " x-data="{ openNav: false }">
     <div class="container">
         <div class="navbar-brand">
             <a href="/" class="navbar-item">
                 Ryan J. Gallagher
             </a>
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu" :class="{ 'is-active': openNav }" x-on:click="openNav = !openNav">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
         </div>
-        <div class="navbar-menu" id="navMenu">
+        <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
             <div class="navbar-start">
                 <a href="/" class="navbar-item ">Home</a>
                 
@@ -57,7 +49,7 @@
                     
                 
                     
-                    <div class="navbar-item has-dropdown is-hoverable">
+                    <div class="navbar-item has-dropdown is-hoverable ">
                         <a href="/code" class="navbar-link ">Code & Tools</a>
                         <div class="navbar-dropdown">
                             
@@ -95,7 +87,7 @@
 
     <section class="section">
         <div class="container">
-            <div class="columns">
+            <div class="columns is-multiline">
                 
                 <div class="column is-4-desktop is-4-tablet">
                     
@@ -187,6 +179,7 @@
                     
                     
                     
+                    
 <div class="content">
     <h1 id="installation">Installation</h1>
 
@@ -197,23 +190,19 @@
 
 <h1 id="producing-word-shift-graphs">Producing Word Shift Graphs</h1>
 
-<p>To produce a word shift graph, you need two dictionaries of the form <code class="highlighter-rouge">word2freq</code> where the keys are words and the values are the frequencies of those words in a text. With those in hand, you can produce a number of word shift graphs. Start by importing the shifts.</p>
+<p>To produce a word shift graph, you need two dictionaries of the form <code class="language-plaintext highlighter-rouge">word2freq</code> where the keys are words and the values are the frequencies of those words in a text. With those in hand, you can produce a number of word shift graphs. Start by importing the package.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from shifterator import relative_shift as rs
-from shifterator import symmetric_shift as ss
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import shifterator as sh
 </code></pre></div></div>
 
 <h2 id="sentiment-shift">Sentiment Shift</h2>
 
 <p>The Shifterator package includes a number of lexicons that can be used to quickly compare the sentiment between two texts. Here we use the English labMT sentiment dictionary:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">shifterator</span> <span class="kn">import</span> <span class="n">relative_shift</span> <span class="k">as</span> <span class="n">rs</span>
-
-<span class="c1"># Get a sentiment word shift
-</span><span class="n">sentiment_shift</span> <span class="o">=</span> <span class="n">rs</span><span class="p">.</span><span class="n">SentimentShift</span><span class="p">(</span><span class="n">reference</span><span class="o">=</span><span class="n">word2freq_1</span><span class="p">,</span>
-                                    <span class="n">comparison</span><span class="o">=</span><span class="n">word2freq_2</span><span class="p">,</span>
-                                    <span class="n">sent_dict_ref</span><span class="o">=</span><span class="s">'labMT_English'</span><span class="p">,</span>
-                                    <span class="n">sent_dict_comp</span><span class="o">=</span><span class="s">'labMT_English'</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sentiment_shift</span> <span class="o">=</span> <span class="n">sh</span><span class="p">.</span><span class="n">WeightedAvgShift</span><span class="p">(</span><span class="n">type2freq_1</span><span class="o">=</span><span class="n">word2freq_1</span><span class="p">,</span>
+                                      <span class="n">type2freq_2</span><span class="o">=</span><span class="n">word2freq_2</span><span class="p">,</span>
+                                      <span class="n">type2score_1</span><span class="o">=</span><span class="s">'labMT_English'</span><span class="p">,</span>
+                                      <span class="n">type2score_2</span><span class="o">=</span><span class="s">'labMT_English'</span><span class="p">)</span>
 <span class="n">sentiment_shift</span><span class="p">.</span><span class="n">get_shift_graph</span><span class="p">()</span>
 </code></pre></div></div>
 
@@ -221,25 +210,26 @@ from shifterator import symmetric_shift as ss
 
 <h2 id="entropy-shifts">Entropy Shifts</h2>
 
-<p>We can also use measures of entropy to compare two texts and how the relative abundance and distribution of words affects how they differ.</p>
+<p>We can also use measures of entropy to compare two texts and how the relative abundance and distribution of words affects how they differ. The emphasis on rare or common words can be controlled through the <a href="https://en.wikipedia.org/wiki/Tsallis_entropy">Tsallis entropy</a> <code class="language-plaintext highlighter-rouge">alpha</code> parameter.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Get an entropy shift
-</span><span class="n">entropy_shift</span> <span class="o">=</span> <span class="n">rs</span><span class="p">.</span><span class="n">EntropyShift</span><span class="p">(</span><span class="n">reference</span><span class="o">=</span><span class="n">word2freq_1</span><span class="p">,</span>
-                                <span class="n">comparison</span><span class="o">=</span><span class="n">word2freq_2</span><span class="p">,</span>
-                                <span class="n">base</span><span class="o">=</span><span class="mi">2</span>
+</span><span class="n">entropy_shift</span> <span class="o">=</span> <span class="n">sh</span><span class="p">.</span><span class="n">EntropyShift</span><span class="p">(</span><span class="n">type2freq_1</span><span class="o">=</span><span class="n">word2freq_1</span><span class="p">,</span>
+                                <span class="n">type2freq_2</span><span class="o">=</span><span class="n">word2freq_2</span><span class="p">,</span>
+                                <span class="n">base</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="n">entropy_shift</span><span class="p">.</span><span class="n">get_shift_graph</span><span class="p">()</span>
 
 <span class="c1"># Get a Jensen-Shannon divergence shift
-</span><span class="kn">from</span> <span class="nn">shifterator</span> <span class="kn">import</span> <span class="n">symmetric_shift</span> <span class="k">as</span> <span class="n">ss</span>
-<span class="n">jsd_shift</span> <span class="o">=</span> <span class="n">ss</span><span class="p">.</span><span class="n">JSDivergenceShift</span><span class="p">(</span><span class="n">system_1</span><span class="o">=</span><span class="n">word2freq_1</span><span class="p">,</span>
-                                 <span class="n">system_2</span><span class="o">=</span><span class="n">word2freq_2</span><span class="p">,</span>
-                                 <span class="n">base</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span><span class="n">jsd_shift</span> <span class="o">=</span> <span class="n">sh</span><span class="p">.</span><span class="n">JSDivergenceShift</span><span class="p">(</span><span class="n">type2freq_1</span><span class="o">=</span><span class="n">word2freq_1</span><span class="p">,</span>
+                                 <span class="n">type2freq_2</span><span class="o">=</span><span class="n">word2freq_2</span><span class="p">,</span>
+                                 <span class="n">base</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                 <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="n">jsd_shift</span><span class="p">.</span><span class="n">get_shift_graph</span><span class="p">()</span>
 </code></pre></div></div>
 
 <h2 id="more-details">More details</h2>
 
-<p>See the <a href="https://github.com/ryanjgallagher/shifterator/">Github page</a> for more details of types of shifts that you can produce and parameters you can use to alter the word shift visualizations.</p>
+<p>See the <a href="https://shifterator.readthedocs.io/en/latest/">official documentation</a> for more details on the types of shifts that you can produce and a comprehensive cookbook of how to use them.</p>
 
 </div>
                 </div>
@@ -250,4 +240,3 @@ from shifterator import symmetric_shift as ss
     
     <script src="/assets/js/app.js" type="text/javascript"></script><!-- footer scripts --></body>
 </html>
-

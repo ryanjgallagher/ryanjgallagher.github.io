@@ -13,8 +13,8 @@ email: gallagher.r@northeastern.edu
 description: >- # this means to ignore newlines until "baseurl:"
   Network science PhD student mapping online communication networks
 baseurl: "" # the subpath of your site, e.g. /blog
-# url: "localhost:4000"
-url: "https://ryanjgallagher.github.io/"
+url: "localhost:4000"
+#url: "https://ryanjgallagher.github.io/"
 twitter_username: ryanjgallag
 github_username:  ryanjgallagher
 

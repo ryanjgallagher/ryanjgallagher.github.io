@@ -1,7 +1,13 @@
-
 <!DOCTYPE html>
-<html>
+
+
+
+
+<html
+ lang="en"
+ >
   <head>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Word Shift Graphs - Ryan J. Gallagher</title>
@@ -13,37 +19,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
     
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-social@1/bin/bulma-social.min.css">
-    
-    <!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Word Shift Graphs | Ryan J. Gallagher</title>
-<meta name="generator" content="Jekyll v3.8.7" />
-<meta property="og:title" content="Word Shift Graphs" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="Network science PhD student mapping online communication networks" />
-<meta property="og:description" content="Network science PhD student mapping online communication networks" />
-<link rel="canonical" href="http://localhost:4000/code/word_shift/references" />
-<meta property="og:url" content="http://localhost:4000/code/word_shift/references" />
-<meta property="og:site_name" content="Ryan J. Gallagher" />
-<script type="application/ld+json">
-{"url":"http://localhost:4000/code/word_shift/references","headline":"Word Shift Graphs","description":"Network science PhD student mapping online communication networks","@type":"WebPage","@context":"https://schema.org"}</script>
-<!-- End Jekyll SEO tag -->
-<!-- head scripts --></head>
+    <!-- head scripts -->
+</head>
 
   <body>
-    
-<nav class="navbar is-primary" >
+    <nav class="navbar is-primary " x-data="{ openNav: false }">
     <div class="container">
         <div class="navbar-brand">
             <a href="/" class="navbar-item">
                 Ryan J. Gallagher
             </a>
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu" :class="{ 'is-active': openNav }" x-on:click="openNav = !openNav">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
         </div>
-        <div class="navbar-menu" id="navMenu">
+        <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
             <div class="navbar-start">
                 <a href="/" class="navbar-item ">Home</a>
                 
@@ -57,7 +49,7 @@
                     
                 
                     
-                    <div class="navbar-item has-dropdown is-hoverable">
+                    <div class="navbar-item has-dropdown is-hoverable ">
                         <a href="/code" class="navbar-link ">Code & Tools</a>
                         <div class="navbar-dropdown">
                             
@@ -95,7 +87,7 @@
 
     <section class="section">
         <div class="container">
-            <div class="columns">
+            <div class="columns is-multiline">
                 
                 <div class="column is-4-desktop is-4-tablet">
                     
@@ -187,16 +179,15 @@
                     
                     
                     
+                    
 <div class="content">
     <h1 id="citations">Citations</h1>
 
 <p>If you use word shift graphs in your work, please cite the following paper:</p>
 
 <blockquote>
-  <p>Dodds, P. S., Harris, K. D., Kloumann, I. M., Bliss, C. A., &amp; Danforth, C. M. (2011). Temporal Patterns of Happiness and Information in a Global Social Network: Hedonometrics and Twitter. <em>PLoS ONE</em>, 6(12).</p>
+  <p>Gallagher, R. J., Frank, M. R., Mitchell, Lewis, Schwartz, A. J., Reagan, A. J., Danforth, C. M., Dodds, P. S. (2021). <a href="https://epjdatascience.springeropen.com/articles/10.1140/epjds/s13688-021-00260-3">Generalized Word Shift Graphs: A Method for Visualizing and Explaining Pairwise Comparisons Between Texts</a>. <em>EPJ Data Science</em>, 10(4).</p>
 </blockquote>
-
-<p>We have a working paper in progress that describes the mathematics of the general word shift framework (which incorporates entropy-based measures) and generalized sentiment shifts. Please reach out if you would like details of the generalized word shifts.</p>
 
 <h1 id="sentiment-analysis-citations">Sentiment Analysis Citations</h1>
 
@@ -204,11 +195,13 @@
 
 <h2 id="labmt">LabMT</h2>
 
-<p>If you use any of the LabMT sentiment lexicons, cite the following papers:</p>
+<p>If you use the English LabMT sentiment lexicon, cite the following papers:</p>
 
 <blockquote>
   <p>Dodds, P. S., Harris, K. D., Kloumann, I. M., Bliss, C. A., &amp; Danforth, C. M. (2011). Temporal Patterns of Happiness and Information in a Global Social Network: Hedonometrics and Twitter. <em>PLoS ONE</em>, 6(12).</p>
 </blockquote>
+
+<p>If you use any of the non-Engish LabMT sentiment lexicons, cite the following paper:</p>
 
 <blockquote>
   <p>Dodds, P. S., Clark, E. M., Desu, S., Frank, M. R., Reagan, A. J., Williams, J. R., Mitchell, L., Harris, K. D., Kloumann, I. M., Bagrow, J. P., &amp; Megerdoomian, K. (2015). Human Language Reveals a Universal Positivity Bias. <em>Proceedings of the National Academy of Sciences</em>, 112(8), 2389-2394.</p>
@@ -249,4 +242,3 @@
     
     <script src="/assets/js/app.js" type="text/javascript"></script><!-- footer scripts --></body>
 </html>
-

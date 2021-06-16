@@ -1,7 +1,13 @@
-
 <!DOCTYPE html>
-<html>
+
+
+
+
+<html
+ lang="en"
+ >
   <head>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CorEx Topic Model - Ryan J. Gallagher</title>
@@ -13,37 +19,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
     
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-social@1/bin/bulma-social.min.css">
-    
-    <!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>CorEx Topic Model | Ryan J. Gallagher</title>
-<meta name="generator" content="Jekyll v3.8.7" />
-<meta property="og:title" content="CorEx Topic Model" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="Network science PhD student mapping online communication networks" />
-<meta property="og:description" content="Network science PhD student mapping online communication networks" />
-<link rel="canonical" href="http://localhost:4000/code/corex/overview" />
-<meta property="og:url" content="http://localhost:4000/code/corex/overview" />
-<meta property="og:site_name" content="Ryan J. Gallagher" />
-<script type="application/ld+json">
-{"url":"http://localhost:4000/code/corex/overview","headline":"CorEx Topic Model","description":"Network science PhD student mapping online communication networks","@type":"WebPage","@context":"https://schema.org"}</script>
-<!-- End Jekyll SEO tag -->
-<!-- head scripts --></head>
+    <!-- head scripts -->
+</head>
 
   <body>
-    
-<nav class="navbar is-primary" >
+    <nav class="navbar is-primary " x-data="{ openNav: false }">
     <div class="container">
         <div class="navbar-brand">
             <a href="/" class="navbar-item">
                 Ryan J. Gallagher
             </a>
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu" :class="{ 'is-active': openNav }" x-on:click="openNav = !openNav">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
             </a>
         </div>
-        <div class="navbar-menu" id="navMenu">
+        <div class="navbar-menu" id="navMenu" :class="{ 'is-active': openNav }">
             <div class="navbar-start">
                 <a href="/" class="navbar-item ">Home</a>
                 
@@ -57,7 +49,7 @@
                     
                 
                     
-                    <div class="navbar-item has-dropdown is-hoverable">
+                    <div class="navbar-item has-dropdown is-hoverable ">
                         <a href="/code" class="navbar-link ">Code & Tools</a>
                         <div class="navbar-dropdown">
                             
@@ -95,7 +87,7 @@
 
     <section class="section">
         <div class="container">
-            <div class="columns">
+            <div class="columns is-multiline">
                 
                 <div class="column is-4-desktop is-4-tablet">
                     
@@ -187,6 +179,7 @@
                     
                     
                     
+                    
 <div class="content">
     <h1 id="corex-topic-model">CorEx Topic Model</h1>
 
@@ -198,7 +191,7 @@
   <p>Gallagher, R. J., Reing, K., Kale, D., &amp; Ver Steeg, G. (2017). <a href="/publications/gallagher2017anchored">Anchored Correlation Explanation: Topic Modeling with Minimal Domain Knowledge</a>. <em>Transactions of the Association for Computational Linguistics (TACL)</em>, 5, 529-542.</p>
 </blockquote>
 
-<p>An open-source implementation of the CorEx topic model is available in Python on PyPi (<code class="highlighter-rouge">corextopic</code>) and <a href="https://github.com/gregversteeg/corex_topic">on Github</a>.</p>
+<p>An open-source implementation of the CorEx topic model is available in Python on PyPi (<code class="language-plaintext highlighter-rouge">corextopic</code>) and <a href="https://github.com/gregversteeg/corex_topic">on Github</a>.</p>
 
 </div>
                 </div>
@@ -209,4 +202,3 @@
     
     <script src="/assets/js/app.js" type="text/javascript"></script><!-- footer scripts --></body>
 </html>
-
