@@ -7,6 +7,12 @@ items:
     description: I am a computational social scientist studying online political communication and how people amplify their voices through networked spaces.
     call_to_action_name: See Research Interests
     call_to_action_link: /research
+  - title: I am on the job market!
+    subtitle: Expected to graduate with a Ph.D. in Network Science in May 2022
+    icon: fas fa-graduation-cap
+    description: I am seeking positions in communication, information science, and complex systems that start in summer or fall 2022
+    call_to_action_name: Learn More
+    call_to_action_link: /research
   - title: Publications
     subtitle: Network Science, Computational Communication, Text as Data
     icon: fas fa-book-open
