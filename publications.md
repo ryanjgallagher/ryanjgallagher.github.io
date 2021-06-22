@@ -17,7 +17,7 @@ hide_footer: true
 ---
 
 <span style="font-size:1.2em">**[Say Their Names: Resurgence in Collective Attention Toward Black Victims of Fatal Police Violence Following the Death of George Floyd](/publications/wu2021say)**</span>  
-Wu, H., **Gallagher, R. J.**, Alshaabi, T., Adams, J., Minot, J., Arnold, M., Foucault Welles, B., Harp, R., Dodds, P. S., Danforth, C. M. (2021). *arXiv preprint*.
+Wu, H., **Gallagher, R. J.**, Alshaabi, T., Adams, J. L., Minot, J. R., Arnold, M. V., Foucault Welles, B., Harp, R., Dodds, P. S., Danforth, C. M. (2021). *arXiv preprint*.
 
 
 

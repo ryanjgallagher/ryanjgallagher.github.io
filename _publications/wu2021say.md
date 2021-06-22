@@ -3,7 +3,7 @@ permalink: /publications/wu2021say
 title: Say Their Names
 subtitle: <span style="font-size:1em">Resurgence in Collective Attention Toward Black Victims of Fatal Police Violence Following the Death of George Floyd</span>
 description: Say Their Names
-price: <span style="text-align:left;display:block;font-size:0.85em">Henry Wu, Ryan J. Gallagher, Thayer Alshaabi, Jane Adams, Josh Minot, Michael Arnold, Brooke Foucault Welles, Randall Harp, Peter Sheridan Dodds, Christopher M. Danforth</span>
+price: <span style="text-align:left;display:block;font-size:0.85em">Henry Wu, Ryan J. Gallagher, Thayer Alshaabi, Jane L. Adams, Josh R. Minot, Michael V. Arnold, Brooke Foucault Welles, Randall Harp, Peter Sheridan Dodds, Christopher M. Danforth</span>
 product_code: <span style="text-align:left;display:block;font-size:0.9em">arXiv preprint</span>
 layout: product
 hide_hero: true
