@@ -9,8 +9,10 @@ hide_hero: true
 hide_footer: true
 image: /files/imgs/publications/gallagher2021sustained.png
 features:
-    - label: <a href="">Journal article (open access)</a>
+    - label: <a href="https://journals.sagepub.com/doi/10.1177/20563051211024957">Journal article (open access)</a>
       icon: fas fa-book-open
+    - label: <a href="https://doi.org/10.1177/20563051211024957">10.1177/20563051211024957</a>
+      icon: ai ai-doi
     - label: <a href="https://arxiv.org/abs/2009.07255">arXiv preprint (open access)</a>
       icon: ai ai-arxiv
     - label: <a href="/files/research/covid_keywords_lazer_lab.tsv">COVID-19 keywords list</a>
