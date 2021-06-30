@@ -27,7 +27,7 @@ Wu, H., **Gallagher, R. J.**, Alshaabi, T., Adams, J. L., Minot, J. R., Arnold, 
 
 ---
 
-<span style="font-size:1.2em">**[Sustained Amplification of COVID-19 Elites in the United States](/publications/gallagher2021sustained)**</span>  
+<span style="font-size:1.2em">**[Sustained Online Amplification of COVID-19 Elites in the United States](/publications/gallagher2021sustained)**</span>  
 **Gallagher, R. J.**, Doroshenko L., Shugars, S., Lazer, D., Foucault Welles, B. (2021). *Social Media + Society*.
 
 

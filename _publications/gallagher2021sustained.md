@@ -1,6 +1,6 @@
 ---
 permalink: /publications/gallagher2021sustained
-title: Sustained Amplification of COVID-19 Elites in the United States
+title: Sustained Online Amplification of COVID-19 Elites in the United States
 subtitle:
 price: <span style="text-align:left;display:block;font-size:0.85em">Ryan J. Gallagher, Larissa Doroshenko, Sarah Shugars, David Lazer, Brooke Foucault Welles</span>
 product_code: <span style="text-align:left;display:block;font-size:0.9em">Social Media + Society, 2021</span>
