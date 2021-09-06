@@ -30,6 +30,9 @@ collections:
     layout: product
     image: https://via.placeholder.com/800x600
     show_sidebar: false
+  classes:
+    output: true
+    layout: page
 
 #remote_theme: chrisrhymes/bulma-clean-theme
 plugins:
