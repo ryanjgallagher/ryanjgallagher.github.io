@@ -27,6 +27,10 @@ Wu, H., **Gallagher, R. J.**, Alshaabi, T., Adams, J. L., Minot, J. R., Arnold, 
 
 ---
 
+<span style="font-size:1.2em">**[(Mis)alignment Between Stance Expressed in Social Media Data and Public Opinion Surveys](/publications/joseph2021misalignment)**</span>  
+Joseph, K., Shugars, S., **Gallagher, R. J.**, Green, J., Mathé, A. Q., An, Z., Lazer, D. (2021). In Proceedings of the *2021 Conference on Empirical Methods in Natural Language Processing (EMNLP)*.
+
+
 <span style="font-size:1.2em">**[Sustained Online Amplification of COVID-19 Elites in the United States](/publications/gallagher2021sustained)**</span>  
 **Gallagher, R. J.**, Doroshenko L., Shugars, S., Lazer, D., Foucault Welles, B. (2021). *Social Media + Society*.
 
