@@ -9,7 +9,7 @@ hide_hero: true
 hide_footer: true
 image: /files/imgs/publications/gallagher2020clarified.png
 features:
-    - label: <a href="https://advances.sciencemag.org/content/7/12/eabc9800">Journal article (open access)</a>
+    - label: <a href="https://www.science.org/doi/10.1126/sciadv.abc9800">Journal article (open access)</a>
       icon: fas fa-book-open
     - label: <a href="https://doi.org/10.1126/sciadv.abc9800">10.1126/sciadv.abc9800</a>
       icon: ai ai-doi

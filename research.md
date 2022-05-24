@@ -7,9 +7,9 @@ hide_footer: true
 
 # On the Job Market!
 
-I am seeking academic and industry positions that start in summer or fall 2022 for when I graduate in May 2022 with a Ph.D. in Network science. For academia, I am seeking positions in communication, information science, data science, and complex systems departments. For industry, I am seeking research positions broadly related to online commmunication, including social media.
+I am seeking industry data science and research positions broadly related to online communication, platform integrity, or social media.
 
-Please see [my CV](files/Gallagher_CV.pdf) for my research and teaching experience. You are welcome to [contact me](/contact) with any relevant opportunities.
+Please see [my resume](files/Gallagher_Resume.pdf) for my professional data science experience. You are welcome to [contact me](/contact) with any relevant opportunities.
 
 
 # Research

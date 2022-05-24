@@ -9,6 +9,6 @@ hide_footer: true
 
 # Teaching
 
-## Current Courses
+## Past Courses
 
 [DS2001: Data Science Programming Practicum for Social Sciences and Humanities](/classes/ds2001_fall2021)
