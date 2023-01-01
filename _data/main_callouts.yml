@@ -2,27 +2,21 @@ style: is-light
 height: is-small
 items:
   - title: Research
-    subtitle: Amplification, Hashtag Activism, Networked (Counter)publics
+    subtitle: Disinformation, Manipulation, Marginalization
     icon: fa fa-hashtag
-    description: I am a computational social scientist studying online political communication and how people amplify their voices through networked spaces.
+    description: I am a data scientist promoting the health of social media by addressing disinformation, platform manipulation, and other online harms
     call_to_action_name: See Research Interests
     call_to_action_link: /research
-  - title: I am on the job market!
-    subtitle: Expected to graduate with a Ph.D. in Network Science in May 2022
-    icon: fas fa-graduation-cap
-    description: I am seeking positions in communication, information science, and complex systems that start in summer or fall 2022
-    call_to_action_name: Learn More
-    call_to_action_link: /research
   - title: Publications
-    subtitle: Network Science, Computational Communication, Text as Data
+    subtitle: Computational Social Science, Network Science, Communication
     icon: fas fa-book-open
-    description: My interdisciplinary research agenda spans from making methodological advances in network science to answering fundamental questions about the networked public sphere.
+    description: My interdisciplinary research makes methodological advances in computational social science to answer pressing issues concerning social media and online communication.
     call_to_action_name: See Publications
     call_to_action_link: /publications
   - title: Open Source Code
-    subtitle: Natural Language Processing, Data Visualization, Social Network Analysis
+    subtitle: Data Visualization, Network Modeling, Natural Language Processing
     icon: fab fa-python
     icon_brand: true
-    description: I develop and maintain tools for topic modeling, interpretable sentiment analysis, data visualization, and statistical network modeling.
+    description: I develop and maintain tools for computational text analysis, data visualization, statistical network modeling, and social media data collection.
     call_to_action_name: See Code & Tools
     call_to_action_link: /code
