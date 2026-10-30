@@ -6,7 +6,7 @@ Personal website, built with [Astro](https://astro.build) on top of the
 [astro-wanderer](https://github.com/igagansingh/astro-wanderer) theme. Please see their licenses in 
 `licenses/`.
 
-Deployed to GitHub Pages by `.github/workflows/deploy.yaml` on every push to `master`.
+Deployed to GitHub Pages by `.github/workflows/deploy.yaml` on every push to `main`.
 
 ## Where things live
 
