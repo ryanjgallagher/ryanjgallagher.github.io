@@ -1,0 +1,24 @@
+name: Check the site builds (pull requests)
+
+# Runs on every pull request into master, using the same make commands as locally.
+# It never deploys; deploy.yaml does that after the merge.
+on:
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  check-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 26
+          cache: npm
+      # Installs exactly what package-lock.json says, and fails if it's out of date with package.json
+      - run: npm ci
+      # Same as running `make check` then `make build` locally
+      - run: make check build
