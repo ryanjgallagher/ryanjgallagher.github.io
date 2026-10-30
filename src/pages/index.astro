@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import { SITE_DATA } from '../constants';
+// Tagline and intro blurb for the home page live in src/content/pages/home.md
+import { Content as Blurb, frontmatter } from '../content/pages/home.md';
+
+import '../styles/home.css';
+---
+
+<Layout hideHeaderSocials>
+	<Hero name={frontmatter.name ?? SITE_DATA.name} tagline={frontmatter.tagline}>
+		<Blurb />
+	</Hero>
+</Layout>

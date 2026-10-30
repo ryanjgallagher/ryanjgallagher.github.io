@@ -1,0 +1,97 @@
+---
+# The About page: everything on it comes from this file.
+#   - Between the --- lines: the page title, plus the data for the work timeline and tags.
+#   - Below the --- lines: the page, top to bottom, in Markdown. <Experience /> and <Skills />
+#     mark where the timeline and tags appear. Move, retitle, or delete them like any other text.
+#     spaceBefore="2.5rem" / spaceAfter="2.5rem" add space above / below one (1rem is about one line of text).
+# The build checks the data here and fails with a clear message if something's off.
+#
+# This is an MDX file (Markdown that can contain components like <Experience />).
+# The one gotcha: a literal < or { in your text needs a backslash before it (\< or \{).
+
+title: About
+
+# Work timeline, newest first. Leave out `end` for your current role (shows "Present").
+# `url` is optional and links the company name.
+experience:
+  - role: Senior Machine Learning Engineer, Trust & Safety
+    company: Hinge
+    start: Aug. 2026
+  - role: Senior Data Scientist, Trust & Safety
+    company: TikTok
+    start: Dec. 2024
+    end: Jul. 2026
+  - role: Senior Applied Scientist
+    company: Alethea
+    start: Jan. 2023
+    end: Nov. 2024
+  - role: Applied Scientist, Community Notes
+    company: Twitter
+    start: May 2022
+    end: Nov. 2022
+  - role: Research Assistant
+    company: Northeastern University
+    start: Aug. 2017
+    end: Aug. 2022
+  - role: Research Assistant
+    company: University of Vermont
+    start: Aug. 2015
+    end: May 2017
+
+# "What I work with": groups of tags. Placeholder groups and items. Edit freely.
+skills:
+  - title: Languages
+    items: [Python, SQL]
+  - title: Specialties
+    items: [Graph Mining, Social Network Analysis, Natural Language Processing, Anomaly Detection, Responsible AI, Mixed Methods, Data Annotation]
+  - title: ML & Data Stack
+    items: [PyTorch, Hugging Face, Scikit-Learn, PySpark, Ray, Polars, FastAPI, Pydantic, Pytest]
+  - title: Systems & MLOps 
+    items: [Docker, Kubernetes, Airflow, AWS, Databricks, Snowflake, Git, CI/CD (GitHub Actions)]
+---
+
+
+<Experience spaceAfter="2.5rem" />
+
+
+I am an applied scientist in online trust & safety. I specialize in using machine learning and 
+data science to detect scaled abuse and platform manipulation. In particular, my work 
+often focuses on deception and networked harms, such as impersonation, inauthenticity,
+spam, and covert influence operations. Lately, I have been interested in
+better detecting online frauds and scams, which are executed using many of the same deceptive 
+techniques deployed by other harmful actors. I am comfortable working across the entire data science 
+and machine learning stack. From statistical analyses and production-ready models to threat 
+assessments and strategy building, my background has prepared me to wear many hats to do what is
+needed and keep people safe online.
+
+I hold a [Ph.D. in network science](https://www.networkscienceinstitute.org/) from Northeastern
+University, where I conducted research with 
+[Professor Brooke Foucault Welles](http://brooke-welles.squarespace.com/) as part of
+the [Communication Media and Marginalization (CoMM) Lab](https://www.networkscienceinstitute.org/commlab).
+My research brought together network science and communication theory to study how individuals use 
+social media to amplify their voices. A core focus of my work was 
+[online activism](/publications/?topic=online-activism) and how political movements construct
+narratives both over time and at critical moments. To conduct this research, I often made methodological
+advances in [network science](/publications/?topic=network-science) and 
+[natural language processing](/publications/?topic=natural-language-processing). Public sphere
+theory, networked (counter)publics, and communication studies are all still very near and dear to 
+my heart.
+
+During my Ph.D., I interned with Facebook's Core Data Science team, where I worked on measuring the 
+reach of coordinated information operations and their audiences. Before Northeastern, I obtained an 
+M.S. in mathematics at the University of Vermont. At UVM, I worked with the 
+[Computational Story Lab](https://www.uvm.edu/storylab/) and the 
+[Vermont Complex Systems Center](https://vermontcomplexsystems.org/) under the 
+guidance of [Professor Chris Danforth](https://cdanfort.w3.uvm.edu/) and 
+[Professor Peter Dodds](https://www.uvm.edu/cems/cs/profile/peter-dodds). I also hold a B.A. in 
+mathematics from the University of Connecticut.
+
+These days, I spend some time working on [open source projects](https://github.com/ryanjgallagher),
+some of which try to atone for the coding sins I committed during graduate school. While finishing
+my Ph.D., I picked up an affinity for soulslike and rougelike games because they were easier than
+finishing my dissertation. The rest of my free time is spent playing fingerstyle guitar and taking
+care of my two cats, Ember and Mabel (names inspired by _Dark Souls_ and _Only Murders in the 
+Building_, respectively).
+
+
+<Skills spaceBefore="2.5rem" />

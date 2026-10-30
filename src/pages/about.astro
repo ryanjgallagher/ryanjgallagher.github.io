@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Experience from '../components/Experience.astro';
+import Skills from '../components/Skills.astro';
+// Everything on this page comes from src/content/pages/about.mdx
+import { ABOUT, AboutText } from '../utils/about';
+
+import '../styles/about.css';
+---
+
+<Layout pageTitle="About">
+    <div class="page-container">
+        <h1>{ABOUT.title}</h1>
+
+        <div class="about-content">
+            <div class="about-prose">
+                {/* Makes <Experience /> and <Skills /> usable inside about.mdx */}
+                <AboutText components={{ Experience, Skills }} />
+            </div>
+        </div>
+    </div>
+</Layout>

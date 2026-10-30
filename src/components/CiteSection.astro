@@ -1,0 +1,37 @@
+---
+// "Cite" section at the bottom of a paper's page: the paper's BibTeX with a "Copy" link.
+interface Props {
+  bibtex: string;
+}
+const { bibtex } = Astro.props;
+---
+
+<section class="cite">
+  <h2>Cite</h2>
+  <div class="cite-panel">
+    <div class="cite-panel-top">
+      <span class="cite-label">BibTeX</span>
+      <button class="cite-copy">Copy</button>
+    </div>
+    <pre><code>{bibtex}</code></pre>
+  </div>
+</section>
+
+<script>
+  const copy = document.querySelector<HTMLButtonElement>('.cite-copy');
+  copy?.addEventListener('click', async () => {
+    const code = document.querySelector('.cite-panel code')!;
+    try {
+      await navigator.clipboard.writeText(code.textContent ?? '');
+      copy.textContent = 'Copied';
+    } catch {
+      // Clipboard blocked: select the text so it can be copied by hand
+      const range = document.createRange();
+      range.selectNodeContents(code);
+      getSelection()?.removeAllRanges();
+      getSelection()?.addRange(range);
+      copy.textContent = 'Press Ctrl/⌘+C';
+    }
+    setTimeout(() => (copy.textContent = 'Copy'), 2000);
+  });
+</script>

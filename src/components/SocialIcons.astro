@@ -1,0 +1,20 @@
+---
+import { Icon } from 'astro-icon/components';
+import { SOCIALS } from '../constants';
+
+interface Props {
+  size?: number;
+  gap?: string;
+  class?: string;
+}
+
+const { size = 24, gap = '1.5rem', class: className } = Astro.props;
+---
+
+<div class:list={['social-icons', className]} style={{ gap }}>
+  {SOCIALS.map((s) => (
+    <a href={s.url} aria-label={s.label} title={s.label} rel="me">
+      <Icon name={s.icon} size={size} />
+    </a>
+  ))}
+</div>

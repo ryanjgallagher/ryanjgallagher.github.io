@@ -1,0 +1,471 @@
+---
+import { render } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import Layout from '../../layouts/Layout.astro';
+import AuthorList from '../../components/AuthorList.astro';
+import PubLinks from '../../components/PubLinks.astro';
+import TopicTags from '../../components/TopicTags.astro';
+import { SITE_DATA } from '../../constants';
+import { PEER_REVIEWED_ICON, PUBLICATION_TYPES } from '../../data/link-types';
+import { authorship, citationCount, getPublications, typeLabel } from '../../utils/publications';
+import { CATEGORIES, categorySlug } from '../../utils/categories';
+
+import '../../styles/publications.css';
+
+const pubs = await getPublications();
+const rendered = await Promise.all(pubs.map(async (pub) => ({ pub, Content: (await render(pub)).Content })));
+
+const years = pubs.map((p) => p.data.year);
+const minYear = Math.min(...years);
+// The slider runs to the current year (as of the last build), not the newest paper
+const maxYear = Math.max(...years, new Date().getFullYear());
+
+// Citations slider: 0 up to the most-cited paper, rounded up to the nearest ten.
+// Papers excluded from citations count as 0 here.
+const maxCitations = Math.ceil(Math.max(0, ...pubs.map((p) => citationCount(p) ?? 0)) / 10) * 10;
+
+// Two-handled range filters. `key` must match a data-<key> attribute on the cards.
+// `params` are their names in the page address, e.g. ?from=2019&to=2021&mincites=100
+const RANGES = [
+    { key: 'year', label: 'Year range', min: minYear, max: maxYear, params: ['from', 'to'], low: 'Earliest year', high: 'Latest year' },
+    { key: 'citations', label: 'Citations', min: 0, max: maxCitations, params: ['mincites', 'maxcites'], low: 'Fewest citations', high: 'Most citations' },
+].filter((r) => r.min < r.max);
+
+// Fields the list can be sorted by. Click the active one to flip between high-to-low and low-to-high.
+// Each needs a matching data-<key> attribute on the cards below.
+// Papers without a value (e.g. `excludeFromCitations: true`) always go last, in either direction.
+const SORT_FIELDS = [
+    { key: 'year', label: 'Year', desc: 'Newest first', asc: 'Oldest first' },
+    { key: 'citations', label: 'Citations', desc: 'Most cited first', asc: 'Least cited first' },
+];
+
+// Only show type filters for types that are actually used, in the order defined in link-types.ts
+const usedTypes = (Object.keys(PUBLICATION_TYPES) as (keyof typeof PUBLICATION_TYPES)[]).filter((t) =>
+    pubs.some((p) => p.data.type === t),
+);
+
+// Filter pills. Nothing selected in a group = no filtering by that group.
+//   match 'any': a paper shows if it matches any selected pill (e.g. Journal or Conference)
+//   match 'all': a paper shows only if it matches every selected pill (e.g. Peer-reviewed)
+// Each group's `key` must match a data-<key> attribute on the cards (space-separated if a paper has several values).
+// `param` is its name in the page address, e.g. /publications/?topic=online-activism,network-science
+
+// Only show categories that at least one paper uses, in the order from categories.yaml
+const usedCategories = CATEGORIES.filter((c) => pubs.some((p) => p.data.categories.includes(c)));
+
+const FILTER_GROUPS = [
+    { key: 'categories', param: 'topic', label: 'Topic', match: 'any', options: usedCategories.map((c) => ({ value: categorySlug(c), label: c })) },
+    { key: 'type', param: 'type', label: 'Type', match: 'any', options: usedTypes.map((t) => ({ value: t, label: typeLabel(t) })) },
+    {
+        key: 'authorship',
+        param: 'authorship',
+        label: 'Authorship',
+        match: 'any',
+        options: [
+            { value: 'first', label: 'First author' },
+            { value: 'co', label: 'Co-author' },
+        ],
+    },
+    {
+        key: 'flags',
+        param: 'only',
+        label: 'Show only',
+        match: 'all',
+        options: [{ value: 'peer-reviewed', label: 'Peer-reviewed' }],
+    },
+];
+---
+
+<Layout pageTitle="Publications" description={`Research publications by ${SITE_DATA.name}`}>
+    <div class="page-container">
+        <h1>Publications</h1>
+
+        <div class="publications-section">
+            {/* Toolbar: sort and the filter button on the left, the count on the right */}
+            <div class="results-bar">
+                <div class="toolbar-left">
+                    <div class="sort-control" role="group" aria-label="Sort">
+                        {SORT_FIELDS.map((f, i) => (
+                            <button
+                                class:list={['sort-btn', { active: i === 0 }]}
+                                data-field={f.key}
+                                data-dir="desc"
+                                data-desc={f.desc}
+                                data-asc={f.asc}
+                                aria-pressed={i === 0 ? 'true' : 'false'}
+                                aria-label={`Sort by ${f.label.toLowerCase()}: ${f.desc.toLowerCase()}`}
+                                title={f.desc}
+                            >
+                                {f.label}
+                                <svg class="sort-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+                            </button>
+                        ))}
+                    </div>
+                    <button class="controls-toggle-btn" id="controls-toggle" aria-expanded="false" aria-controls="controls-container">
+                        <span class="label-full">Search &amp; filter</span><span class="label-short">Filter</span>
+                        <span class="filter-badge" id="filter-badge" hidden></span>
+                        <svg class="toggle-arrow" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+                            <path d="M7 10l5 5 5-5z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="results-info" aria-live="polite">
+                    <span class="results-word">Showing </span><span id="results-count">{pubs.length}</span> of {pubs.length}<span class="results-word"> publications</span>
+                </div>
+            </div>
+
+            <div class="controls-container collapsed" id="controls-container">
+                <div class="control-section">
+                    <div class="panel-top">
+                        <label class="section-label" for="search-input">Search</label>
+                        <button class="clear-filters" id="clear-all" disabled>Clear all</button>
+                    </div>
+                    <input
+                        type="search"
+                        id="search-input"
+                        class="search-input"
+                        placeholder="Title, author, venue, or abstract"
+                        aria-describedby="search-hint"
+                    />
+                    <span class="search-hint" id="search-hint">Separate keywords with commas to match all of them.</span>
+                </div>
+
+                <div class="filters-row">
+                    {FILTER_GROUPS.map((g) => (
+                        <div class="control-section">
+                            <span class="section-label" id={`filter-${g.key}`}>{g.label}</span>
+                            <div class="filter-chips" role="group" aria-labelledby={`filter-${g.key}`} data-group={g.key} data-param={g.param} data-match={g.match}>
+                                {g.options.map((o) => (
+                                    <button class="filter-chip" data-value={o.value} aria-pressed="false">
+                                        {o.label}
+                                        <svg class="chip-x" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {RANGES.length > 0 && (
+                    <div class="ranges-row">
+                        {RANGES.map((r) => (
+                            <div class="control-section">
+                                <span class="section-label">{r.label}</span>
+                                <div class="range" data-key={r.key} data-from-param={r.params[0]} data-to-param={r.params[1]}>
+                                    <input type="range" class="range-slider range-low" min={r.min} max={r.max} value={r.min} aria-label={r.low} />
+                                    <input type="range" class="range-slider range-high" min={r.min} max={r.max} value={r.max} aria-label={r.high} />
+                                    <div class="range-track"></div>
+                                    <div class="range-labels">
+                                        <span class="range-low-label">{r.min}</span>
+                                        <span class="range-high-label">{r.max}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            <p class="no-results" id="no-results" hidden>
+                No publications match these filters. <button class="clear-filters">Clear filters</button>
+            </p>
+
+            <div class="publications-list" id="publications-list">
+                {rendered.map(({ pub, Content }) => (
+                    <article
+                        class="publication-card has-abstract visible"
+                        data-year={pub.data.year}
+                        data-search={[pub.data.title, pub.data.authors.join(' '), pub.data.venue, pub.data.year, pub.body ?? ''].join(' ').toLowerCase()}
+                        data-type={pub.data.type}
+                        data-categories={pub.data.categories.map(categorySlug).join(' ')}
+                        data-authorship={authorship(pub.data.authors) === 'first' ? 'first' : 'co'}
+                        data-flags={pub.data.peerReviewed ? 'peer-reviewed' : ''}
+                        data-citations={citationCount(pub)}
+                    >
+                        {/* Arrow on the left: the whole card is clickable; this button also lets keyboard users open it */}
+                        <button class="pub-toggle" aria-expanded="false" aria-label={`Show abstract and links for ${pub.data.title}`}>
+                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                        </button>
+                        <div class="pub-content">
+                            <h3 class="pub-title">
+                                <a href={`/publications/${pub.id}/`}>{pub.data.title}</a>
+                            </h3>
+                            <p class="pub-authors"><AuthorList authors={pub.data.authors} /></p>
+                            {/* "PLoS ONE, 2018 ✓" — the red check means peer-reviewed (hovering shows a label) */}
+                            <p class="pub-meta">
+                                <span class="pub-journal">{pub.data.venue}</span><span class="pub-stats">
+                                    <span class="pub-year">, {pub.data.year}</span>
+                                    {pub.data.peerReviewed && (
+                                        <span class="pub-peer-reviewed tip" data-tip="Peer-reviewed">
+                                            <Icon name={PEER_REVIEWED_ICON} size={13} aria-hidden="true" />
+                                            <span class="sr-only">Peer-reviewed</span>
+                                        </span>
+                                    )}
+                                    {/* On phones the count sits here instead of in the right-hand column */}
+                                    {citationCount(pub) !== undefined && (
+                                        <span class="pub-citations-inline" aria-hidden="true">
+                                            · {citationCount(pub)} {citationCount(pub) === 1 ? 'citation' : 'citations'}
+                                        </span>
+                                    )}
+                                </span>
+                            </p>
+                            <div class="pub-abstract">
+                                <PubLinks pub={pub} />
+                                <div class="pub-abstract-text"><Content /></div>
+                                <TopicTags categories={pub.data.categories} />
+                            </div>
+                        </div>
+                        {/* Citation count in a column on the right (desktop). Always there, even if empty, so every card's text lines up */}
+                        <div class="pub-cites">
+                            {citationCount(pub) !== undefined && (
+                                <>
+                                    <span class="pub-cites-number">{citationCount(pub)}</span>
+                                    <span class="pub-cites-label">{citationCount(pub) === 1 ? 'citation' : 'citations'}</span>
+                                </>
+                            )}
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<script>
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.publication-card'));
+    const list = document.getElementById('publications-list')!;
+
+    const state = {
+        sortField: 'year',
+        sortDir: 'desc' as 'desc' | 'asc',
+        // Selected pills, by group key (e.g. type -> {'journal', 'conference'})
+        filters: {} as Record<string, Set<string>>,
+        keywords: [] as string[],
+    };
+
+    // Expand / collapse a card. Clicking a link inside the card follows the link instead.
+    const toggleCard = (card: HTMLElement) => {
+        const expanded = card.classList.toggle('expanded');
+        card.querySelector('.pub-toggle')?.setAttribute('aria-expanded', String(expanded));
+    };
+    list.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('a')) return;
+        if (window.getSelection()?.toString()) return; // don't collapse while selecting text
+        const card = target.closest<HTMLElement>('.publication-card');
+        if (card) toggleCard(card);
+    });
+
+    // Filter pills: click to select, click again to deselect. Pills in a group combine.
+    const groups = document.querySelectorAll<HTMLElement>('.filter-chips');
+    const matchMode: Record<string, string> = {};
+    const paramFor: Record<string, string> = {}; // group key -> name in the page address
+    const setChip = (chip: HTMLButtonElement, on: boolean) => {
+        const selected = state.filters[chip.closest<HTMLElement>('.filter-chips')!.dataset.group!];
+        if (on) selected.add(chip.dataset.value!);
+        else selected.delete(chip.dataset.value!);
+        chip.classList.toggle('active', on);
+        chip.setAttribute('aria-pressed', String(on));
+    };
+    groups.forEach((group) => {
+        const key = group.dataset.group!;
+        matchMode[key] = group.dataset.match!;
+        paramFor[key] = group.dataset.param!;
+        state.filters[key] = new Set();
+        group.querySelectorAll<HTMLButtonElement>('.filter-chip').forEach((chip) =>
+            chip.addEventListener('click', () => {
+                setChip(chip, !chip.classList.contains('active'));
+                update();
+            }),
+        );
+    });
+
+    // Sort: clicking the active field flips its direction; clicking another field switches to it, high-to-low first
+    const sortButtons = document.querySelectorAll<HTMLButtonElement>('.sort-btn');
+    const setSort = (field: string, dir: 'desc' | 'asc') => {
+        state.sortField = field;
+        state.sortDir = dir;
+        sortButtons.forEach((b) => {
+            const active = b.dataset.field === field;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-pressed', String(active));
+            b.dataset.dir = active ? dir : 'desc';
+            const hint = b.dataset[b.dataset.dir]!;
+            b.title = hint;
+            b.setAttribute('aria-label', `Sort by ${b.textContent!.trim().toLowerCase()}: ${hint.toLowerCase()}`);
+        });
+    };
+    sortButtons.forEach((btn) =>
+        btn.addEventListener('click', () => {
+            const field = btn.dataset.field!;
+            setSort(field, field === state.sortField && state.sortDir === 'desc' ? 'asc' : 'desc');
+            update();
+        }),
+    );
+
+    const searchInput = document.getElementById('search-input') as HTMLInputElement;
+    const setSearch = (text: string) => {
+        searchInput.value = text;
+        const value = text.toLowerCase().trim();
+        state.keywords = value ? value.split(',').map((k) => k.trim()).filter(Boolean) : [];
+    };
+    searchInput.addEventListener('input', () => {
+        setSearch(searchInput.value);
+        update();
+    });
+
+    // Two-handled range filters (year, citations). `lo`/`hi` are the selected range; `min`/`max` the slider's ends.
+    type Range = { lo: number; hi: number; min: number; max: number; fromParam: string; toParam: string; set: (from?: number, to?: number) => void };
+    const ranges: Record<string, Range> = {};
+    document.querySelectorAll<HTMLElement>('.range').forEach((el) => {
+        const low = el.querySelector<HTMLInputElement>('.range-low')!;
+        const high = el.querySelector<HTMLInputElement>('.range-high')!;
+        const lowLabel = el.querySelector('.range-low-label')!;
+        const highLabel = el.querySelector('.range-high-label')!;
+        const min = Number(low.min);
+        const max = Number(low.max);
+        const r: Range = { lo: min, hi: max, min, max, fromParam: el.dataset.fromParam!, toParam: el.dataset.toParam!, set: () => {} };
+        // Keep the handle you can still move on top when both sit at the same value
+        const settle = () => {
+            low.style.zIndex = r.lo === r.hi && r.lo === max ? '4' : '2';
+            high.style.zIndex = '3';
+        };
+        const show = () => {
+            low.value = String(r.lo);
+            high.value = String(r.hi);
+            lowLabel.textContent = String(r.lo);
+            highLabel.textContent = String(r.hi);
+            settle();
+        };
+        // Set the range, clamped to the slider's ends. With no arguments, resets to the full range.
+        r.set = (from = min, to = max) => {
+            r.lo = Math.min(Math.max(from, min), max);
+            r.hi = Math.max(Math.min(to, max), r.lo);
+            show();
+        };
+        low.addEventListener('pointerdown', () => (low.style.zIndex = '5'));
+        high.addEventListener('pointerdown', () => (high.style.zIndex = '5'));
+        low.addEventListener('pointerup', settle);
+        high.addEventListener('pointerup', settle);
+        low.addEventListener('input', () => {
+            r.lo = Math.min(Number(low.value), r.hi);
+            show();
+            update();
+        });
+        high.addEventListener('input', () => {
+            r.hi = Math.max(Number(high.value), r.lo);
+            show();
+            update();
+        });
+        settle();
+        ranges[el.dataset.key!] = r;
+    });
+    const narrowed = (r: Range) => r.lo > r.min || r.hi < r.max;
+
+    function matches(card: HTMLElement) {
+        const d = card.dataset;
+        for (const [key, r] of Object.entries(ranges)) {
+            const value = Number(d[key] ?? 0); // excluded from citations = 0
+            if (value < r.lo || value > r.hi) return false;
+        }
+        for (const [key, selected] of Object.entries(state.filters)) {
+            if (selected.size === 0) continue;
+            const values = (d[key] ?? '').split(' ');
+            const hit = (v: string) => values.includes(v);
+            const ok = matchMode[key] === 'all' ? [...selected].every(hit) : [...selected].some(hit);
+            if (!ok) return false;
+        }
+        return state.keywords.every((k) => d.search!.includes(k));
+    }
+
+    function compare(a: HTMLElement, b: HTMLElement) {
+        // Ties keep the page's original order (newest, then title)
+        const av = a.dataset[state.sortField];
+        const bv = b.dataset[state.sortField];
+        if (av === undefined || bv === undefined) return (av === undefined ? 1 : 0) - (bv === undefined ? 1 : 0);
+        const diff = Number(av) - Number(bv);
+        return state.sortDir === 'asc' ? diff : -diff;
+    }
+
+    function update() {
+        const shown = cards.filter(matches).sort(compare);
+        cards.forEach((c) => (c.style.display = 'none'));
+        shown.forEach((card) => {
+            card.style.display = '';
+            list.appendChild(card);
+        });
+        document.getElementById('results-count')!.textContent = String(shown.length);
+        document.getElementById('no-results')!.hidden = shown.length > 0;
+
+        // How many filters are on: each selected pill, the search box, and each narrowed range
+        const active =
+            Object.values(state.filters).reduce((n, set) => n + set.size, 0) +
+            (state.keywords.length > 0 ? 1 : 0) +
+            Object.values(ranges).filter(narrowed).length;
+        const badge = document.getElementById('filter-badge')!;
+        badge.hidden = active === 0;
+        badge.textContent = String(active);
+        badge.setAttribute('aria-label', `${active} active`);
+        (document.getElementById('clear-all') as HTMLButtonElement).disabled = active === 0;
+
+        writeUrl();
+    }
+
+    // The page address mirrors the filters and sort, so a filtered view can be shared or linked to:
+    //   ?topic=online-activism,network-science&type=journal&authorship=first&only=peer-reviewed
+    //   &q=protest&from=2019&to=2021&mincites=100&maxcites=400&sort=citations&dir=asc
+    // Anything left at its default is left out of the address.
+    function writeUrl() {
+        const params = new URLSearchParams();
+        for (const [key, selected] of Object.entries(state.filters)) {
+            if (selected.size > 0) params.set(paramFor[key], [...selected].join(','));
+        }
+        if (searchInput.value.trim()) params.set('q', searchInput.value.trim());
+        for (const r of Object.values(ranges)) {
+            if (r.lo > r.min) params.set(r.fromParam, String(r.lo));
+            if (r.hi < r.max) params.set(r.toParam, String(r.hi));
+        }
+        if (state.sortField !== 'year') params.set('sort', state.sortField);
+        if (state.sortDir !== 'desc') params.set('dir', state.sortDir);
+        const query = params.toString().replace(/%2C/g, ',');
+        history.replaceState(null, '', query ? `?${query}` : location.pathname);
+    }
+
+    // On load, apply whatever the address asks for. Unknown values are ignored.
+    function readUrl() {
+        const params = new URLSearchParams(location.search);
+        groups.forEach((group) => {
+            const wanted = (params.get(group.dataset.param!) ?? '').split(',').filter(Boolean);
+            group.querySelectorAll<HTMLButtonElement>('.filter-chip').forEach((chip) => setChip(chip, wanted.includes(chip.dataset.value!)));
+        });
+        setSearch(params.get('q') ?? '');
+        const num = (name: string) => {
+            const v = params.get(name);
+            return v !== null && v.trim() !== '' && Number.isFinite(Number(v)) ? Number(v) : undefined;
+        };
+        for (const r of Object.values(ranges)) r.set(num(r.fromParam), num(r.toParam));
+        const sort = params.get('sort');
+        const validSort = [...sortButtons].some((b) => b.dataset.field === sort);
+        setSort(validSort ? sort! : 'year', params.get('dir') === 'asc' ? 'asc' : 'desc');
+    }
+
+    // "Clear all" in the panel and "Clear filters" in the no-results message
+    document.querySelectorAll('.clear-filters').forEach((btn) =>
+        btn.addEventListener('click', () => {
+            document.querySelectorAll<HTMLButtonElement>('.filter-chip').forEach((chip) => setChip(chip, false));
+            setSearch('');
+            Object.values(ranges).forEach((r) => r.set());
+            update();
+        }),
+    );
+
+    const controlsToggle = document.getElementById('controls-toggle')!;
+    controlsToggle.addEventListener('click', () => {
+        const expanded = controlsToggle.getAttribute('aria-expanded') === 'true';
+        controlsToggle.setAttribute('aria-expanded', String(!expanded));
+        document.getElementById('controls-container')!.classList.toggle('collapsed');
+    });
+
+    readUrl();
+    update();
+</script>

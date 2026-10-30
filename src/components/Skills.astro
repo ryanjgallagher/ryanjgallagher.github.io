@@ -1,0 +1,26 @@
+---
+// "What I work with" tag groups. Adapted from the astro-wanderer theme by Gagan Singh (MIT):
+// https://github.com/igagansingh/astro-wanderer (src/components/Skills.astro).
+// Changed: heading moved into the page text; restyled to this site.
+// Used as <Skills /> in src/content/pages/about.mdx, which also holds the data.
+// Optional: spaceBefore="2.5rem" / spaceAfter="2.5rem" add that much space above / below the tags.
+import { ABOUT } from '../utils/about';
+
+interface Props {
+  spaceBefore?: string;
+  spaceAfter?: string;
+}
+
+const { spaceBefore, spaceAfter } = Astro.props;
+---
+
+<div class="resume-section" style={{ marginTop: spaceBefore, marginBottom: spaceAfter }}>
+  {ABOUT.skills.map((group) => (
+    <div class="skill-group">
+      <h3>{group.title}</h3>
+      <div class="chip-row">
+        {group.items.map((s) => <span class="chip">{s}</span>)}
+      </div>
+    </div>
+  ))}
+</div>

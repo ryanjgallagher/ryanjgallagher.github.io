@@ -1,0 +1,13 @@
+---
+import { isMe } from '../utils/publications';
+
+interface Props {
+  authors: string[];
+}
+
+const { authors } = Astro.props;
+---
+
+{authors.map((a, i) => (
+  <>{isMe(a) ? <strong class="author-me">{a}</strong> : a}{i < authors.length - 1 ? ', ' : ''}</>
+))}

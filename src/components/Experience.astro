@@ -1,0 +1,38 @@
+---
+// Work timeline. Adapted from the astro-wanderer theme by Gagan Singh (MIT):
+// https://github.com/igagansingh/astro-wanderer (src/components/Experience.astro).
+// Changed: removed the expandable details per role; company shown before title; heading moved
+// into the page text; restyled to this site.
+// Used as <Experience /> in src/content/pages/about.mdx, which also holds the data.
+// Optional: spaceBefore="2.5rem" / spaceAfter="2.5rem" add that much space above / below the timeline.
+import { ABOUT } from '../utils/about';
+
+interface Props {
+  spaceBefore?: string;
+  spaceAfter?: string;
+}
+
+const { spaceBefore, spaceAfter } = Astro.props;
+const { experience, earlier } = ABOUT;
+---
+
+<div class="resume-section" style={{ marginTop: spaceBefore, marginBottom: spaceAfter }}>
+  <ul class="timeline">
+    {experience.map((e) => (
+      <li class:list={['timeline-item', { current: !e.end }]}>
+        <span class="timeline-role">
+          <span class="timeline-company">{e.url ? <a href={e.url}>{e.company}</a> : e.company}</span>
+          {' · '}{e.role}
+        </span>
+        <span class="timeline-date">{e.start} – {e.end ?? 'Present'}</span>
+      </li>
+    ))}
+  </ul>
+
+  {earlier.length > 0 && (
+    <p class="timeline-earlier">
+      <strong>Earlier:</strong>
+      {earlier.map((r) => <span>{r.role}, {r.company} ({r.year})</span>)}
+    </p>
+  )}
+</div>

@@ -1,0 +1,100 @@
+---
+import { render } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import Layout from '../../layouts/Layout.astro';
+import AuthorList from '../../components/AuthorList.astro';
+import PaperLinks from '../../components/PaperLinks.astro';
+import CiteSection from '../../components/CiteSection.astro';
+import TopicTags from '../../components/TopicTags.astro';
+import { AWARD_ICON, PEER_REVIEWED_ICON } from '../../data/link-types';
+import { citationCount, getPublications, type Publication } from '../../utils/publications';
+import { bibtex } from '../../utils/bibtex';
+
+import '../../styles/publication.css';
+
+export async function getStaticPaths() {
+    const pubs = await getPublications();
+    return pubs.map((pub) => ({ params: { id: pub.id }, props: { pub } }));
+}
+
+const { pub } = Astro.props as { pub: Publication };
+const { data } = pub;
+const { Content } = await render(pub);
+const summary = (pub.body ?? '').replace(/\s+/g, ' ').trim();
+const description = summary.length > 200 ? `${summary.slice(0, 197)}…` : summary;
+const pdf = data.links.find((l) => l.type === 'pdf')?.url;
+const citations = citationCount(pub);
+
+// The paper's figure isn't shown on the page, but it's used as the link-preview image
+// (made by src/pages/previews/[id].png.ts). Without a figure, the layout falls back to your photo.
+const preview = data.image ? `/previews/${pub.id}.png` : undefined;
+// The note can use **bold**; everything else is shown as plain text.
+const escapeHtml = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const noteHtml = data.note && escapeHtml(data.note).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+---
+
+<Layout pageTitle={data.title} description={description} previewImage={preview}>
+    <Fragment slot="head">
+        <!-- Google Scholar indexing tags -->
+        <meta name="citation_title" content={data.title} />
+        {data.authors.map((a) => <meta name="citation_author" content={a} />)}
+        <meta name="citation_publication_date" content={String(data.year)} />
+        {data.type === 'conference'
+            ? <meta name="citation_conference_title" content={data.venue} />
+            : <meta name="citation_journal_title" content={data.venue} />}
+        {data.doi && <meta name="citation_doi" content={data.doi} />}
+        {pdf && <meta name="citation_pdf_url" content={new URL(pdf, Astro.site)} />}
+    </Fragment>
+
+    <div class="page-container pub-page">
+        <a href="/publications/" class="back-link">← Publications</a>
+
+        <div class="pub-header">
+            <h1 class="pub-page-title">{data.title}</h1>
+            <p class="pub-page-authors"><AuthorList authors={data.authors} /></p>
+            <p class="pub-page-venue"><em>{data.venue}</em>, {data.year}</p>
+            <p class="pub-page-meta">
+                {data.peerReviewed && (
+                    <span class="pub-peer-reviewed">
+                        <Icon name={PEER_REVIEWED_ICON} size={14} aria-hidden="true" />
+                        Peer-reviewed
+                    </span>
+                )}
+                {citations !== undefined && <span>{citations} {citations === 1 ? 'citation' : 'citations'}</span>}
+            </p>
+            <TopicTags categories={data.categories} linked />
+            {data.awards.map((award) => (
+                <p class="pub-page-award">
+                    <Icon name={AWARD_ICON} size={16} aria-hidden="true" />
+                    {award}
+                </p>
+            ))}
+        </div>
+
+        <PaperLinks pub={pub} />
+
+        {summary && (
+            <section class="pub-page-abstract">
+                <h2>Abstract</h2>
+                {/* e.g. a content warning, shown before the abstract text */}
+                {noteHtml && <p class="pub-note" set:html={noteHtml} />}
+                <Content />
+            </section>
+        )}
+
+        <CiteSection bibtex={bibtex(pub)} />
+    </div>
+</Layout>
+
+<script>
+    // If you came from the publications list, "← Publications" takes you back to it with the same filters.
+    const back = document.querySelector<HTMLAnchorElement>('.back-link');
+    try {
+        const from = new URL(document.referrer);
+        if (back && from.origin === location.origin && from.pathname === '/publications/') {
+            back.href = from.pathname + from.search;
+        }
+    } catch {
+        // No referrer (opened directly): keep the plain link
+    }
+</script>

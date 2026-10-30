@@ -1,0 +1,30 @@
+---
+// The short row of links in an opened card on the publications list:
+// the published version and/or DOI, or the preprint if there's no published version.
+import { Icon } from 'astro-icon/components';
+import { OPEN_ACCESS_ICON } from '../data/link-types';
+import { summaryLinks, type Publication } from '../utils/publications';
+
+interface Props {
+  pub: Publication;
+}
+
+const links = summaryLinks(Astro.props.pub);
+---
+
+{links.length > 0 && (
+  <ul class="pub-links pub-links-row">
+    {links.map((l) => (
+      <li>
+        <Icon name={l.icon} size={18} aria-hidden="true" />
+        <a href={l.url}>{l.label}</a>
+        {l.openAccess && (
+          <span class="pub-oa" title="Open access">
+            <Icon name={OPEN_ACCESS_ICON} size={16} aria-hidden="true" />
+            <span class="sr-only">(open access)</span>
+          </span>
+        )}
+      </li>
+    ))}
+  </ul>
+)}
