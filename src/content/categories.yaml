@@ -1,0 +1,10 @@
+# Broad categories for publications. Each paper lists one or more in its `categories:` line.
+# The "Topic" filter on the publications page shows them in this order.
+# A paper using a category that isn't listed here stops the build with an error.
+- Social Media
+- Online Activism
+- Black Lives Matter
+- COVID-19
+- Network Science
+- Natural Language Processing
+- Data Visualization

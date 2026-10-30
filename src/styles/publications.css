@@ -1,0 +1,705 @@
+/* ==========================================================================
+   Publications Page Styles
+   ========================================================================== */
+
+.publications-section {
+    margin-top: 2rem;
+}
+
+/* Filter button (sits in the toolbar next to the sort buttons) */
+.controls-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.6rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    font-size: 0.9rem;
+}
+
+@media (hover: hover) {
+    .controls-toggle-btn:hover {
+        color: var(--color-accent);
+        border-color: var(--color-accent);
+    }
+}
+
+.controls-toggle-btn[aria-expanded="true"] {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.label-short {
+    display: none;
+}
+
+/* Number of active filters, e.g. "Search & filter (2)" */
+.filter-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    padding: 0 0.3rem;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.filter-badge[hidden] {
+    display: none;
+}
+
+.toggle-arrow {
+    transition: transform 0.2s ease;
+}
+
+.controls-toggle-btn[aria-expanded="true"] .toggle-arrow {
+    transform: rotate(180deg);
+}
+
+/* Controls */
+.controls-container {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-height: 4000px;
+    overflow: hidden;
+    opacity: 1;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease,
+                padding 0.3s ease,
+                margin 0.3s ease,
+                border-color 0.3s ease;
+}
+
+.controls-container.collapsed {
+    max-height: 0;
+    opacity: 0;
+    padding: 0 1.75rem;
+    margin-bottom: 0;
+    border-color: transparent;
+}
+
+.search-hint {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: -0.25rem;
+}
+
+/* "Search" label on the left, "Clear all" on the right */
+.panel-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.no-results[hidden] {
+    display: none;
+}
+
+.clear-filters {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--color-accent);
+    font-size: 0.9rem;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+}
+
+/* Greyed out when no filters are on */
+.clear-filters:disabled {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    opacity: 0.6;
+    cursor: default;
+}
+
+.no-results {
+    padding: 2rem 0;
+    text-align: center;
+    color: var(--color-text-muted);
+}
+
+.control-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+/* Groups take their natural width, with the same gap between each */
+.filters-row {
+    display: flex;
+    gap: 1.25rem 3rem;
+    flex-wrap: wrap;
+}
+
+.section-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+}
+
+/* Search Input */
+.search-input {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.05);
+}
+
+.search-input::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.6;
+}
+
+/* Results bar: sort on the left, the count on the right */
+.results-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.toolbar-left .controls-toggle-btn {
+    margin-left: 0.4rem;
+}
+
+.toolbar-left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.sort-control {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.sort-btn.active {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    font-weight: 600;
+}
+
+@media (hover: hover) {
+    .sort-btn:hover {
+        border-color: var(--color-accent);
+        color: var(--color-accent);
+    }
+}
+
+/* Down arrow = high to low (newest first); flips for low to high */
+.sort-arrow {
+    transition: transform 0.2s ease;
+}
+
+.sort-btn:not(.active) .sort-arrow {
+    opacity: 0.35;
+}
+
+.sort-btn[data-dir="asc"] .sort-arrow {
+    transform: rotate(180deg);
+}
+
+/* Filter Chips */
+.filter-chips {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    row-gap: 0.65rem;
+}
+
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    font-family: var(--font-body);
+}
+
+@media (hover: hover) {
+    .filter-chip:hover {
+        border-color: var(--color-accent);
+        background: rgba(255, 0, 119, 0.05);
+    }
+}
+
+.filter-chip:active {
+    border-color: var(--color-accent);
+    background: rgba(255, 0, 119, 0.05);
+}
+
+.filter-chip.active {
+    background: var(--color-accent);
+    color: white;
+    border-color: var(--color-accent);
+    padding-right: 0.65rem;
+}
+
+/* The x only shows on selected pills; clicking anywhere on the pill deselects it */
+.chip-x {
+    display: none;
+}
+
+.filter-chip.active .chip-x {
+    display: block;
+}
+
+/* Range filters (year, citations), side by side */
+.ranges-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem 3rem;
+}
+
+/* Two-handled range slider: two range inputs stacked on one track */
+.range {
+    flex: 1;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.range-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: transparent;
+    outline: none;
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.2s ease;
+    border: 2px solid var(--color-bg);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+@media (hover: hover) {
+    .range-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.15);
+    }
+}
+
+.range-slider::-webkit-slider-thumb:active {
+    transform: scale(1.15);
+}
+
+.range-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    cursor: pointer;
+    pointer-events: auto;
+    border: 2px solid var(--color-bg);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+    .range-slider::-moz-range-thumb:hover {
+        transform: scale(1.15);
+    }
+}
+
+.range-slider::-moz-range-thumb:active {
+    transform: scale(1.15);
+}
+
+/* Keyboard focus: a ring around the selected handle */
+.range-slider:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px var(--color-bg-alt), 0 0 0 5px var(--color-accent);
+}
+
+.range-slider:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 3px var(--color-bg-alt), 0 0 0 5px var(--color-accent);
+}
+
+.range-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--color-border);
+    border-radius: 2px;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.range .range-slider {
+    position: absolute;
+    top: 0.5rem;
+    left: 0;
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Results Info */
+.results-info {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+#results-count {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+/* Publications List */
+.publications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Card background: a very light grey (dark mode keeps the regular dark grey) */
+.publications-list {
+    --pub-card-bg: #f9f9f9;
+}
+
+[data-theme="dark"] .publications-list {
+    --pub-card-bg: var(--color-bg-alt);
+}
+
+.publication-card {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1.5rem 1.5rem 1.5rem 1rem;
+    background: var(--pub-card-bg);
+    /* Invisible until hover (turns red), so the card doesn't shift when it appears */
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.publication-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) var(--delay),
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) var(--delay),
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.publication-card.has-abstract {
+    cursor: pointer;
+}
+
+@media (hover: hover) {
+    .publication-card:hover {
+        border-color: var(--color-accent);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+}
+
+.publication-card:active {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.pub-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.pub-title {
+    margin: 0 0 0.6rem 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.pub-title a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: inline;
+}
+
+@media (hover: hover) {
+    .pub-title a:hover {
+        color: var(--color-accent);
+    }
+}
+
+.pub-title a:active {
+    color: var(--color-accent);
+}
+
+.pub-authors {
+    margin: 0 0 0.85rem 0;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+.pub-meta {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+.pub-journal {
+    font-style: italic;
+    color: var(--color-text);
+}
+
+/* ", 2018 ✓" stays together on one line */
+.pub-stats {
+    white-space: nowrap;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.pub-meta .pub-peer-reviewed {
+    margin-left: 0.4rem;
+    vertical-align: -0.1em;
+}
+
+.pub-citations-inline {
+    display: none;
+    margin-left: 0.4rem;
+}
+
+/* Citation count column on the right of each card */
+.pub-cites {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-width: 4.5rem;
+    padding-top: 0.1rem;
+    text-align: right;
+}
+
+.pub-cites-number {
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+}
+
+.pub-cites-label {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+
+.pub-doi {
+    padding: 0.2rem 0.6rem;
+    background: color-mix(in oklch, var(--color-accent) 15%, transparent);
+    color: var(--color-accent);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+@media (hover: hover) {
+    .pub-doi:hover {
+        background: var(--color-accent);
+        color: white;
+    }
+}
+
+.pub-doi:active {
+    background: var(--color-accent);
+    color: white;
+}
+
+/* Abstract */
+.pub-abstract {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                margin-top 0.3s ease,
+                opacity 0.3s ease;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    opacity: 0;
+    padding-top: 0;
+    border-top: 0px solid var(--color-border);
+}
+
+.publication-card.expanded .pub-abstract {
+    max-height: 4000px;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .controls-container {
+        padding: 1.25rem;
+    }
+
+    .filters-row {
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .publication-card {
+        gap: 0.5rem;
+        padding: 1.25rem 1.25rem 1.25rem 0.75rem;
+    }
+
+    /* Citation count moves from the right-hand column into the venue line */
+    .pub-cites {
+        display: none;
+    }
+
+    .pub-citations-inline {
+        display: inline;
+    }
+
+    /* "11 of 11" instead of "Showing 11 of 11 publications", and "Filter" instead of "Search & filter" */
+    .results-word,
+    .label-full {
+        display: none;
+    }
+
+    .label-short {
+        display: inline;
+    }
+}
+
+/* ==========================================================================
+   Additions: toggle button, links inside expanded cards
+   ========================================================================== */
+
+/* Down arrow in a column to the left of the card text. It flips up when the card is open,
+   and turns red when you hover anywhere on the card (the whole card is clickable). */
+.pub-toggle {
+    flex-shrink: 0;
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-top: -0.15rem;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.pub-toggle svg {
+    transition: transform var(--transition-fast);
+}
+
+.publication-card.expanded .pub-toggle svg {
+    transform: rotate(180deg);
+}
+
+@media (hover: hover) {
+    .publication-card:hover .pub-toggle {
+        color: var(--color-accent);
+        background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    }
+}
+
+.pub-toggle:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.pub-abstract-text p + p {
+    margin-top: 0.75rem;
+}
+
+/* Opened card: links in one row, then a line, then the abstract */
+.pub-links-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+}
+
+.pub-abstract .pub-links + .pub-abstract-text {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}

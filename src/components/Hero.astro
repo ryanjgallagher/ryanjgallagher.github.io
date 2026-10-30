@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import SocialIcons from './SocialIcons.astro';
+import { portrait } from '../utils/portrait';
+
+interface Props {
+  name: string;
+  tagline: string;
+}
+
+const { name, tagline } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero-content">
+    {portrait && (
+      <div class="portrait-container">
+        <!-- Square crop at 2x the displayed size so it stays sharp on high-res screens -->
+        <Image src={portrait} alt={name} class="portrait" width={640} height={640} fit="cover" position="center" loading="eager" />
+      </div>
+    )}
+    <div class="hero-text">
+      <h1>{name}</h1>
+      <p class="tagline">{tagline}</p>
+      {Astro.slots.has('default') && <div class="hero-blurb"><slot /></div>}
+      <SocialIcons size={28} gap="1.5rem" class="hero-socials" />
+    </div>
+  </div>
+</section>

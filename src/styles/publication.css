@@ -1,0 +1,196 @@
+/* Per-publication landing page */
+
+.pub-page {
+    max-width: 800px;
+}
+
+.pub-page .back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.pub-page-title {
+    font-size: 1.9rem;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.pub-page-authors {
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.pub-page-venue {
+    margin-bottom: 0.35rem;
+}
+
+/* "312 citations · ✓ Peer-reviewed" */
+.pub-page-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+
+.pub-page-meta:empty {
+    display: none;
+}
+
+.pub-page-meta > span + span::before {
+    content: "·";
+    margin: 0 0.6rem;
+    color: var(--color-text-muted);
+}
+
+.pub-page-award {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #b7791f;
+}
+
+[data-theme="dark"] .pub-page-award {
+    color: #f6c453;
+}
+
+/* Links: "Paper" and "Materials" side by side, each a wrapping row of buttons */
+.paper-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 3rem;
+    margin: 2rem 0 2.5rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.paper-links-title {
+    border: none;
+    padding: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin: 0 0 0.6rem;
+}
+
+.paper-links-group ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+}
+
+.paper-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.paper-link svg {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+    transition: color 0.2s ease;
+}
+
+.paper-link .paper-link-oa svg {
+    color: #f68212;
+}
+
+.paper-link-oa {
+    display: inline-flex;
+}
+
+@media (hover: hover) {
+    .paper-link:hover {
+        border-color: var(--color-accent);
+        color: var(--color-accent);
+    }
+
+    .paper-link:hover > svg {
+        color: var(--color-accent);
+    }
+}
+
+/* "Cite" section under the abstract: the BibTeX, always shown */
+.cite {
+    margin-top: 1rem;
+}
+
+.cite-panel-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+}
+
+.cite-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+}
+
+.cite-copy {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+}
+
+.cite-panel pre {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    overflow-x: auto;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    white-space: pre;
+}
+
+.pub-page-abstract p {
+    line-height: 1.75;
+}
+
+.pub-page-abstract p + p {
+    margin-top: 1rem;
+}
+
+.pub-note {
+    margin-bottom: 1.25rem;
+    padding: 0.75rem 1rem;
+    border-left: 3px solid var(--color-accent);
+    background: var(--color-bg-alt);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 860px) {
+    .pub-page-title {
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,17 @@
+---
+// A paper's categories as small grey tags.
+// With `linked`, each tag opens the publications list filtered to that topic (used on paper pages).
+import { categoryUrl } from '../utils/categories';
+
+interface Props {
+  categories: readonly string[];
+  linked?: boolean;
+}
+const { categories, linked = false } = Astro.props;
+---
+
+<ul class="pub-categories" aria-label="Topics">
+  {categories.map((c) => (
+    <li>{linked ? <a href={categoryUrl(c)} title={`All publications on ${c}`}>{c}</a> : c}</li>
+  ))}
+</ul>

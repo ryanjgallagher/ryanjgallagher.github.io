@@ -1,0 +1,27 @@
+---
+import Menu from '../components/Menu.astro';
+import Navigation from '../components/Navigation.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import SocialIcons from '../components/SocialIcons.astro';
+
+interface Props {
+  showSocials?: boolean;
+}
+
+const { showSocials = true } = Astro.props;
+---
+
+<header>
+  <nav>
+    <div class="nav-left">
+      <Menu />
+      <Navigation />
+    </div>
+    <div class="nav-right">
+      {showSocials && <SocialIcons size={18} gap="1rem" class="header-socials" />}
+      {/* Thin line separating the contact icons from the light/dark toggle */}
+      {showSocials && <span class="nav-divider" aria-hidden="true"></span>}
+      <ThemeToggle />
+    </div>
+  </nav>
+</header>

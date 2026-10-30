@@ -1,0 +1,46 @@
+# Site-wide settings. The build checks this file and fails with a clear message if something's off.
+
+# Used in every page title, the home page, and author highlighting.
+name: Ryan J. Gallagher
+
+# Used for search engines and link previews.
+description: Ryan J. Gallagher is an applied scientist in online trust & safety
+
+siteUrl: https://ryanjgallag.com
+
+# Google Scholar profile ID (from the profile URL).
+scholarId: hRNEOnAAAAAJ
+
+# How your name can appear in author lists. Matches are bolded and used for the
+# first-author / co-author filter on the publications page.
+authorNames:
+  - Ryan J. Gallagher
+  - Ryan Gallagher
+  - R. J. Gallagher
+
+# Last names with more than one word, so citations (BibTeX) split names correctly.
+# Otherwise the last word of a name is treated as the last name.
+compoundSurnames:
+  - Foucault Welles
+  - Quintana Mathé
+  - Ver Steeg
+
+# Contact icons in the top bar (and on the home page), in this order.
+# `icon` is an Iconify name (https://icon-sets.iconify.design) from an installed set,
+# or the filename of an SVG in src/icons/ (without .svg).
+socials:
+  - label: LinkedIn
+    url: https://www.linkedin.com/in/ryanjgallag/
+    icon: fa6-brands:linkedin-in
+  - label: GitHub
+    url: https://github.com/ryanjgallagher
+    icon: fa6-brands:github
+  - label: Bluesky
+    url: https://bsky.app/profile/ryanjgallag.com
+    icon: fa6-brands:bluesky
+  - label: Google Scholar
+    url: https://scholar.google.com/citations?user=hRNEOnAAAAAJ
+    icon: academicons:google-scholar
+  - label: Email
+    url: mailto:ryanjgallag@gmail.com
+    icon: fa6-solid:envelope

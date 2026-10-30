@@ -1,0 +1,45 @@
+---
+// All of a paper's links, on its own page, as buttons in two groups:
+// "Publication" (published version, DOI, preprints) and "Materials" (code, data, slides, ...).
+// Which group a link type goes in is set in src/data/link-types.ts.
+import { Icon } from 'astro-icon/components';
+import { OPEN_ACCESS_ICON } from '../data/link-types';
+import { resolvedLinks, type Publication } from '../utils/publications';
+
+interface Props {
+  pub: Publication;
+}
+
+const links = resolvedLinks(Astro.props.pub);
+const groups = [
+  { title: 'Publication', links: links.filter((l) => l.group === 'paper') },
+  { title: 'Materials', links: links.filter((l) => l.group === 'materials') },
+].filter((g) => g.links.length > 0);
+---
+
+{groups.length > 0 && (
+  <div class="paper-links">
+    {groups.map((g) => (
+      <section class="paper-links-group" aria-label={g.title}>
+        <h2 class="paper-links-title">{g.title}</h2>
+        <ul>
+          {g.links.map((l) => (
+            <li>
+              <a href={l.url} class="paper-link">
+                <Icon name={l.icon} size={16} aria-hidden="true" />
+                <span>{l.label}</span>
+                {l.openAccess && (
+                  <span class="paper-link-oa" title="Open access">
+                    <Icon name={OPEN_ACCESS_ICON} size={14} aria-hidden="true" />
+                    <span class="sr-only">(open access)</span>
+                  </span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+)}
+

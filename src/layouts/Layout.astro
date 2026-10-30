@@ -1,0 +1,82 @@
+---
+import Header from '../components/Header.astro';
+import { getImage } from 'astro:assets';
+import { SITE_DATA } from '../constants';
+import { portrait } from '../utils/portrait';
+
+// Site font (Mulish), bundled with the site (no Google Fonts request). The "variable" version
+// holds every weight in one file. To switch fonts: install another @fontsource package, change
+// these imports, and update --font-body in src/styles/global.css.
+import '@fontsource-variable/mulish/wght.css';
+import '@fontsource-variable/mulish/wght-italic.css';
+
+import '../styles/global.css';
+
+interface Props {
+	pageTitle?: string;
+	description?: string;
+	/** Hide the contact icons in the top bar (the home page shows them in its body instead) */
+	hideHeaderSocials?: boolean;
+	/** Image for link previews (Bluesky, LinkedIn, etc.), as a site path or full URL */
+	previewImage?: string;
+}
+
+const { pageTitle, description = SITE_DATA.description, hideHeaderSocials = false, previewImage } = Astro.props;
+const title = `${SITE_DATA.name}${pageTitle ? ` | ${pageTitle}` : ""}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+// Link previews: the page's own image if it has one, otherwise your photo
+// (cropped to the 1200x630 shape preview cards use, keeping the top of the photo so your face stays in).
+const preview =
+	previewImage ??
+	(portrait ? (await getImage({ src: portrait, width: 1200, height: 630, fit: 'cover', position: 'top', format: 'jpg' })).src : undefined);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<link rel="canonical" href={canonical} />
+		<meta name="description" content={description} />
+		<meta property="og:site_name" content={SITE_DATA.name} />
+		<meta property="og:title" content={pageTitle ?? SITE_DATA.name} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:type" content="website" />
+		{preview && <meta property="og:image" content={new URL(preview, Astro.site)} />}
+		<meta name="twitter:card" content={preview ? 'summary_large_image' : 'summary'} />
+		<!-- Page-specific head tags (e.g. Google Scholar citation_* tags) -->
+		<slot name="head" />
+		<script is:inline>
+			const theme = (() => {
+				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+					return localStorage.getItem('theme');
+				}
+				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					return 'dark';
+				}
+				return 'light';
+			})();
+
+			if (theme === 'light') {
+				document.documentElement.removeAttribute('data-theme');
+			} else {
+				document.documentElement.setAttribute('data-theme', 'dark');
+			}
+			window.localStorage.setItem('theme', theme);
+		</script>
+	</head>
+	<body>
+		<Header showSocials={!hideHeaderSocials} />
+		<main>
+			<slot />
+		</main>
+		<script>
+		  import "../scripts/menu.js";
+		</script>
+	</body>
+</html>
