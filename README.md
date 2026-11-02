@@ -19,7 +19,7 @@ Most content lives in `src/content/`, which some exceptions.
 | `src/content/pages/about.mdx` | The About page |
 | `src/content/publications/*.md` | One file per paper |
 | `src/content/publications/images/` | Paper images (resized automatically at build) |
-| `src/content/citations.json` | Google Scholar citation counts, keyed by publication filename. Updated monthly by a GitHub Action that opens a pull request (`.github/workflows/citations.yaml`), or by hand with `make citations`; papers without a `scholarId` keep hand-entered counts |
+| `src/content/citations.json` | Google Scholar citation counts, keyed by publication filename. Updated with `make citations`; a GitHub Action opens a pull request each month as a reminder, with the steps (`.github/workflows/citations.yaml`); papers without a `scholarId` keep hand-entered counts |
 | `src/assets/portrait.jpg` | Portrait photo. Other images go in `src/assets/` too |
 | `public/files/` | Slides and data files to share with others |
 | `src/data/link-types.ts` | Kinds of publication links, with their default label and icon |

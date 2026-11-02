@@ -99,10 +99,7 @@ const changes = Object.keys({ ...old.counts, ...counts })
     .filter((id) => old.counts[id] !== counts[id])
     .map((id) => `  ${id}: ${old.counts[id] ?? '-'} -> ${counts[id] ?? '-'}`);
 
-function setOutput(changed, summary = '') {
-    if (!process.env.GITHUB_OUTPUT) return;
-    appendFileSync(process.env.GITHUB_OUTPUT, `changed=${changed}\nsummary<<END_OF_SUMMARY\n${summary}\nEND_OF_SUMMARY\n`);
-}
+const setOutput = (changed) => process.env.GITHUB_OUTPUT && appendFileSync(process.env.GITHUB_OUTPUT, `changed=${changed}\n`);
 
 if (changes.length === 0) {
     console.log(`No changes (${found.size} papers on the profile).`);
@@ -117,4 +114,4 @@ if (!DRY_RUN) {
     const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
     writeFileSync(CITATIONS_FILE, `${JSON.stringify({ source: old.source, updated: today, counts }, null, 2)}\n`);
 }
-setOutput(!DRY_RUN, changes.join('\n'));
+setOutput(!DRY_RUN);

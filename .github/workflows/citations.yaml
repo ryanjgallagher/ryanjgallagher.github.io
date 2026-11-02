@@ -1,85 +1,59 @@
-name: Update citation counts
+name: Citation count reminder
 
-# Monthly, reads your Google Scholar profile and updates src/content/citations.json.
-# If anything changed, it checks the site still builds and opens a pull request (or updates the
-# one already open). Merging it deploys the site.
-# If Scholar blocks the request, the run fails (GitHub emails you) and no pull request is opened;
-# run `make citations` on your own computer instead.
+# Monthly, opens a pull request reminding you to update the citation counts.
+# Google Scholar blocks requests from servers (GitHub's, Cloudflare's and Google's were all tried),
+# so the update runs on your own computer with `make citations`. The steps are in the pull request.
 on:
   schedule:
     - cron: '23 9 1 * *' # 1st of each month, 9:23 UTC
   workflow_dispatch: # "Run workflow" button on the Actions tab
-  # TEMPORARY, remove before merging: tests whether Scholar answers GitHub's servers.
-  # Pushes to this branch run a preview only (--dry-run), so nothing is committed or opened.
-  push:
-    branches: [auto-citation-updates]
 
 permissions:
   contents: read
 
-# A newer run replaces one still going; it does the same job with fresher counts
 concurrency:
   group: citations
   cancel-in-progress: true
 
 jobs:
-  update:
-    name: Read counts from Google Scholar
+  remind:
+    name: Open the reminder pull request
     runs-on: ubuntu-latest
     permissions:
       contents: write # to push the citations-update branch (the ruleset on main blocks pushing there)
-    outputs:
-      changed: ${{ steps.scholar.outputs.changed }}
-      summary: ${{ steps.scholar.outputs.summary }}
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 26
-          cache: npm
-      - run: npm ci
-      - id: scholar
-        # TEMPORARY: the --dry-run part goes away with the push trigger above
-        run: node scripts/update-citations.mjs ${{ github.event_name == 'push' && '--dry-run' || '' }}
-      - name: Push the new counts to the citations-update branch
-        if: steps.scholar.outputs.changed == 'true'
-        env:
-          SUMMARY: ${{ steps.scholar.outputs.summary }}
+
+      # A pull request needs at least one commit, so start the branch with an empty one
+      - name: Start the citations-update branch from main
         run: |
           # GitHub's no-reply address for its Actions bot (user ID 41898282), so commits show as made by the bot
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # Start the branch fresh from main each time, so it holds one commit with the latest counts
           git switch -C citations-update
-          git add src/content/citations.json
-          git commit -m "Update citation counts from Google Scholar" -m "$SUMMARY"
+          git commit --allow-empty -m "Start the monthly citation count update"
           git push --force origin citations-update
 
-  check:
-    name: Check the site builds
-    needs: update
-    if: needs.update.outputs.changed == 'true'
-    uses: ./.github/workflows/pull-request-check.yaml
-    with:
-      ref: citations-update
-
-  pull-request:
-    name: Open or update the pull request
-    needs: [update, check]
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    steps:
-      - env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-          SUMMARY: ${{ needs.update.outputs.summary }}
+      # If last month's pull request is still open, the push above refreshed it
+      - name: Open the pull request
         run: |
-          body=$(printf 'Citation count changes from Google Scholar:\n\n```\n%s\n```\n\nThe site builds with these counts. Merging this deploys the site.' "$SUMMARY")
           number=$(gh pr list --head citations-update --base main --state open --json number --jq '.[].number')
           if [ -n "$number" ]; then
-            gh pr edit "$number" --body "$body"
-            echo "Updated pull request #$number"
-          else
-            gh pr create --head citations-update --base main --title "Update citation counts" --body "$body"
+            echo "Pull request #$number is still open, so it now starts from the latest main."
+            exit 0
           fi
+          gh pr create --head citations-update --base main --title "Update citation counts" --body-file - <<'EOF'
+          Monthly reminder to update the citation counts. Google Scholar blocks automated requests, so run this on your own computer:
+
+          ```sh
+          gh pr checkout citations-update --force
+          make citations
+          git commit -am "Update citation counts from Google Scholar"
+          git push
+          ```
+
+          Then merge this pull request to deploy the site. If `make citations` says nothing changed, close it instead.
+          EOF

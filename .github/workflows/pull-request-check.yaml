@@ -2,16 +2,9 @@ name: Check the site builds (pull requests)
 
 # Runs on every pull request into main, using the same make commands as locally.
 # It never deploys; deploy.yaml does that after the merge.
-# citations.yaml also runs it, because pull requests opened by an Action don't trigger it.
 on:
   pull_request:
     branches: [main]
-  workflow_call:
-    inputs:
-      ref:
-        description: Branch to check (pull requests check their own branch)
-        type: string
-        required: false
 
 permissions:
   contents: read
@@ -21,8 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-        with:
-          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v5
         with:
           node-version: 26
