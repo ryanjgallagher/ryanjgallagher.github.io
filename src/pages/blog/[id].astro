@@ -13,9 +13,13 @@ export async function getStaticPaths() {
 const { post } = Astro.props as { post: Post };
 const { data } = post;
 const { Content } = await render(post);
+
+// The post's image as a link-preview card (made by src/pages/previews/blog/[id].png.ts).
+// Without an image, the layout falls back to your photo.
+const preview = data.image ? `/previews/blog/${post.id}.png` : undefined;
 ---
 
-<Layout pageTitle={data.title} description={data.description} previewType="article">
+<Layout pageTitle={data.title} description={data.description} previewImage={preview} previewType="article">
     <Fragment slot="head">
         <meta property="article:published_time" content={data.publishedAt.toISOString()} />
         <!-- standard.site: this post's record and the blog's record on your PDS -->

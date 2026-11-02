@@ -10,6 +10,7 @@
 // Locally: `BLUESKY_APP_PASSWORD=... make publish-blog`,
 // or `make publish-blog dry_run=1` to print the records without logging in.
 import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { parse } from 'yaml';
 import { remark } from 'remark';
 import sharp from 'sharp';
@@ -64,6 +65,20 @@ const posts = readdirSync(BLOG_DIR)
     .map(readPost)
     .filter((p) => !p.data.draft);
 
+// A post's image becomes its cover image: at most 1200×1200, on white, as a JPEG,
+// which keeps it under standard.site's 1 MB limit. Uploaded with the records below.
+const covers = new Map();
+for (const { id, data } of posts) {
+    if (!data.image) continue;
+    const cover = await sharp(join(BLOG_DIR, data.image))
+        .resize({ width: 1200, height: 1200, fit: 'inside', withoutEnlargement: true })
+        .flatten({ background: '#ffffff' })
+        .jpeg({ quality: 85 })
+        .toBuffer();
+    if (cover.length > 1_000_000) throw new Error(`${BLOG_DIR}/${id}.md: its image is over 1 MB even after resizing.`);
+    covers.set(data.atprotoRkey, cover);
+}
+
 const documents = new Map();
 for (const { id, data, body } of posts) {
     documents.set(data.atprotoRkey, {
@@ -82,7 +97,9 @@ for (const { id, data, body } of posts) {
 if (DRY_RUN) {
     console.log(`${publicationUri}\n${JSON.stringify(publication, null, 2)}\nicon: 512×512 PNG, ${icon.length} bytes (uploaded when publishing)\n`);
     for (const [rkey, record] of documents) {
-        console.log(`at://${did}/${DOCUMENT}/${rkey}\n${JSON.stringify(record, null, 2)}\n`);
+        const cover = covers.get(rkey);
+        console.log(`at://${did}/${DOCUMENT}/${rkey}\n${JSON.stringify(record, null, 2)}`);
+        console.log(cover ? `cover image: JPEG, ${cover.length} bytes (uploaded when publishing)\n` : '');
     }
     process.exit(0);
 }
@@ -151,15 +168,22 @@ async function put(collection, rkey, record, existing) {
     console.log(`${existing ? 'updated' : 'created'}    ${collection}/${rkey}${record.title ? `  (${record.title})` : ''}`);
 }
 
-// Upload the icon, then point the blog's record at it. Files are stored by their content,
+// Upload an image, for a record to point at. Files are stored by their content,
 // so uploading the same image again doesn't add a copy or change the record.
-const upload = await fetch(new URL('/xrpc/com.atproto.repo.uploadBlob', pds), {
-    method: 'POST',
-    headers: { 'Content-Type': 'image/png', Authorization: `Bearer ${session.accessJwt}` },
-    body: icon,
-});
-if (!upload.ok) throw new Error(`com.atproto.repo.uploadBlob failed (${upload.status}): ${await upload.text()}`);
-publication.icon = (await upload.json()).blob;
+async function uploadImage(bytes, mimeType) {
+    const res = await fetch(new URL('/xrpc/com.atproto.repo.uploadBlob', pds), {
+        method: 'POST',
+        headers: { 'Content-Type': mimeType, Authorization: `Bearer ${session.accessJwt}` },
+        body: bytes,
+    });
+    if (!res.ok) throw new Error(`com.atproto.repo.uploadBlob failed (${res.status}): ${await res.text()}`);
+    return (await res.json()).blob;
+}
+
+publication.icon = await uploadImage(icon, 'image/png');
+for (const [rkey, cover] of covers) {
+    documents.get(rkey).coverImage = await uploadImage(cover, 'image/jpeg');
+}
 
 const existingPublications = await listRecords(PUBLICATION);
 await put(PUBLICATION, publicationRkey, publication, existingPublications.get(publicationRkey));

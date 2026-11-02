@@ -59,16 +59,20 @@ const publications = defineCollection({
 // One Markdown file per post in src/content/blog/. Create new posts with `make new-post`.
 const blog = defineCollection({
     loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
-    schema: z.object({
-        title: z.string(),
-        description: z.string().optional(),
-        publishedAt: z.coerce.date(),
-        updatedAt: z.coerce.date().optional(),
-        tags: z.array(z.string()).default([]),
-        draft: z.boolean().default(false),
-        // standard.site record key, stamped by `make new-post`. Don't edit.
-        atprotoRkey: z.string().regex(/^[234567abcdefghij][234567abcdefghijklmnopqrstuvwxyz]{12}$/),
-    }),
+    schema: ({ image }) =>
+        z.object({
+            title: z.string(),
+            description: z.string().optional(),
+            publishedAt: z.coerce.date(),
+            updatedAt: z.coerce.date().optional(),
+            tags: z.array(z.string()).default([]),
+            // e.g. ./images/my-post.png (in src/content/blog/images/). Used for link previews and as
+            // the post's cover image on standard.site. Without one, previews use your photo.
+            image: image().optional(),
+            draft: z.boolean().default(false),
+            // standard.site record key, stamped by `make new-post`. Don't edit.
+            atprotoRkey: z.string().regex(/^[234567abcdefghij][234567abcdefghijklmnopqrstuvwxyz]{12}$/),
+        }),
 });
 
 export const collections = { publications, blog };

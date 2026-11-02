@@ -110,6 +110,7 @@ You can rename the file before the post is published; after that, renaming it ch
 | `description` | A one-line summary, shown on the blog page and in link previews |
 | `updatedAt` | The date of a later edit |
 | `tags` | List of tags, e.g. `[research, tools]`. Sets the tag filter on the blog page |
+| `image` | e.g. `./images/<post>.png` (file in `src/content/blog/images/`). Used for the link preview and as the post's cover image on standard.site; without one, previews use your portrait photo. Not shown on the page itself; to show it in the post too, add it to the text: `![Description](./images/<post>.png)` |
 | `draft` | `true` hides the post from the live site and from standard.site; it still shows in `make serve`. New posts start as drafts |
 
 ### standard.site
@@ -121,6 +122,7 @@ The blog follows [standard.site](https://standard.site), so each post is also sa
   back to draft.
 - **IDs:** your account's DID and the blog's record ID are in `site.yaml` under `standardSite`. Don't
   change them once the blog is published.
+- **Icon:** the blog's icon (its avatar on Bluesky link cards) is made from `public/favicon.svg`.
 - **Password:** publishing needs a Bluesky app password (Bluesky: Settings → Privacy and security → App
   passwords), saved as the repository secret `BLUESKY_APP_PASSWORD`. To run `make publish-blog` on
   your own computer, give it the password with the command: `BLUESKY_APP_PASSWORD=... make publish-blog`.
