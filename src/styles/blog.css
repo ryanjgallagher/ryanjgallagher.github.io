@@ -333,6 +333,17 @@ a.tag:active {
     font-size: 0.9em;
 }
 
+/* Code colors: Shiki (astro.config.mjs) writes the light theme's colors on each block, with the dark
+   theme's colors alongside as --shiki-dark variables. In dark mode, switch to those. */
+[data-theme="dark"] .astro-code,
+[data-theme="dark"] .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
 .post-body img {
     width: 100%;
     border-radius: 6px;
