@@ -8,7 +8,7 @@
 //   - records for posts that were deleted or set back to draft are removed
 //
 // Locally: `make publish-blog` (reads BLUESKY_APP_PASSWORD from a .env file),
-// or `make publish-blog DRY_RUN=1` to print the records without logging in.
+// or `make publish-blog dry_run=1` to print the records without logging in.
 import { readFileSync, readdirSync } from 'node:fs';
 import { parse } from 'yaml';
 import { remark } from 'remark';

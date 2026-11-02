@@ -2,7 +2,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 export type Post = CollectionEntry<'blog'>;
 
-/** Published posts, newest first. Drafts show up in `make dev` only. */
+/** Published posts, newest first. Drafts show up in `make serve` only. */
 export async function getPosts(): Promise<Post[]> {
     const posts = await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft);
     return posts.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
