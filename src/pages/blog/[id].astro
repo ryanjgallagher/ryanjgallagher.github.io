@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { formatDate, getPosts, type Post } from '../../utils/blog';
+import { formatDate, getPosts, tagUrl, type Post } from '../../utils/blog';
 import { documentUri, publicationUri } from '../../utils/standard-site';
 import '../../styles/blog.css';
 
@@ -36,7 +36,7 @@ const preview = data.image ? `/previews/blog/${post.id}.png` : undefined;
                 {data.draft && <span class="tag draft">draft</span>}
                 {data.tags.length > 0 && (
                     <div class="post-tags">
-                        {data.tags.map((tag) => <span class="tag">{tag}</span>)}
+                        {data.tags.map((tag) => <a class="tag" href={tagUrl(tag)} title={`All posts tagged ${tag}`}>{tag}</a>)}
                     </div>
                 )}
             </div>

@@ -2,8 +2,7 @@
 import type { ComponentProps } from 'astro/types';
 import Layout from '../../layouts/Layout.astro';
 import ListControls from '../../components/ListControls.astro';
-import { formatDate, getPosts } from '../../utils/blog';
-import { categorySlug } from '../../utils/categories';
+import { formatDate, getPosts, tagSlug, tagUrl } from '../../utils/blog';
 import { publicationUri } from '../../utils/standard-site';
 import '../../styles/blog.css';
 
@@ -14,12 +13,11 @@ type Controls = ComponentProps<typeof ListControls>;
 // Sort by date (newest first; click again for oldest first). Uses data-date on the cards.
 const SORT_FIELDS: Controls['sortFields'] = [{ key: 'date', label: 'Date', desc: 'Newest first', asc: 'Oldest first' }];
 
-// Tag filter: a post shows if it has any selected tag. Tags can have spaces, so the page address
-// uses a slug, the same way topics do: ?tag=content-moderation
+// Tag filter: a post shows if it has any selected tag. The page address uses each tag's slug: ?tag=content-moderation
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 const FILTER_GROUPS: Controls['filterGroups'] =
     allTags.length > 0
-        ? [{ key: 'tags', param: 'tag', label: 'Tags', match: 'any', options: allTags.map((t) => ({ value: categorySlug(t), label: t })) }]
+        ? [{ key: 'tags', param: 'tag', label: 'Tags', match: 'any', options: allTags.map((t) => ({ value: tagSlug(t), label: t })) }]
         : [];
 ---
 
@@ -46,11 +44,10 @@ const FILTER_GROUPS: Controls['filterGroups'] =
 
                 <div class="blog-grid" id="blog-grid" data-list>
                     {posts.map((post) => (
-                        <a
-                            href={`/blog/${post.id}/`}
+                        <article
                             class="blog-card"
                             data-date={post.data.publishedAt.getTime()}
-                            data-tags={post.data.tags.map(categorySlug).join(' ')}
+                            data-tags={post.data.tags.map(tagSlug).join(' ')}
                             data-search={[post.data.title, post.data.description ?? '', ...post.data.tags].join(' ').toLowerCase()}
                         >
                             <div class="blog-card-inner">
@@ -59,16 +56,17 @@ const FILTER_GROUPS: Controls['filterGroups'] =
                                     {post.data.draft && <span class="tag draft">draft</span>}
                                 </span>
                                 <div>
-                                    <h2 class="blog-card-title">{post.data.title}</h2>
+                                    {/* Only the title opens the post; each tag shows all posts with that tag */}
+                                    <h2 class="blog-card-title"><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
                                     {post.data.description && <p class="blog-card-description">{post.data.description}</p>}
                                     {post.data.tags.length > 0 && (
                                         <div class="blog-card-tags">
-                                            {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+                                            {post.data.tags.map((tag) => <a class="tag" href={tagUrl(tag)} title={`All posts tagged ${tag}`}>{tag}</a>)}
                                         </div>
                                     )}
                                 </div>
                             </div>
-                        </a>
+                        </article>
                     ))}
                 </div>
             </div>
