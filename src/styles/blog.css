@@ -242,6 +242,78 @@ a.tag:active {
     color: var(--color-text-muted);
 }
 
+/* Changes since publishing (`updates`), on their own line under the date and tags:
+   "Last updated on November 10, 2026 ▸", which opens a two-column list of dates and notes */
+.post-updates {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: -0.5rem 0 1.2rem;
+}
+
+.post-updates summary {
+    width: fit-content;
+    cursor: pointer;
+    list-style: none;
+    transition: color var(--transition-fast);
+}
+
+.post-updates summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Small arrow after the text, pointing down once opened */
+.post-updates summary::after {
+    content: '▸';
+    display: inline-block;
+    margin-left: 0.35rem;
+    transition: transform var(--transition-fast);
+}
+
+.post-updates[open] summary::after {
+    transform: rotate(90deg);
+}
+
+@media (hover: hover) {
+    .post-updates summary:hover {
+        color: var(--color-accent);
+    }
+}
+
+/* Dates in a column as wide as the longest one, notes lined up next to them, a thin line between changes */
+.post-updates dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    margin: 0.6rem 0 0;
+    line-height: 1.6;
+}
+
+/* Each cell fills its row's height (so the lines between rows stay straight) and centers its text vertically */
+.post-updates dt,
+.post-updates dd {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0;
+}
+
+/* The space between the columns is padding on the date, not a grid gap, so the lines don't break there */
+.post-updates dt {
+    padding-right: 1.5rem;
+}
+
+.post-updates dt:not(:first-of-type),
+.post-updates dd:not(:first-of-type) {
+    border-top: 1px solid var(--color-border);
+}
+
+/* Same-width digits, so the dates line up */
+.post-updates dt {
+    font-variant-numeric: tabular-nums;
+}
+
+.post-updates dd {
+    margin: 0;
+}
+
 .post-tags {
     display: flex;
     flex-wrap: wrap;
@@ -281,6 +353,13 @@ a.tag:active {
 .post-body h3 {
     font-size: 1.2rem;
     margin: 2rem 0 0.75rem;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.post-body h4 {
+    font-size: 1.05rem;
+    margin: 1.75rem 0 0.6rem;
     color: var(--color-primary);
     font-weight: 600;
 }
@@ -363,6 +442,62 @@ a.tag:active {
     border: none;
     border-top: 1px solid var(--color-border);
     margin: 2.5rem 0;
+}
+
+/* Tables: a darker line under the header, thin lines between rows. A table too wide for the page
+   scrolls sideways, like code blocks. */
+.post-body table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin-bottom: 1.4rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.post-body th,
+.post-body td {
+    padding: 0.55rem 1.25rem 0.55rem 0;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.post-body th {
+    font-weight: 600;
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-pill-border);
+}
+
+/* Footnotes: set apart at the end of the post with a line, a small "Footnotes" label, and smaller grey text */
+.post-body .footnotes {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+/* Astro adds this heading for screen readers only; show it as the label */
+.post-body .footnotes h2.sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0 0 0.75rem;
+    overflow: visible;
+    clip: auto;
+    border: none;
+    padding: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+}
+
+.post-body .footnotes li {
+    line-height: 1.6;
 }
 
 .post-body strong {

@@ -15,5 +15,8 @@ export async function getPosts(): Promise<Post[]> {
     return posts.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
 }
 
+/** A post's changes since publishing, newest first. The first one's date is when it was last updated. */
+export const postUpdates = (post: Post) => [...post.data.updates].sort((a, b) => b.date.getTime() - a.date.getTime());
+
 export const formatDate = (d: Date) =>
     d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });

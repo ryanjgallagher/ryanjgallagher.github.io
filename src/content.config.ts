@@ -64,7 +64,9 @@ const blog = defineCollection({
             title: z.string(),
             description: z.string().optional(),
             publishedAt: z.coerce.date(),
-            updatedAt: z.coerce.date().optional(),
+            // Changes made after publishing, each a date and an optional note. Shown as a collapsed
+            // list at the top of the post; the most recent date is the post's "updated" date.
+            updates: z.array(z.object({ date: z.coerce.date(), note: z.string().optional() })).default([]),
             tags: z.array(z.string()).default([]),
             // e.g. ./images/my-post.png (in src/content/blog/images/). Used for link previews and as
             // the post's cover image on standard.site. Without one, previews use your photo.

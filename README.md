@@ -112,7 +112,7 @@ on blog pages (`src/components/SocialIcons.astro`).
 | `publishedAt` | Required. The date it was published, e.g. `2026-11-01`. Posts are listed newest first |
 | `atprotoRkey` | Required. The post's standard.site ID, filled in by `make new-post`. Never change it |
 | `description` | A one-line summary, shown on the blog page and in link previews |
-| `updatedAt` | The date of a later edit |
+| `updates` | Changes made after publishing, as a list of `date` and optional `note` (e.g. `- date: 2026-11-10` then `note: Fixed a figure`). Shown as a collapsed "Last updated on …" line at the top of the post that opens to show each change; the latest date is also the post's updated date on standard.site |
 | `tags` | List of tags, e.g. `[research, tools]`. Sets the tag filter on the blog page |
 | `image` | e.g. `./images/<post>.png` (file in `src/content/blog/images/`). Used for the link preview and as the post's cover image on standard.site; without one, previews use your portrait photo. Not shown on the page itself; to show it in the post too, add it to the text: `![Description](./images/<post>.png)` |
 | `draft` | `true` hides the post from the live site and from standard.site; it still shows in `make serve`. New posts start as drafts |

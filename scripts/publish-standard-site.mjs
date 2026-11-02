@@ -88,7 +88,8 @@ for (const { id, data, body } of posts) {
         title: data.title,
         ...(data.description && { description: data.description }),
         publishedAt: timestamp(data.publishedAt),
-        ...(data.updatedAt && { updatedAt: timestamp(data.updatedAt) }),
+        // standard.site has one "updated" date: the most recent of the post's `updates`
+        ...(data.updates?.length && { updatedAt: timestamp(Math.max(...data.updates.map((u) => new Date(u.date).getTime()))) }),
         ...(data.tags?.length && { tags: data.tags }),
         textContent: await toText(body),
     });

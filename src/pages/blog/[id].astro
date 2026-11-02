@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { formatDate, getPosts, tagUrl, type Post } from '../../utils/blog';
+import { formatDate, getPosts, postUpdates, tagUrl, type Post } from '../../utils/blog';
 import { documentUri, publicationUri } from '../../utils/standard-site';
 import '../../styles/blog.css';
 
@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props as { post: Post };
 const { data } = post;
 const { Content } = await render(post);
+const updates = postUpdates(post);
 
 // The post's image as a link-preview card (made by src/pages/previews/blog/[id].png.ts).
 // Without an image, the layout falls back to your photo.
@@ -40,6 +41,23 @@ const preview = data.image ? `/previews/blog/${post.id}.png` : undefined;
                     </div>
                 )}
             </div>
+            {/* Changes since publishing: "Last updated on <latest date>", click to see each date and note */}
+            {updates.length > 0 && (
+                <details class="post-updates">
+                    <summary>
+                        Last updated on <time datetime={updates[0].date.toISOString()}>{formatDate(updates[0].date)}</time>
+                    </summary>
+                    <dl>
+                        {updates.map((u) => (
+                            <>
+                                {/* As 2026-10-28. Dates from front matter are midnight UTC, so the first 10 characters are the date. */}
+                                <dt><time datetime={u.date.toISOString()}>{u.date.toISOString().slice(0, 10)}</time></dt>
+                                <dd>{u.note}</dd>
+                            </>
+                        ))}
+                    </dl>
+                </details>
+            )}
             {data.description && <p class="post-description">{data.description}</p>}
         </div>
 
