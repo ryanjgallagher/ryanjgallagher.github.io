@@ -1,0 +1,50 @@
+---
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, getPosts, type Post } from '../../utils/blog';
+import { documentUri } from '../../utils/standard-site';
+import '../../styles/blog.css';
+
+export async function getStaticPaths() {
+    const posts = await getPosts();
+    return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+const { data } = post;
+const { Content } = await render(post);
+---
+
+<Layout pageTitle={data.title} description={data.description}>
+    <Fragment slot="head">
+        <meta property="og:type" content="article" />
+        <meta property="article:published_time" content={data.publishedAt.toISOString()} />
+        <!-- standard.site: this post's record on Bluesky -->
+        <link rel="site.standard.document" href={documentUri(data.atprotoRkey)} />
+    </Fragment>
+
+    <div class="page-container">
+        <div class="post-header">
+            <a href="/blog/" class="back-link">← Blog</a>
+            <h1 class="post-title">{data.title}</h1>
+            <div class="post-meta">
+                <time datetime={data.publishedAt.toISOString()}>{formatDate(data.publishedAt)}</time>
+                {data.draft && <span class="tag">draft</span>}
+                {data.tags.length > 0 && (
+                    <div class="post-tags">
+                        {data.tags.map((tag) => <span class="tag">{tag}</span>)}
+                    </div>
+                )}
+            </div>
+            {data.description && <p class="post-description">{data.description}</p>}
+        </div>
+
+        <article class="post-body">
+            <Content />
+        </article>
+
+        <div class="post-footer">
+            <a href="/blog/" class="back-link">← Back to all posts</a>
+        </div>
+    </div>
+</Layout>
