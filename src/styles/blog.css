@@ -1,49 +1,18 @@
 /* ==========================================================================
-   Blog Tag Filters
-   ========================================================================== */
-
-.blog-tag-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-}
-
-.blog-tag-btn {
-    background: none;
-    border: 1px solid var(--color-border);
-    color: var(--color-text-muted);
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.03em;
-    padding: 0.3rem 0.75rem;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: border-color var(--transition-fast), color var(--transition-fast), background-color var(--transition-fast);
-}
-
-@media (hover: hover) {
-    .blog-tag-btn:hover {
-        border-color: var(--color-accent);
-        color: var(--color-accent);
-    }
-}
-
-.blog-tag-btn.active {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-    background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
-}
-
-/* ==========================================================================
    Blog Index
    ========================================================================== */
 
+/* Sort, search, and filters (src/components/ListControls.astro), then the posts */
+.blog-section {
+    margin-top: 2rem;
+}
+
+/* The line above the first post is on the list, not the first card, since filtering can hide that card */
 .blog-grid {
     display: flex;
     flex-direction: column;
     gap: 0;
-    margin-top: 1rem;
+    border-top: 1px solid var(--color-border);
 }
 
 .blog-card {
@@ -55,13 +24,10 @@
     transition: none;
 }
 
-.blog-card:first-child {
-    border-top: 1px solid var(--color-border);
-}
-
 .blog-card-inner {
     display: grid;
-    grid-template-columns: 7rem 1fr;
+    /* Wide enough for the longest date ("September 30, 2026") */
+    grid-template-columns: 9rem 1fr;
     gap: 1.5rem;
     align-items: baseline;
 }
@@ -71,6 +37,13 @@
     color: var(--color-text-muted);
     white-space: nowrap;
     padding-top: 0.25rem;
+}
+
+/* The "draft" label on the blog page, on its own line under the date */
+.blog-card-date .tag {
+    display: block;
+    width: fit-content;
+    margin-top: 0.4rem;
 }
 
 .blog-card-title {
@@ -126,6 +99,13 @@
     color: var(--color-text-muted);
     font-family: var(--font-mono);
     letter-spacing: 0.03em;
+}
+
+/* "draft" label (only in `make serve`), in the same light red as the selected tag filter */
+.tag.draft {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
 }
 
 /* ==========================================================================
