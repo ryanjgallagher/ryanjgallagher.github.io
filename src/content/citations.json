@@ -1,18 +1,19 @@
 {
   "source": "https://scholar.google.com/citations?user=hRNEOnAAAAAJ",
-  "updated": "2026-10-28",
+  "updated": "2026-11-01",
   "counts": {
     "gallagher2017anchored": 323,
-    "gallagher2018divergent": 312,
+    "gallagher2018divergent": 313,
     "gallagher2019reclaiming": 183,
     "gallagher2021clarified": 166,
     "gallagher2021generalized": 131,
-    "wu2023say": 129,
     "gallagher2021sustained": 103,
-    "shugars2021pandemics": 90,
-    "joseph2021misalignment": 28,
-    "joseph2020who": 12,
     "gitomer2023speech": 4,
-    "waldherr2025waves": 2
+    "gitomer2025social": 0,
+    "joseph2020who": 12,
+    "joseph2021misalignment": 28,
+    "shugars2021pandemics": 90,
+    "waldherr2025waves": 2,
+    "wu2023say": 129
   }
 }
