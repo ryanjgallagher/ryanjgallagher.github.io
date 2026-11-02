@@ -1,5 +1,6 @@
 ---
 import type { ComponentProps } from 'astro/types';
+import { Icon } from 'astro-icon/components';
 import Layout from '../../layouts/Layout.astro';
 import ListControls from '../../components/ListControls.astro';
 import { formatDate, getPosts, tagSlug, tagUrl } from '../../utils/blog';
@@ -28,7 +29,10 @@ const FILTER_GROUPS: Controls['filterGroups'] =
     </Fragment>
 
     <div class="page-container">
-        <h1>Blog</h1>
+        <div class="blog-heading">
+            <h1>Blog</h1>
+            <a class="blog-rss" href="/blog/rss.xml"><Icon name="fa6-solid:rss" size={13} aria-hidden="true" />Subscribe via RSS</a>
+        </div>
 
         {posts.length === 0 && <p class="intro-text">No posts yet.</p>}
 

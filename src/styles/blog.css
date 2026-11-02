@@ -2,6 +2,53 @@
    Blog Index
    ========================================================================== */
 
+/* "Blog" on the left, "Subscribe via RSS" on the right of the same line.
+   On phones (where page headings are centered), the link goes centered under it. */
+.blog-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.blog-heading h1 {
+    margin-bottom: 0;
+}
+
+@media (max-width: 636px) {
+    .blog-heading {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+/* An outlined button in the text color, shaped like the "Search & filter" button, so it reads as something to click */
+.blog-rss {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--color-text);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color var(--transition-fast);
+}
+
+@media (hover: hover) {
+    .blog-rss:hover {
+        background-color: color-mix(in srgb, var(--color-text) 6%, transparent);
+    }
+}
+
+.blog-rss:active {
+    background-color: color-mix(in srgb, var(--color-text) 6%, transparent);
+}
+
 /* Sort, search, and filters (src/components/ListControls.astro), then the posts */
 .blog-section {
     margin-top: 2rem;

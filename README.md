@@ -102,6 +102,10 @@ Each post is one Markdown file in `src/content/blog/`. Start one with `make new-
 The filename, made from the title, becomes the URL: "What's new?" -> `whats-new.md` -> `/blog/whats-new/`.
 You can rename the file before the post is published; after that, renaming it changes the URL.
 
+The build also makes an RSS feed of every published post, with full text, at `/blog/rss.xml`
+(`src/pages/blog/rss.xml.ts`). It's linked from the blog page, and from an RSS icon in the top bar
+on blog pages (`src/components/SocialIcons.astro`).
+
 | Field | What it does |
 |---|---|
 | `title` | Required. The post's title |
