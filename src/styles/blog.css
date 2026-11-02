@@ -153,8 +153,16 @@
     letter-spacing: 0.03em;
 }
 
-/* Tags that link to the blog list filtered to that tag: red on hover, like the filter buttons */
+/* Tags that link to the blog list filtered to that tag: red on hover, like the filter buttons.
+   Same shape and font as the topic pills on paper pages (.pub-categories in global.css). */
 a.tag {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    letter-spacing: normal;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    border-color: var(--color-pill-border);
+    background: var(--color-bg);
     text-decoration: none;
     transition: border-color var(--transition-fast), color var(--transition-fast);
 }
@@ -246,7 +254,6 @@ a.tag:active {
     font-style: italic;
     line-height: 1.6;
     margin: 0;
-    max-width: 680px;
 }
 
 /* ==========================================================================
@@ -254,7 +261,6 @@ a.tag:active {
    ========================================================================== */
 
 .post-body {
-    max-width: 680px;
     font-size: 1.05rem;
     line-height: 1.8;
     color: var(--color-text);

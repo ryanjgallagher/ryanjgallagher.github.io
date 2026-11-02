@@ -124,6 +124,8 @@ p a:active,
     --color-bg: #fff;
     --color-bg-alt: #f4f4f4;
     --color-border: #eee;
+    /* A darker outline for pills (topics on papers, tags on blog posts) */
+    --color-pill-border: #ccc;
 
     /* Fonts: the main font for all text, and a monospace font for dates and small labels */
     --font-body: 'Mulish Variable', system-ui, sans-serif;
@@ -146,6 +148,7 @@ p a:active,
     --color-bg: #181818;
     --color-bg-alt: #1e1e1e;
     --color-border: #333;
+    --color-pill-border: #555;
 }
 
 /* ==========================================================================
@@ -717,7 +720,7 @@ a.list-item-title:active::after {
 .pub-categories li > a,
 .pub-categories li:not(:has(a)) {
     padding: 0.2rem 0.65rem;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-pill-border);
     border-radius: 999px;
     background: var(--color-bg);
 }
