@@ -49,6 +49,9 @@
     margin: 0 0 0.4rem 0;
     line-height: 1.3;
     transition: color var(--transition-fast);
+    /* No underline: the site's h2 style adds one for section headings, but posts already have lines between them */
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 /* Only the title is a link to the post */
