@@ -1,0 +1,59 @@
+name: Citation count reminder
+
+# Monthly, opens a pull request reminding you to update the citation counts.
+# Google Scholar blocks requests from servers (GitHub's, Cloudflare's and Google's were all tried),
+# so the update runs on your own computer with `make citations`. The steps are in the pull request.
+on:
+  schedule:
+    - cron: '23 9 1 * *' # 1st of each month, 9:23 UTC
+  workflow_dispatch: # "Run workflow" button on the Actions tab
+
+permissions:
+  contents: read
+
+concurrency:
+  group: citations
+  cancel-in-progress: true
+
+jobs:
+  remind:
+    name: Open the reminder pull request
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to push the citations-update branch (the ruleset on main blocks pushing there)
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+
+      # A pull request needs at least one commit, so start the branch with an empty one
+      - name: Start the citations-update branch from main
+        run: |
+          # GitHub's no-reply address for its Actions bot (user ID 41898282), so commits show as made by the bot
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C citations-update
+          git commit --allow-empty -m "Start the monthly citation count update"
+          git push --force origin citations-update
+
+      # If last month's pull request is still open, the push above refreshed it
+      - name: Open the pull request
+        run: |
+          number=$(gh pr list --head citations-update --base main --state open --json number --jq '.[].number')
+          if [ -n "$number" ]; then
+            echo "Pull request #$number is still open, so it now starts from the latest main."
+            exit 0
+          fi
+          gh pr create --head citations-update --base main --title "Update citation counts" --body-file - <<'EOF'
+          Monthly reminder to update the citation counts. Google Scholar blocks automated requests, so run this on your own computer:
+
+          ```sh
+          gh pr checkout citations-update --force
+          make citations
+          git commit -am "Update citation counts from Google Scholar"
+          git push
+          ```
+
+          Then merge this pull request to deploy the site. If `make citations` says nothing changed, close it instead.
+          EOF
