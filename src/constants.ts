@@ -10,6 +10,10 @@ const schema = z.object({
     scholarId: z.string(),
     authorNames: z.array(z.string()).min(1),
     compoundSurnames: z.array(z.string()).default([]),
+    standardSite: z.object({
+        did: z.string().startsWith('did:'),
+        publicationRkey: z.string().regex(/^[234567abcdefghij][234567abcdefghijklmnopqrstuvwxyz]{12}$/),
+    }),
     socials: z.array(z.object({ label: z.string(), url: z.string(), icon: z.string() })),
 });
 

@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { formatDate, getPosts } from '../../utils/blog';
+import { publicationUri } from '../../utils/standard-site';
 import '../../styles/blog.css';
 
 const posts = await getPosts();
@@ -8,6 +9,11 @@ const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 ---
 
 <Layout pageTitle="Blog">
+    <Fragment slot="head">
+        <!-- standard.site: the blog's record on your PDS, so apps like Bluesky can show a card for this page -->
+        <link rel="site.standard.publication" href={publicationUri} />
+    </Fragment>
+
     <div class="page-container">
         <h1>Blog</h1>
 

@@ -25,6 +25,13 @@ compoundSurnames:
   - Quintana Mathé
   - Ver Steeg
 
+# standard.site (https://standard.site): links the blog to records on your PDS.
+# did: your account's permanent ID (it stays the same if your handle changes).
+# publicationRkey: the ID of the blog's publication record. Don't change it once published.
+standardSite:
+  did: did:plc:f276fqe5uipr34uaexcgeuxg
+  publicationRkey: 3mzc3yrs25qwi
+
 # Contact icons in the top bar (and on the home page), in this order.
 # `icon` is an Iconify name (https://icon-sets.iconify.design) from an installed set,
 # or the filename of an SVG in src/icons/ (without .svg).

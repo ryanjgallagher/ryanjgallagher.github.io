@@ -12,6 +12,7 @@ const slug = title
     .toLowerCase()
     .normalize('NFKD')
     .replace(/[̀-ͯ]/g, '')
+    .replace(/['’]/g, '') // so "What's" becomes "whats", not "what-s"
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 const path = `src/content/blog/${slug}.md`;

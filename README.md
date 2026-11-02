@@ -19,6 +19,7 @@ Most content lives in `src/content/`, which some exceptions.
 | `src/content/pages/about.mdx` | The About page |
 | `src/content/publications/*.md` | One file per paper |
 | `src/content/publications/images/` | Paper images (resized automatically at build) |
+| `src/content/blog/*.md` | One file per blog post |
 | `src/content/citations.json` | Google Scholar citation counts, keyed by publication filename. Updated with `make citations`; a GitHub Action opens a pull request each month as a reminder, with the steps (`.github/workflows/citations.yaml`); papers without a `scholarId` keep hand-entered counts |
 | `src/assets/portrait.jpg` | Portrait photo. Other images go in `src/assets/` too |
 | `public/files/` | Slides and data files to share with others |
@@ -33,7 +34,9 @@ Run `make` to see them all.
 | `make serve` | Run the site at http://localhost:4321 (drafts are shown) |
 | `make citations` | Update citation counts from Google Scholar (`dry_run=1` to preview) |
 | `make new-publication id=gallagher2026example` | Start a publication page at `/publications/<id>/` |
-| `make build` | Build the site; fails if any paper has missing/invalid fields |
+| `make new-post title="My post title"` | Start a blog post (as a draft) at `/blog/<my-post-title>/` |
+| `make publish-blog` | Send blog posts to your PDS as standard.site records; GitHub does this after each deploy (`dry_run=1` to preview) |
+| `make build` | Build the site; fails if any post or paper has missing/invalid fields |
 | `make check` | Check data and types without building |
 
 ## Publications
@@ -92,6 +95,35 @@ links:
 - **PDF links:** use `pdf` for a copy of the paper you host yourself, e.g. put the file in
   `public/files/papers/` and link to `/files/papers/<id>.pdf`. Besides showing a "PDF" link, it tells Google Scholar where the full text is, so Scholar can show a [PDF] link to your site next to the paper. Optional: without one, Scholar still indexes the
   page from its title, authors, and abstract.
+
+## Blog
+
+Each post is one Markdown file in `src/content/blog/`. Start one with `make new-post title="..."`.
+The filename, made from the title, becomes the URL: "What's new?" -> `whats-new.md` -> `/blog/whats-new/`.
+You can rename the file before the post is published; after that, renaming it changes the URL.
+
+| Field | What it does |
+|---|---|
+| `title` | Required. The post's title |
+| `publishedAt` | Required. The date it was published, e.g. `2026-11-01`. Posts are listed newest first |
+| `atprotoRkey` | Required. The post's standard.site ID, filled in by `make new-post`. Never change it |
+| `description` | A one-line summary, shown on the blog page and in link previews |
+| `updatedAt` | The date of a later edit |
+| `tags` | List of tags, e.g. `[research, tools]`. Sets the tag filter on the blog page |
+| `draft` | `true` hides the post from the live site and from standard.site; it still shows in `make serve`. New posts start as drafts |
+
+### standard.site
+
+The blog follows [standard.site](https://standard.site), so each post is also saved as a record on your PDS, where other apps on the Atmosphere can find and show it.
+
+- **Publishing:** after each deploy, GitHub runs `scripts/publish-standard-site.mjs`. It creates
+  records for new posts, updates edited ones, and removes the records of posts that were deleted or set
+  back to draft.
+- **IDs:** your account's DID and the blog's record ID are in `site.yaml` under `standardSite`. Don't
+  change them once the blog is published.
+- **Password:** publishing needs a Bluesky app password (Bluesky: Settings → Privacy and security → App
+  passwords), saved as the repository secret `BLUESKY_APP_PASSWORD`. To run `make publish-blog` on
+  your own computer, give it the password with the command: `BLUESKY_APP_PASSWORD=... make publish-blog`.
 
 ## Icons
 

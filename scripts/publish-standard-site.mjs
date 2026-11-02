@@ -1,4 +1,4 @@
-// Publishes the blog to your Bluesky account as standard.site records (https://standard.site):
+// Publishes the blog to your PDS as standard.site records (https://standard.site):
 // one site.standard.publication record for the blog, and one site.standard.document record per post.
 //
 // Runs in GitHub Actions after each deploy (see .github/workflows/deploy.yaml), using the
@@ -7,11 +7,12 @@
 //   - unchanged posts are left alone
 //   - records for posts that were deleted or set back to draft are removed
 //
-// Locally: `make publish-blog` (reads BLUESKY_APP_PASSWORD from a .env file),
+// Locally: `BLUESKY_APP_PASSWORD=... make publish-blog`,
 // or `make publish-blog dry_run=1` to print the records without logging in.
 import { readFileSync, readdirSync } from 'node:fs';
 import { parse } from 'yaml';
 import { remark } from 'remark';
+import sharp from 'sharp';
 import strip from 'strip-markdown';
 
 const DRY_RUN = process.argv.includes('--dry-run');
@@ -25,12 +26,25 @@ const publicationUri = `at://${did}/${PUBLICATION}/${publicationRkey}`;
 
 // ---- Build the records from the repo ----
 
+// The blog's main page is /blog/, so that's the publication's address. Each post's path is added to
+// it: https://ryanjgallag.com/blog + /my-post/. The /blog part is also in the .well-known file's name
+// (src/pages/.well-known/site.standard.publication/blog.ts).
 const publication = {
     $type: PUBLICATION,
-    url: site.siteUrl,
+    url: `${site.siteUrl}/blog`,
     name: site.name,
     description: site.description,
 };
+
+// The blog's icon (shown as its avatar on Bluesky link cards) is the favicon, as a 512×512 PNG:
+// apps want a square image of at least 256×256, and not SVG. It's padded on a white background
+// so a round crop doesn't cut it off and transparent areas don't turn black.
+const icon = await sharp('public/favicon.svg', { density: 600 })
+    .resize(400, 400)
+    .flatten({ background: '#ffffff' })
+    .extend({ top: 56, bottom: 56, left: 56, right: 56, background: '#ffffff' })
+    .png()
+    .toBuffer();
 
 /** Split a Markdown file into its front matter and body */
 function readPost(file) {
@@ -55,7 +69,7 @@ for (const { id, data, body } of posts) {
     documents.set(data.atprotoRkey, {
         $type: DOCUMENT,
         site: publicationUri,
-        path: `/blog/${id}/`,
+        path: `/${id}/`,
         title: data.title,
         ...(data.description && { description: data.description }),
         publishedAt: timestamp(data.publishedAt),
@@ -66,7 +80,7 @@ for (const { id, data, body } of posts) {
 }
 
 if (DRY_RUN) {
-    console.log(`${publicationUri}\n${JSON.stringify(publication, null, 2)}\n`);
+    console.log(`${publicationUri}\n${JSON.stringify(publication, null, 2)}\nicon: 512×512 PNG, ${icon.length} bytes (uploaded when publishing)\n`);
     for (const [rkey, record] of documents) {
         console.log(`at://${did}/${DOCUMENT}/${rkey}\n${JSON.stringify(record, null, 2)}\n`);
     }
@@ -82,7 +96,7 @@ if (!password) {
     process.exit(0);
 }
 
-// Find the server that hosts your account (your PDS) from your DID
+// Find your PDS from your DID
 const didDoc = await (await fetch(`https://plc.directory/${did}`)).json();
 const pds = didDoc.service?.find((s) => s.id === '#atproto_pds')?.serviceEndpoint;
 if (!pds) throw new Error(`Couldn't find the PDS for ${did}`);
@@ -136,6 +150,16 @@ async function put(collection, rkey, record, existing) {
     await xrpc('com.atproto.repo.putRecord', { body: { repo: did, collection, rkey, record } });
     console.log(`${existing ? 'updated' : 'created'}    ${collection}/${rkey}${record.title ? `  (${record.title})` : ''}`);
 }
+
+// Upload the icon, then point the blog's record at it. Files are stored by their content,
+// so uploading the same image again doesn't add a copy or change the record.
+const upload = await fetch(new URL('/xrpc/com.atproto.repo.uploadBlob', pds), {
+    method: 'POST',
+    headers: { 'Content-Type': 'image/png', Authorization: `Bearer ${session.accessJwt}` },
+    body: icon,
+});
+if (!upload.ok) throw new Error(`com.atproto.repo.uploadBlob failed (${upload.status}): ${await upload.text()}`);
+publication.icon = (await upload.json()).blob;
 
 const existingPublications = await listRecords(PUBLICATION);
 await put(PUBLICATION, publicationRkey, publication, existingPublications.get(publicationRkey));

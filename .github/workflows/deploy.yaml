@@ -35,3 +35,21 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+  # After the site is live, create/update the blog's standard.site records on your PDS
+  standard-site:
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # only reads the repo; it talks to your PDS, not GitHub Pages
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 26
+          cache: npm
+      - run: npm ci
+      - name: Publish blog records to your PDS
+        run: node scripts/publish-standard-site.mjs
+        env:
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+
