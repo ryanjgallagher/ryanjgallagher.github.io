@@ -39,6 +39,7 @@ jobs:
   standard-site:
     needs: deploy
     runs-on: ubuntu-latest
+    environment: pds
     permissions:
       contents: read # only reads the repo; it talks to your PDS, not GitHub Pages
     steps:

@@ -128,8 +128,9 @@ The blog follows [standard.site](https://standard.site), so each post is also sa
   change them once the blog is published.
 - **Icon:** the blog's icon (its avatar on Bluesky link cards) is made from `public/favicon.svg`.
 - **Password:** publishing needs a Bluesky app password (Bluesky: Settings → Privacy and security → App
-  passwords), saved as the repository secret `BLUESKY_APP_PASSWORD`. To run `make publish-blog` on
-  your own computer, give it the password with the command: `BLUESKY_APP_PASSWORD=... make publish-blog`.
+  passwords), saved as `BLUESKY_APP_PASSWORD` in the GitHub environment `pds`, which only the `main`
+  branch can use. To run `make publish-blog` on your own computer, give it the password with the
+  command: `BLUESKY_APP_PASSWORD=... make publish-blog`.
 
 ## Icons
 
