@@ -1,0 +1,534 @@
+/* ==========================================================================
+   Blog Index
+   ========================================================================== */
+
+/* "Blog" on the left, "Subscribe via RSS" on the right of the same line.
+   On phones (where page headings are centered), the link goes centered under it. */
+.blog-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.blog-heading h1 {
+    margin-bottom: 0;
+}
+
+@media (max-width: 636px) {
+    .blog-heading {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+/* An outlined button in the text color, shaped like the "Search & filter" button, so it reads as something to click */
+.blog-rss {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--color-text);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color var(--transition-fast);
+}
+
+@media (hover: hover) {
+    .blog-rss:hover {
+        background-color: color-mix(in srgb, var(--color-text) 6%, transparent);
+    }
+}
+
+.blog-rss:active {
+    background-color: color-mix(in srgb, var(--color-text) 6%, transparent);
+}
+
+/* Sort, search, and filters (src/components/ListControls.astro), then the posts */
+.blog-section {
+    margin-top: 2rem;
+}
+
+/* The line above the first post is on the list, not the first card, since filtering can hide that card */
+.blog-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--color-border);
+}
+
+.blog-card {
+    padding: 1.8rem 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.blog-card-inner {
+    display: grid;
+    /* Wide enough for the longest date ("September 30, 2026") */
+    grid-template-columns: 9rem 1fr;
+    gap: 1.5rem;
+    align-items: baseline;
+}
+
+.blog-card-date {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    padding-top: 0.25rem;
+}
+
+/* The "draft" label on the blog page, on its own line under the date */
+.blog-card-date .tag {
+    display: block;
+    width: fit-content;
+    margin-top: 0.4rem;
+}
+
+.blog-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0 0 0.4rem 0;
+    line-height: 1.3;
+    transition: color var(--transition-fast);
+    /* No underline: the site's h2 style adds one for section headings, but posts already have lines between them */
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* Only the title is a link to the post */
+.blog-card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+@media (hover: hover) {
+    .blog-card-title a:hover {
+        color: var(--color-accent);
+    }
+}
+
+.blog-card-title a:active {
+    color: var(--color-accent);
+}
+
+.blog-card-description {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    margin: 0 0 0.6rem 0;
+    line-height: 1.6;
+}
+
+.blog-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+@media (max-width: 540px) {
+    .blog-card-inner {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+    }
+}
+
+/* ==========================================================================
+   Tags
+   ========================================================================== */
+
+.tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 3px;
+    background-color: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    letter-spacing: 0.03em;
+}
+
+/* Tags that link to the blog list filtered to that tag: red on hover, like the filter buttons.
+   Same shape and font as the topic pills on paper pages (.pub-categories in global.css). */
+a.tag {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    letter-spacing: normal;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    border-color: var(--color-pill-border);
+    background: var(--color-bg);
+    text-decoration: none;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+@media (hover: hover) {
+    a.tag:hover {
+        border-color: var(--color-accent);
+        color: var(--color-accent);
+    }
+}
+
+a.tag:active {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+/* "draft" label (only in `make serve`), in the same light red as the selected tag filter */
+.tag.draft {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+}
+
+/* ==========================================================================
+   Blog Post Header
+   ========================================================================== */
+
+.post-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--color-border);
+}
+
+.back-link {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: color var(--transition-fast);
+}
+
+@media (hover: hover) {
+    .back-link:hover {
+        color: var(--color-accent);
+    }
+}
+
+.back-link:active {
+    color: var(--color-accent);
+}
+
+.post-title {
+    font-size: 2.2rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+}
+
+@media (max-width: 636px) {
+    .post-title {
+        font-size: 1.7rem;
+        text-align: left;
+    }
+}
+
+.post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.post-meta time {
+    font-size: 0.88rem;
+    color: var(--color-text-muted);
+}
+
+/* Changes since publishing (`updates`), on their own line under the date and tags:
+   "Last updated on November 10, 2026 ▸", which opens a two-column list of dates and notes */
+.post-updates {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin: -0.5rem 0 1.2rem;
+}
+
+.post-updates summary {
+    width: fit-content;
+    cursor: pointer;
+    list-style: none;
+    transition: color var(--transition-fast);
+}
+
+.post-updates summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Small arrow after the text, pointing down once opened */
+.post-updates summary::after {
+    content: '▸';
+    display: inline-block;
+    margin-left: 0.35rem;
+    transition: transform var(--transition-fast);
+}
+
+.post-updates[open] summary::after {
+    transform: rotate(90deg);
+}
+
+@media (hover: hover) {
+    .post-updates summary:hover {
+        color: var(--color-accent);
+    }
+}
+
+/* Dates in a column as wide as the longest one, notes lined up next to them, a thin line between changes */
+.post-updates dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    margin: 0.6rem 0 0;
+    line-height: 1.6;
+}
+
+/* Each cell fills its row's height (so the lines between rows stay straight) and centers its text vertically */
+.post-updates dt,
+.post-updates dd {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0;
+}
+
+/* The space between the columns is padding on the date, not a grid gap, so the lines don't break there */
+.post-updates dt {
+    padding-right: 1.5rem;
+}
+
+.post-updates dt:not(:first-of-type),
+.post-updates dd:not(:first-of-type) {
+    border-top: 1px solid var(--color-border);
+}
+
+/* Same-width digits, so the dates line up */
+.post-updates dt {
+    font-variant-numeric: tabular-nums;
+}
+
+.post-updates dd {
+    margin: 0;
+}
+
+.post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.post-description {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ==========================================================================
+   Blog Post Body — Prose Styles
+   ========================================================================== */
+
+.post-body {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-text);
+}
+
+.post-body p {
+    margin-bottom: 1.4rem;
+}
+
+.post-body h2 {
+    font-size: 1.5rem;
+    margin: 2.5rem 0 1rem;
+    color: var(--color-primary);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.4rem;
+}
+
+.post-body h3 {
+    font-size: 1.2rem;
+    margin: 2rem 0 0.75rem;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.post-body h4 {
+    font-size: 1.05rem;
+    margin: 1.75rem 0 0.6rem;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.post-body ul,
+.post-body ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.4rem;
+}
+
+.post-body li {
+    margin-bottom: 0.4rem;
+    line-height: 1.7;
+}
+
+.post-body blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding: 0.4rem 0 0.4rem 1.4rem;
+    margin: 1.8rem 0;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.post-body blockquote p {
+    margin: 0;
+}
+
+.post-body code {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    background-color: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+}
+
+.post-body pre {
+    background-color: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 1.2rem;
+    overflow-x: auto;
+    margin-bottom: 1.4rem;
+}
+
+.post-body pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.9em;
+}
+
+/* Code colors: Shiki (astro.config.mjs) writes the light theme's colors on each block, with the dark
+   theme's colors alongside as --shiki-dark variables. In dark mode, switch to those. */
+[data-theme="dark"] .astro-code,
+[data-theme="dark"] .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+.post-body img {
+    width: 100%;
+    border-radius: 6px;
+    margin: 1.8rem 0 0.6rem;
+    display: block;
+}
+
+.post-body img + em {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.4rem;
+    font-style: italic;
+}
+
+.post-body hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 2.5rem 0;
+}
+
+/* Tables: a darker line under the header, thin lines between rows. A table too wide for the page
+   scrolls sideways, like code blocks. */
+.post-body table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin-bottom: 1.4rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.post-body th,
+.post-body td {
+    padding: 0.55rem 1.25rem 0.55rem 0;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.post-body th {
+    font-weight: 600;
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-pill-border);
+}
+
+/* Footnotes: set apart at the end of the post with a line, a small "Footnotes" label, and smaller grey text */
+.post-body .footnotes {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+/* Astro adds this heading for screen readers only; show it as the label */
+.post-body .footnotes h2.sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0 0 0.75rem;
+    overflow: visible;
+    clip: auto;
+    border: none;
+    padding: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+}
+
+.post-body .footnotes li {
+    line-height: 1.6;
+}
+
+.post-body strong {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.post-body em {
+    font-style: italic;
+}
+
+.post-body a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    font-weight: 500;
+}
+
+@media (hover: hover) {
+    .post-body a:hover {
+        text-decoration-thickness: 2px;
+    }
+}
+
+/* ==========================================================================
+   Post Footer
+   ========================================================================== */
+
+.post-footer {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+}

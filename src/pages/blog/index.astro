@@ -1,0 +1,79 @@
+---
+import type { ComponentProps } from 'astro/types';
+import { Icon } from 'astro-icon/components';
+import Layout from '../../layouts/Layout.astro';
+import ListControls from '../../components/ListControls.astro';
+import { formatDate, getPosts, tagSlug, tagUrl } from '../../utils/blog';
+import { publicationUri } from '../../utils/standard-site';
+import '../../styles/blog.css';
+
+const posts = await getPosts();
+
+type Controls = ComponentProps<typeof ListControls>;
+
+// Sort by date (newest first; click again for oldest first). Uses data-date on the cards.
+const SORT_FIELDS: Controls['sortFields'] = [{ key: 'date', label: 'Date', desc: 'Newest first', asc: 'Oldest first' }];
+
+// Tag filter: a post shows if it has any selected tag. The page address uses each tag's slug: ?tag=content-moderation
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+const FILTER_GROUPS: Controls['filterGroups'] =
+    allTags.length > 0
+        ? [{ key: 'tags', param: 'tag', label: 'Tags', match: 'any', options: allTags.map((t) => ({ value: tagSlug(t), label: t })) }]
+        : [];
+---
+
+<Layout pageTitle="Blog">
+    <Fragment slot="head">
+        <!-- standard.site: the blog's record on your PDS, so apps like Bluesky can show a card for this page -->
+        <link rel="site.standard.publication" href={publicationUri} />
+    </Fragment>
+
+    <div class="page-container">
+        <div class="blog-heading">
+            <h1>Blog</h1>
+            <a class="blog-rss" href="/blog/rss.xml"><Icon name="fa6-solid:rss" size={13} aria-hidden="true" />Subscribe via RSS</a>
+        </div>
+
+        {posts.length === 0 && <p class="intro-text">No posts yet.</p>}
+
+        {posts.length > 0 && (
+            <div class="blog-section">
+                <ListControls
+                    sortFields={SORT_FIELDS}
+                    filterGroups={FILTER_GROUPS}
+                    total={posts.length}
+                    noun="posts"
+                    searchPlaceholder="Title, description, or tag"
+                />
+
+                <div class="blog-grid" id="blog-grid" data-list>
+                    {posts.map((post) => (
+                        <article
+                            class="blog-card"
+                            data-date={post.data.publishedAt.getTime()}
+                            data-tags={post.data.tags.map(tagSlug).join(' ')}
+                            data-search={[post.data.title, post.data.description ?? '', ...post.data.tags].join(' ').toLowerCase()}
+                        >
+                            <div class="blog-card-inner">
+                                <span class="blog-card-date">
+                                    {formatDate(post.data.publishedAt)}
+                                    {post.data.draft && <span class="tag draft">draft</span>}
+                                </span>
+                                <div>
+                                    {/* Only the title opens the post; each tag shows all posts with that tag */}
+                                    <h2 class="blog-card-title"><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
+                                    {post.data.description && <p class="blog-card-description">{post.data.description}</p>}
+                                    {post.data.tags.length > 0 && (
+                                        <div class="blog-card-tags">
+                                            {post.data.tags.map((tag) => <a class="tag" href={tagUrl(tag)} title={`All posts tagged ${tag}`}>{tag}</a>)}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </article>
+                    ))}
+                </div>
+            </div>
+        )}
+    </div>
+</Layout>

@@ -1,7 +1,7 @@
 # Common tasks for the site. Run `make` to list them.
 
 .DEFAULT_GOAL := help
-.PHONY: help install serve build preview check new-publication citations clean
+.PHONY: help install serve build preview check new-post new-publication publish-blog citations clean
 
 help: ## List available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  make %-16s %s\n", $$1, $$2}'
@@ -15,7 +15,7 @@ install: node_modules ## Install dependencies
 serve: node_modules ## Run the site locally at http://localhost:4321 (shows drafts)
 	npx astro dev
 
-build: node_modules ## Build the site into dist/ (fails if any paper has bad data)
+build: node_modules ## Build the site into dist/ (fails if any post or paper has bad data)
 	npx astro build
 
 preview: build ## Build, then serve the built site locally
@@ -24,8 +24,14 @@ preview: build ## Build, then serve the built site locally
 check: node_modules ## Check data and types without building
 	npx astro check
 
+new-post: ## Create a blog post: make new-post title="My post title"
+	@node scripts/new-post.mjs "$(title)"
+
 new-publication: ## Create a publication: make new-publication id=gallagher2026example
 	@node scripts/new-publication.mjs "$(id)"
+
+publish-blog: node_modules ## Send blog posts to your PDS as standard.site records (GitHub does this after each deploy; dry_run=1 to preview)
+	@node scripts/publish-standard-site.mjs $(if $(dry_run),--dry-run)
 
 citations: node_modules ## Update citation counts from Google Scholar (dry_run=1 to preview)
 	@node scripts/update-citations.mjs $(if $(dry_run),--dry-run)

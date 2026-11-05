@@ -19,9 +19,11 @@ interface Props {
 	hideHeaderSocials?: boolean;
 	/** Image for link previews (Bluesky, LinkedIn, etc.), as a site path or full URL */
 	previewImage?: string;
+	/** What kind of page link previews should treat this as: "article" for blog posts, "website" otherwise */
+	previewType?: 'website' | 'article';
 }
 
-const { pageTitle, description = SITE_DATA.description, hideHeaderSocials = false, previewImage } = Astro.props;
+const { pageTitle, description = SITE_DATA.description, hideHeaderSocials = false, previewImage, previewType = 'website' } = Astro.props;
 const title = `${SITE_DATA.name}${pageTitle ? ` | ${pageTitle}` : ""}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 
@@ -41,15 +43,17 @@ const preview =
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<link rel="canonical" href={canonical} />
+		<!-- Lets feed readers find the blog's RSS feed from any page -->
+		<link rel="alternate" type="application/rss+xml" title={`${SITE_DATA.name} | Blog`} href={new URL('/blog/rss.xml', Astro.site)} />
 		<meta name="description" content={description} />
 		<meta property="og:site_name" content={SITE_DATA.name} />
 		<meta property="og:title" content={pageTitle ?? SITE_DATA.name} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={previewType} />
 		{preview && <meta property="og:image" content={new URL(preview, Astro.site)} />}
 		<meta name="twitter:card" content={preview ? 'summary_large_image' : 'summary'} />
-		<!-- Page-specific head tags (e.g. Google Scholar citation_* tags) -->
+		<!-- Page-specific head tags (e.g. Google Scholar citation_* tags, standard.site links) -->
 		<slot name="head" />
 		<script is:inline>
 			const theme = (() => {

@@ -1,0 +1,349 @@
+---
+// Sort buttons, a "Search & filter" panel, and a "Showing N of N" count for a list of cards.
+// Used by the publications and blog pages.
+//
+// The page puts `data-list` on the element that holds the cards (each card a direct child), and gives
+// each card the data-<key> attributes the options below refer to, plus `data-search` (lowercase text
+// the search box looks in).
+import '../styles/list-controls.css';
+
+interface Props {
+    /** Fields to sort by. The first is the default. Click the active one to flip between high-to-low and low-to-high.
+     *  Each needs a numeric data-<key> attribute on the cards. Cards without one always go last. */
+    sortFields: { key: string; label: string; desc: string; asc: string }[];
+    /** Filter pills. Nothing selected in a group = no filtering by that group.
+     *    match 'any': a card shows if it matches any selected pill (e.g. Journal or Conference)
+     *    match 'all': a card shows only if it matches every selected pill (e.g. Peer-reviewed)
+     *  `key` must match a data-<key> attribute on the cards (space-separated if a card has several values).
+     *  `param` is its name in the page address, e.g. ?topic=online-activism,network-science */
+    filterGroups: { key: string; param: string; label: string; match: 'any' | 'all'; options: { value: string; label: string }[] }[];
+    /** Two-handled range filters. `key` must match a numeric data-<key> attribute on the cards.
+     *  `params` are their names in the page address, e.g. ?from=2019&to=2021 */
+    ranges?: { key: string; label: string; min: number; max: number; params: [string, string]; low: string; high: string }[];
+    /** How many cards there are */
+    total: number;
+    /** What the cards are, for "Showing 3 of 11 publications" */
+    noun: string;
+    searchPlaceholder: string;
+}
+
+const { sortFields, filterGroups, total, noun, searchPlaceholder } = Astro.props;
+// A range with nothing to choose between (e.g. every paper from the same year) is left out
+const ranges = (Astro.props.ranges ?? []).filter((r) => r.min < r.max);
+---
+
+{/* Toolbar: sort and the filter button on the left, the count on the right */}
+<div class="results-bar">
+    <div class="toolbar-left">
+        <div class="sort-control" role="group" aria-label="Sort">
+            {sortFields.map((f, i) => (
+                <button
+                    class:list={['sort-btn', { active: i === 0 }]}
+                    data-field={f.key}
+                    data-dir="desc"
+                    data-desc={f.desc}
+                    data-asc={f.asc}
+                    aria-pressed={i === 0 ? 'true' : 'false'}
+                    aria-label={`Sort by ${f.label.toLowerCase()}: ${f.desc.toLowerCase()}`}
+                    title={f.desc}
+                >
+                    {f.label}
+                    <svg class="sort-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+                </button>
+            ))}
+        </div>
+        <button class="controls-toggle-btn" id="controls-toggle" aria-expanded="false" aria-controls="controls-container">
+            <span class="label-full">Search &amp; filter</span><span class="label-short">Filter</span>
+            <span class="filter-badge" id="filter-badge" hidden></span>
+            <svg class="toggle-arrow" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+                <path d="M7 10l5 5 5-5z"/>
+            </svg>
+        </button>
+    </div>
+    <div class="results-info" aria-live="polite">
+        <span class="results-word">Showing </span><span id="results-count">{total}</span> of {total}<span class="results-word"> {noun}</span>
+    </div>
+</div>
+
+<div class="controls-container collapsed" id="controls-container">
+    <div class="control-section">
+        <div class="panel-top">
+            <label class="section-label" for="search-input">Search</label>
+            <button class="clear-filters" id="clear-all" disabled>Clear all</button>
+        </div>
+        <input
+            type="search"
+            id="search-input"
+            class="search-input"
+            placeholder={searchPlaceholder}
+            aria-describedby="search-hint"
+        />
+        <span class="search-hint" id="search-hint">Separate keywords with commas to match all of them.</span>
+    </div>
+
+    <div class="filters-row">
+        {filterGroups.map((g) => (
+            <div class="control-section">
+                <span class="section-label" id={`filter-${g.key}`}>{g.label}</span>
+                <div class="filter-chips" role="group" aria-labelledby={`filter-${g.key}`} data-group={g.key} data-param={g.param} data-match={g.match}>
+                    {g.options.map((o) => (
+                        <button class="filter-chip" data-value={o.value} aria-pressed="false">
+                            {o.label}
+                            <svg class="chip-x" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                        </button>
+                    ))}
+                </div>
+            </div>
+        ))}
+    </div>
+
+    {ranges.length > 0 && (
+        <div class="ranges-row">
+            {ranges.map((r) => (
+                <div class="control-section">
+                    <span class="section-label">{r.label}</span>
+                    <div class="range" data-key={r.key} data-from-param={r.params[0]} data-to-param={r.params[1]}>
+                        <input type="range" class="range-slider range-low" min={r.min} max={r.max} value={r.min} aria-label={r.low} />
+                        <input type="range" class="range-slider range-high" min={r.min} max={r.max} value={r.max} aria-label={r.high} />
+                        <div class="range-track"></div>
+                        <div class="range-labels">
+                            <span class="range-low-label">{r.min}</span>
+                            <span class="range-high-label">{r.max}</span>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    )}
+</div>
+
+<p class="no-results" id="no-results" hidden>
+    No {noun} match these filters. <button class="clear-filters">Clear filters</button>
+</p>
+
+<script>
+    const list = document.querySelector<HTMLElement>('[data-list]')!;
+    const cards = Array.from(list.children) as HTMLElement[];
+
+    const sortButtons = document.querySelectorAll<HTMLButtonElement>('.sort-btn');
+    const defaultSort = sortButtons[0].dataset.field!;
+
+    const state = {
+        sortField: defaultSort,
+        sortDir: 'desc' as 'desc' | 'asc',
+        // Selected pills, by group key (e.g. type -> {'journal', 'conference'})
+        filters: {} as Record<string, Set<string>>,
+        keywords: [] as string[],
+    };
+
+    // Filter pills: click to select, click again to deselect. Pills in a group combine.
+    const groups = document.querySelectorAll<HTMLElement>('.filter-chips');
+    const matchMode: Record<string, string> = {};
+    const paramFor: Record<string, string> = {}; // group key -> name in the page address
+    const setChip = (chip: HTMLButtonElement, on: boolean) => {
+        const selected = state.filters[chip.closest<HTMLElement>('.filter-chips')!.dataset.group!];
+        if (on) selected.add(chip.dataset.value!);
+        else selected.delete(chip.dataset.value!);
+        chip.classList.toggle('active', on);
+        chip.setAttribute('aria-pressed', String(on));
+    };
+    groups.forEach((group) => {
+        const key = group.dataset.group!;
+        matchMode[key] = group.dataset.match!;
+        paramFor[key] = group.dataset.param!;
+        state.filters[key] = new Set();
+        group.querySelectorAll<HTMLButtonElement>('.filter-chip').forEach((chip) =>
+            chip.addEventListener('click', () => {
+                setChip(chip, !chip.classList.contains('active'));
+                update();
+            }),
+        );
+    });
+
+    // Sort: clicking the active field flips its direction; clicking another field switches to it, high-to-low first
+    const setSort = (field: string, dir: 'desc' | 'asc') => {
+        state.sortField = field;
+        state.sortDir = dir;
+        sortButtons.forEach((b) => {
+            const active = b.dataset.field === field;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-pressed', String(active));
+            b.dataset.dir = active ? dir : 'desc';
+            const hint = b.dataset[b.dataset.dir]!;
+            b.title = hint;
+            b.setAttribute('aria-label', `Sort by ${b.textContent!.trim().toLowerCase()}: ${hint.toLowerCase()}`);
+        });
+    };
+    sortButtons.forEach((btn) =>
+        btn.addEventListener('click', () => {
+            const field = btn.dataset.field!;
+            setSort(field, field === state.sortField && state.sortDir === 'desc' ? 'asc' : 'desc');
+            update();
+        }),
+    );
+
+    const searchInput = document.getElementById('search-input') as HTMLInputElement;
+    const setSearch = (text: string) => {
+        searchInput.value = text;
+        const value = text.toLowerCase().trim();
+        state.keywords = value ? value.split(',').map((k) => k.trim()).filter(Boolean) : [];
+    };
+    searchInput.addEventListener('input', () => {
+        setSearch(searchInput.value);
+        update();
+    });
+
+    // Two-handled range filters (e.g. year). `lo`/`hi` are the selected range; `min`/`max` the slider's ends.
+    type Range = { lo: number; hi: number; min: number; max: number; fromParam: string; toParam: string; set: (from?: number, to?: number) => void };
+    const ranges: Record<string, Range> = {};
+    document.querySelectorAll<HTMLElement>('.range').forEach((el) => {
+        const low = el.querySelector<HTMLInputElement>('.range-low')!;
+        const high = el.querySelector<HTMLInputElement>('.range-high')!;
+        const lowLabel = el.querySelector('.range-low-label')!;
+        const highLabel = el.querySelector('.range-high-label')!;
+        const min = Number(low.min);
+        const max = Number(low.max);
+        const r: Range = { lo: min, hi: max, min, max, fromParam: el.dataset.fromParam!, toParam: el.dataset.toParam!, set: () => {} };
+        // Keep the handle you can still move on top when both sit at the same value
+        const settle = () => {
+            low.style.zIndex = r.lo === r.hi && r.lo === max ? '4' : '2';
+            high.style.zIndex = '3';
+        };
+        const show = () => {
+            low.value = String(r.lo);
+            high.value = String(r.hi);
+            lowLabel.textContent = String(r.lo);
+            highLabel.textContent = String(r.hi);
+            settle();
+        };
+        // Set the range, clamped to the slider's ends. With no arguments, resets to the full range.
+        r.set = (from = min, to = max) => {
+            r.lo = Math.min(Math.max(from, min), max);
+            r.hi = Math.max(Math.min(to, max), r.lo);
+            show();
+        };
+        low.addEventListener('pointerdown', () => (low.style.zIndex = '5'));
+        high.addEventListener('pointerdown', () => (high.style.zIndex = '5'));
+        low.addEventListener('pointerup', settle);
+        high.addEventListener('pointerup', settle);
+        low.addEventListener('input', () => {
+            r.lo = Math.min(Number(low.value), r.hi);
+            show();
+            update();
+        });
+        high.addEventListener('input', () => {
+            r.hi = Math.max(Number(high.value), r.lo);
+            show();
+            update();
+        });
+        settle();
+        ranges[el.dataset.key!] = r;
+    });
+    const narrowed = (r: Range) => r.lo > r.min || r.hi < r.max;
+
+    function matches(card: HTMLElement) {
+        const d = card.dataset;
+        for (const [key, r] of Object.entries(ranges)) {
+            const value = Number(d[key] ?? 0); // no value counts as 0
+            if (value < r.lo || value > r.hi) return false;
+        }
+        for (const [key, selected] of Object.entries(state.filters)) {
+            if (selected.size === 0) continue;
+            const values = (d[key] ?? '').split(' ');
+            const hit = (v: string) => values.includes(v);
+            const ok = matchMode[key] === 'all' ? [...selected].every(hit) : [...selected].some(hit);
+            if (!ok) return false;
+        }
+        return state.keywords.every((k) => d.search!.includes(k));
+    }
+
+    function compare(a: HTMLElement, b: HTMLElement) {
+        // Ties keep the page's original order
+        const av = a.dataset[state.sortField];
+        const bv = b.dataset[state.sortField];
+        if (av === undefined || bv === undefined) return (av === undefined ? 1 : 0) - (bv === undefined ? 1 : 0);
+        const diff = Number(av) - Number(bv);
+        return state.sortDir === 'asc' ? diff : -diff;
+    }
+
+    function update() {
+        const shown = cards.filter(matches).sort(compare);
+        cards.forEach((c) => (c.style.display = 'none'));
+        shown.forEach((card) => {
+            card.style.display = '';
+            list.appendChild(card);
+        });
+        document.getElementById('results-count')!.textContent = String(shown.length);
+        document.getElementById('no-results')!.hidden = shown.length > 0;
+
+        // How many filters are on: each selected pill, the search box, and each narrowed range
+        const active =
+            Object.values(state.filters).reduce((n, set) => n + set.size, 0) +
+            (state.keywords.length > 0 ? 1 : 0) +
+            Object.values(ranges).filter(narrowed).length;
+        const badge = document.getElementById('filter-badge')!;
+        badge.hidden = active === 0;
+        badge.textContent = String(active);
+        badge.setAttribute('aria-label', `${active} active`);
+        (document.getElementById('clear-all') as HTMLButtonElement).disabled = active === 0;
+
+        writeUrl();
+    }
+
+    // The page address mirrors the filters and sort, so a filtered view can be shared or linked to:
+    //   ?topic=online-activism,network-science&type=journal&q=protest&from=2019&to=2021&sort=citations&dir=asc
+    // Anything left at its default is left out of the address.
+    function writeUrl() {
+        const params = new URLSearchParams();
+        for (const [key, selected] of Object.entries(state.filters)) {
+            if (selected.size > 0) params.set(paramFor[key], [...selected].join(','));
+        }
+        if (searchInput.value.trim()) params.set('q', searchInput.value.trim());
+        for (const r of Object.values(ranges)) {
+            if (r.lo > r.min) params.set(r.fromParam, String(r.lo));
+            if (r.hi < r.max) params.set(r.toParam, String(r.hi));
+        }
+        if (state.sortField !== defaultSort) params.set('sort', state.sortField);
+        if (state.sortDir !== 'desc') params.set('dir', state.sortDir);
+        const query = params.toString().replace(/%2C/g, ',');
+        history.replaceState(null, '', query ? `?${query}` : location.pathname);
+    }
+
+    // On load, apply whatever the address asks for. Unknown values are ignored.
+    function readUrl() {
+        const params = new URLSearchParams(location.search);
+        groups.forEach((group) => {
+            const wanted = (params.get(group.dataset.param!) ?? '').split(',').filter(Boolean);
+            group.querySelectorAll<HTMLButtonElement>('.filter-chip').forEach((chip) => setChip(chip, wanted.includes(chip.dataset.value!)));
+        });
+        setSearch(params.get('q') ?? '');
+        const num = (name: string) => {
+            const v = params.get(name);
+            return v !== null && v.trim() !== '' && Number.isFinite(Number(v)) ? Number(v) : undefined;
+        };
+        for (const r of Object.values(ranges)) r.set(num(r.fromParam), num(r.toParam));
+        const sort = params.get('sort');
+        const validSort = [...sortButtons].some((b) => b.dataset.field === sort);
+        setSort(validSort ? sort! : defaultSort, params.get('dir') === 'asc' ? 'asc' : 'desc');
+    }
+
+    // "Clear all" in the panel and "Clear filters" in the no-results message
+    document.querySelectorAll('.clear-filters').forEach((btn) =>
+        btn.addEventListener('click', () => {
+            document.querySelectorAll<HTMLButtonElement>('.filter-chip').forEach((chip) => setChip(chip, false));
+            setSearch('');
+            Object.values(ranges).forEach((r) => r.set());
+            update();
+        }),
+    );
+
+    const controlsToggle = document.getElementById('controls-toggle')!;
+    controlsToggle.addEventListener('click', () => {
+        const expanded = controlsToggle.getAttribute('aria-expanded') === 'true';
+        controlsToggle.setAttribute('aria-expanded', String(!expanded));
+        document.getElementById('controls-container')!.classList.toggle('collapsed');
+    });
+
+    readUrl();
+    update();
+</script>

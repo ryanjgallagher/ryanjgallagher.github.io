@@ -56,4 +56,25 @@ const publications = defineCollection({
         }),
 });
 
-export const collections = { publications };
+// One Markdown file per post in src/content/blog/. Create new posts with `make new-post`.
+const blog = defineCollection({
+    loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
+    schema: ({ image }) =>
+        z.object({
+            title: z.string(),
+            description: z.string().optional(),
+            publishedAt: z.coerce.date(),
+            // Changes made after publishing, each a date and an optional note. Shown as a collapsed
+            // list at the top of the post; the most recent date is the post's "updated" date.
+            updates: z.array(z.object({ date: z.coerce.date(), note: z.string().optional() })).default([]),
+            tags: z.array(z.string()).default([]),
+            // e.g. ./images/my-post.png (in src/content/blog/images/). Used for link previews and as
+            // the post's cover image on standard.site. Without one, previews use your photo.
+            image: image().optional(),
+            draft: z.boolean().default(false),
+            // standard.site record key, stamped by `make new-post`. Don't edit.
+            atprotoRkey: z.string().regex(/^[234567abcdefghij][234567abcdefghijklmnopqrstuvwxyz]{12}$/),
+        }),
+});
+
+export const collections = { publications, blog };

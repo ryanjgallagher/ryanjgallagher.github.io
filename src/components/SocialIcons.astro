@@ -9,6 +9,9 @@ interface Props {
 }
 
 const { size = 24, gap = '1.5rem', class: className } = Astro.props;
+
+// On blog pages (the list and each post), an RSS icon for the blog's feed goes after the others
+const onBlog = Astro.url.pathname.startsWith('/blog');
 ---
 
 <div class:list={['social-icons', className]} style={{ gap }}>
@@ -17,4 +20,9 @@ const { size = 24, gap = '1.5rem', class: className } = Astro.props;
       <Icon name={s.icon} size={size} />
     </a>
   ))}
+  {onBlog && (
+    <a href="/blog/rss.xml" aria-label="RSS feed" title="RSS feed">
+      <Icon name="fa6-solid:rss" size={size} />
+    </a>
+  )}
 </div>

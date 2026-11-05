@@ -1,0 +1,72 @@
+---
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, getPosts, postUpdates, tagUrl, type Post } from '../../utils/blog';
+import { documentUri, publicationUri } from '../../utils/standard-site';
+import '../../styles/blog.css';
+
+export async function getStaticPaths() {
+    const posts = await getPosts();
+    return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+const { data } = post;
+const { Content } = await render(post);
+const updates = postUpdates(post);
+
+// The post's image as a link-preview card (made by src/pages/previews/blog/[id].png.ts).
+// Without an image, the layout falls back to your photo.
+const preview = data.image ? `/previews/blog/${post.id}.png` : undefined;
+---
+
+<Layout pageTitle={data.title} description={data.description} previewImage={preview} previewType="article">
+    <Fragment slot="head">
+        <meta property="article:published_time" content={data.publishedAt.toISOString()} />
+        <!-- standard.site: this post's record and the blog's record on your PDS -->
+        <link rel="site.standard.document" href={documentUri(data.atprotoRkey)} />
+        <link rel="site.standard.publication" href={publicationUri} />
+    </Fragment>
+
+    <div class="page-container">
+        <div class="post-header">
+            <a href="/blog/" class="back-link">← Blog</a>
+            <h1 class="post-title">{data.title}</h1>
+            <div class="post-meta">
+                <time datetime={data.publishedAt.toISOString()}>{formatDate(data.publishedAt)}</time>
+                {data.draft && <span class="tag draft">draft</span>}
+                {data.tags.length > 0 && (
+                    <div class="post-tags">
+                        {data.tags.map((tag) => <a class="tag" href={tagUrl(tag)} title={`All posts tagged ${tag}`}>{tag}</a>)}
+                    </div>
+                )}
+            </div>
+            {/* Changes since publishing: "Last updated on <latest date>", click to see each date and note */}
+            {updates.length > 0 && (
+                <details class="post-updates">
+                    <summary>
+                        Last updated on <time datetime={updates[0].date.toISOString()}>{formatDate(updates[0].date)}</time>
+                    </summary>
+                    <dl>
+                        {updates.map((u) => (
+                            <>
+                                {/* As 2026-10-28. Dates from front matter are midnight UTC, so the first 10 characters are the date. */}
+                                <dt><time datetime={u.date.toISOString()}>{u.date.toISOString().slice(0, 10)}</time></dt>
+                                <dd>{u.note}</dd>
+                            </>
+                        ))}
+                    </dl>
+                </details>
+            )}
+            {data.description && <p class="post-description">{data.description}</p>}
+        </div>
+
+        <article class="post-body">
+            <Content />
+        </article>
+
+        <div class="post-footer">
+            <a href="/blog/" class="back-link">← Back to all posts</a>
+        </div>
+    </div>
+</Layout>
